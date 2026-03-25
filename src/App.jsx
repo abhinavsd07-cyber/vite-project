@@ -8,6 +8,8 @@ import { VerifyOTP } from './pages/auth/VerifyOTP';
 import { ResetPassword } from './pages/auth/ResetPassword';
 import { Logo } from './components/auth/Logo';
 
+import { SearchProvider } from './context/SearchContext';
+
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -42,9 +44,11 @@ function App() {
         <Route 
           path="/dashboard" 
           element={
-            <DashboardLayout>
-              <Dashboard />
-            </DashboardLayout>
+            <SearchProvider>
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
+            </SearchProvider>
           } 
         />
       </Routes>

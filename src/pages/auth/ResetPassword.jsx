@@ -1,41 +1,86 @@
 import { useState } from 'react';
 import { EyeOff, Eye } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { AuthLayout } from '../../components/auth/AuthLayout';
 
 export function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!password || !confirmPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Empty Fields',
+        text: 'Please fill in both password fields.',
+        confirmButtonColor: '#0f172a',
+      });
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Mismatch',
+        text: 'Passwords do not match! Please try again.',
+        confirmButtonColor: '#0f172a',
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      Swal.fire({
+        icon: 'success',
+        title: 'Password Updated!',
+        text: 'Your password has been reset successfully.',
+        confirmButtonColor: '#0f172a',
+      }).then(() => {
+        navigate('/dashboard');
+      });
+    }, 1500);
+  };
 
   return (
     <AuthLayout>
 
       <div className="text-center mb-8">
         <h2 className="text-[22px] font-bold text-slate-900 mb-2">Confirm Password</h2>
-        <p className="text-xs text-slate-400">Enter your new password</p>
+        <p className="text-xs text-slate-400">Enter your new password below</p>
       </div>
 
-      <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
+      <form className="space-y-5" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-600 flex items-center gap-1">
-            New Password <span className="w-3 h-3 border border-slate-300 rounded-full inline-flex items-center justify-center text-[8px] text-slate-400 cursor-help">i</span>
+          <label className="text-[13px] font-medium text-slate-600 flex items-center gap-1 px-1">
+            New Password
           </label>
           <input 
             type="password" 
-            placeholder="Enter new password"
-            className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Min. 8 characters"
+            className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans shadow-sm"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-600">
+          <label className="text-[13px] font-medium text-slate-600 px-1">
             Confirm Password
           </label>
           <div className="relative">
             <input 
               type={showPassword ? "text" : "password"} 
-              placeholder="Confirm new password"
-              className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm your new password"
+              className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans shadow-sm"
             />
             <button 
               type="button"
@@ -48,8 +93,17 @@ export function ResetPassword() {
         </div>
 
         <div className="pt-2">
-          <button type="submit" className="w-full bg-slate-900 text-white font-medium py-3 rounded-lg hover:bg-slate-950 transition-colors text-sm shadow-md">
-            Update Password
+          <button 
+            type="submit" 
+            disabled={isLoading}
+            className="w-full bg-slate-900 text-white font-medium py-3 rounded-lg hover:bg-slate-950 transition-all text-sm shadow-md disabled:opacity-70 flex items-center justify-center gap-2"
+          >
+            {isLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                <span>Updating...</span>
+              </>
+            ) : "Update Password"}
           </button>
         </div>
       </form>

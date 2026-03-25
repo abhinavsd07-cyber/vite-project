@@ -6,27 +6,29 @@ import { AuthLayout } from '../../components/auth/AuthLayout';
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    // Show SweetAlert2 toast
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
-      icon: 'success',
-      title: 'Login Successful',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      }
-    }).then(() => {
-      navigate('/dashboard');
-    });
+    // Simulate real-world network delay
+    setTimeout(() => {
+      setIsLoading(false);
+      // Show SweetAlert2 toast
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Login Successful',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      }).then(() => {
+        navigate('/dashboard');
+      });
+    }, 1500);
   };
 
   return (
@@ -68,8 +70,19 @@ export function Login() {
         </div>
 
         <div className="pt-2">
-          <button type="submit" className="w-full bg-slate-900 text-white font-medium py-3 rounded-lg hover:bg-slate-950 transition-colors text-sm shadow-md">
-            Login
+          <button 
+            type="submit" 
+            disabled={isLoading}
+            className="w-full bg-slate-900 text-white font-medium py-3 rounded-lg hover:bg-slate-950 transition-all text-sm shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {isLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                <span>Logging in...</span>
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
         </div>
       </form>

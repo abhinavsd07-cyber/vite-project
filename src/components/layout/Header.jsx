@@ -1,10 +1,49 @@
 import { Bell, Plus, Search, ChevronDown, LogOut, Menu } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { useSearch } from '../../context/SearchContext';
 
 export function Header({ setMobileMenuOpen }) {
   const [profileOpen, setProfileOpen] = useState(false);
+  const { searchQuery, setSearchQuery } = useSearch();
   const navigate = useNavigate();
+
+  const handleAction = (label) => {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'info',
+      title: `${label} module under development`,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    });
+  };
+
+  const handleLogout = () => {
+    Swal.fire({
+        title: 'Logout Confirmation',
+        text: "Are you sure you want to exit?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0f172a',
+        cancelButtonColor: '#94a3b8',
+        confirmButtonText: 'Yes, logout',
+        background: '#ffffff',
+        borderRadius: '1rem',
+        customClass: {
+            popup: 'rounded-2xl border border-slate-100 shadow-xl font-sans',
+            title: 'text-slate-800 font-bold',
+            cancelButton: 'rounded-xl px-6',
+            confirmButton: 'rounded-xl px-6'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            navigate('/');
+        }
+    });
+  };
 
   return (
     <header className="h-16 bg-white/80 backdrop-blur-md flex items-center px-3 sm:px-4 md:px-6 justify-between sticky top-0 z-30 flex-shrink-0 border-b border-slate-100">
@@ -12,7 +51,7 @@ export function Header({ setMobileMenuOpen }) {
       {/* Mobile hamburger */}
       <button
         onClick={() => setMobileMenuOpen(prev => !prev)}
-        className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors lg:hidden mr-2"
+        className="p-2 text-black hover:bg-slate-100 rounded-lg transition-colors lg:hidden mr-2"
         aria-label="Open sidebar"
       >
         <Menu size={20} />
@@ -21,10 +60,12 @@ export function Header({ setMobileMenuOpen }) {
       {/* Search Bar */}
       <div className="flex-1 max-w-2xl hidden sm:flex">
         <div className="relative w-full max-w-xl">
-          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-black" />
           <input 
             type="text" 
-            placeholder="Search here..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search dashboard data..." 
             className="w-full pl-11 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-200 transition-shadow"
           />
         </div>
@@ -35,10 +76,16 @@ export function Header({ setMobileMenuOpen }) {
         
         {/* Action Icons */}
         <div className="flex items-center gap-1 sm:gap-2">
-          <button className="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors hidden sm:block">
+          <button 
+            onClick={() => handleAction('Create New')}
+            className="p-2 text-black hover:bg-slate-100 rounded-full transition-colors hidden sm:block"
+          >
             <Plus size={20} strokeWidth={1.5} />
           </button>
-          <button className="relative p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
+          <button 
+            onClick={() => handleAction('Notifications')}
+            className="relative p-2 text-black hover:bg-slate-100 rounded-full transition-colors"
+          >
             <Bell size={20} strokeWidth={1.5} />
             <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
           </button>
@@ -57,7 +104,7 @@ export function Header({ setMobileMenuOpen }) {
                 className="h-full w-full object-cover"
               />
             </div>
-            <ChevronDown size={14} className="text-slate-400 hidden sm:block" />
+            <ChevronDown size={14} className="text-black hidden sm:block" />
           </button>
 
           {/* Profile Popover */}
@@ -75,11 +122,14 @@ export function Header({ setMobileMenuOpen }) {
                  <p className="text-sm text-slate-500 mb-6">user@finbook.com</p>
                  
                  <div className="flex gap-3 w-full">
-                    <button className="flex-1 py-2 px-3 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors h-10 flex items-center justify-center">
-                      Change password
+                    <button 
+                      onClick={() => handleAction('Profile Settings')}
+                      className="flex-1 py-2 px-3 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors h-10 flex items-center justify-center"
+                    >
+                      Settings
                     </button>
                     <button 
-                      onClick={() => navigate('/')}
+                      onClick={handleLogout}
                       className="flex-shrink-0 flex items-center gap-2 py-2 px-4 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-sm font-medium transition-colors h-10"
                     >
                       <LogOut size={16} />
