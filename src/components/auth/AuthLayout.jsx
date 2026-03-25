@@ -22,7 +22,7 @@ export function AuthLayout({ children }) {
     <div className="min-h-screen w-full flex bg-white font-sans text-slate-800">
       <div className="w-full flex flex-col md:flex-row min-h-screen">
         {/* LEFT SIDE: Carousel (Hidden on Mobile, flex on MD+) */}
-        <div className="hidden md:flex md:w-1/2 relative flex-col overflow-hidden bg-gradient-to-b from-[#97B7D0] to-[#96B6CF]">
+        <div className="hidden md:flex md:w-[65%] relative flex-col overflow-hidden bg-gradient-to-b from-[#97B7D0] to-[#96B6CF]">
           {/* Images */}
           {defaultCarousel.map((img, idx) => (
             <div
@@ -69,8 +69,8 @@ export function AuthLayout({ children }) {
           </div>
         </div>
 
-        {/* RIGHT SIDE: Form Content (Full width on mobile, 50% on desktop) */}
-        <div className="w-full md:w-1/2 grid grid-rows-[120px_1fr_100px] px-6 sm:px-12 lg:px-20 bg-white min-h-screen">
+        {/* RIGHT SIDE: Form Content (Full width on mobile, 35% on desktop) */}
+        <div className="w-full md:w-[35%] grid grid-rows-[120px_1fr_100px] px-6 sm:px-12 lg:px-20 bg-white min-h-screen">
           {/* Logo Area */}
           <div className="flex items-end justify-center pb-4">
             <Logo />
