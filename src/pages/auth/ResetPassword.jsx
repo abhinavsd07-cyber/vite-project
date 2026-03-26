@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { EyeOff, Eye } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Toast, updatePassword } from '../../lib/utils';
+import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
-import { useEffect } from 'react';
+import { resetPasswordAPI } from '../../services/allApis';
 
 export function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +19,7 @@ export function ResetPassword() {
     }
   }, [navigate, resetEmail]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!password || !confirmPassword) {
@@ -50,28 +50,39 @@ export function ResetPassword() {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
+    
+    try {
+      const response = await resetPasswordAPI({ EmailID: resetEmail, Password: password });
       setIsLoading(false);
       
-      const updated = updatePassword(resetEmail, password);
-      
-      if (updated) {
+      console.log("Reset Password API Response:", response);
+
+      if (response && (response.status === 200 || response.status === 201)) {
         sessionStorage.removeItem('resetEmail');
-        sessionStorage.removeItem('resetOtp');
+        sessionStorage.removeItem('tempOtp');
         
         Toast.fire({
           icon: 'success',
           title: 'Your password has been reset successfully.',
         }).then(() => {
-          navigate('/'); // Redirect to login on successful password change
+          navigate('/'); // Redirect to login
         });
       } else {
+        console.error("Password Reset Failed:", response);
+        const errorMsg = response?.data?.message || response?.data?.error || 'Failed to update password. Please try again.';
         Toast.fire({
           icon: 'error',
-          title: 'Failed to update password. User not found.',
+          title: errorMsg,
         });
       }
-    }, 1500);
+    } catch (err) {
+      setIsLoading(false);
+      console.error("Unexpected Error:", err);
+      Toast.fire({
+        icon: 'error',
+        title: 'Server error. Please check your connection.',
+      });
+    }
   };
 
   return (

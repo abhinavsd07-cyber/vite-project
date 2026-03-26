@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { EyeOff, Eye } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { Toast, initDB, getUsers } from "../../lib/utils";
+import { Toast } from "../../lib/utils";
 import { AuthLayout } from "../../components/auth/AuthLayout";
-import { useEffect } from "react";
+import { loginAPI } from "../../services/allApis";
 
 export function Login() {
   const [email, setEmail] = useState("superadmin@gmail.com");
@@ -12,11 +12,7 @@ export function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    initDB();
-  }, []);
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -29,29 +25,29 @@ export function Login() {
 
     setIsLoading(true);
 
-    // Simulate real-world network delay & validation
-    setTimeout(() => {
-      setIsLoading(false);
+    const payload = { EmailID: email, Password: password };
+    console.log("Login Payload Sent:", payload);
 
-      const users = getUsers();
-      const userMatch = users.find(u => u.email === email && u.password === password);
-      
-      if (!userMatch) {
+    try {
+      const response = await loginAPI(payload);
+      setIsLoading(false);
+      console.log(response);
+
+      if(response.message === "Success"){
+        Toast.fire({
+          icon: "success",
+          title: "Login Successful",
+        });
+        navigate("/dashboard");
+      }else{
         Toast.fire({
           icon: "error",
-          title: "Invalid email or password",
+          title: "Login Failed",
         });
-        return;
       }
-
-      // Success flow
-      Toast.fire({
-        icon: "success",
-        title: "Login Successful",
-      }).then(() => {
-        navigate("/dashboard");
-      });
-    }, 1500);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

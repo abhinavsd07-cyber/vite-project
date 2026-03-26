@@ -2,12 +2,14 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
+import { verifyOtpAPI } from '../../services/allApis';
 
 export function VerifyOTP() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
   const resetEmail = sessionStorage.getItem('resetEmail');
 
@@ -41,13 +43,10 @@ export function VerifyOTP() {
     setTimer(60);
     setCanResend(false);
     
-    // Generate new OTP
-    const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
-    sessionStorage.setItem('resetOtp', generatedOtp);
-    
+    // In real app, the server would resend the OTP
     Toast.fire({
-      icon: 'success',
-      title: `New OTP sent: ${generatedOtp}`,
+      icon: 'info',
+      title: `OTP resent to ${resetEmail}`,
     });
   };
 
@@ -67,7 +66,7 @@ export function VerifyOTP() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (otp.some(digit => !digit)) {
       Toast.fire({
@@ -77,28 +76,44 @@ export function VerifyOTP() {
       return;
     }
 
-    const expectedOtp = sessionStorage.getItem('resetOtp');
     const enteredOtp = otp.join('');
+    setIsLoading(true);
 
-    if (enteredOtp !== expectedOtp) {
+    try {
+      const response = await verifyOtpAPI({ EmailID: resetEmail, OTP: enteredOtp });
+      setIsLoading(false);
+      
+      console.log("Verify OTP API Response:", response);
+
+      if (response && (response.status === 200 || response.status === 201)) {
+        sessionStorage.setItem('tempOtp', enteredOtp); // Temporarily store for reset step if needed
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Verified successfully!',
+        }).then(() => {
+          navigate('/reset-password');
+        });
+      } else {
+        console.error("OTP Verification Failed:", response);
+        const errorMsg = response?.data?.message || response?.data?.error || 'Invalid OTP. Please try again.';
+        Toast.fire({
+          icon: 'error',
+          title: errorMsg,
+        });
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.error("Unexpected Error:", err);
       Toast.fire({
         icon: 'error',
-        title: 'Invalid OTP. Please try again.',
+        title: 'Server error. Please check your connection.',
       });
-      return;
     }
-
-    Toast.fire({
-      icon: 'success',
-      title: 'Verified successfully!',
-    }).then(() => {
-      navigate('/reset-password');
-    });
   };
 
   return (
     <AuthLayout>
-
 
       <div className="text-center mb-8 flex flex-col items-center">
         <h2 className="text-[22px] font-bold text-slate-900 mb-2">Verify OTP</h2>
@@ -147,8 +162,17 @@ export function VerifyOTP() {
         </div>
 
         <div className="pt-2">
-          <button type="submit" className="w-full bg-slate-900 text-white font-medium py-3 rounded-lg hover:bg-slate-950 transition-colors text-sm shadow-md">
-            Continue
+          <button 
+            type="submit" 
+            disabled={isLoading}
+            className="w-full bg-slate-900 text-white font-medium py-3 rounded-lg hover:bg-slate-950 transition-colors text-sm shadow-md disabled:opacity-70 flex items-center justify-center gap-2"
+          >
+            {isLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                <span>Verifying...</span>
+              </>
+            ) : "Continue"}
           </button>
         </div>
       </form>

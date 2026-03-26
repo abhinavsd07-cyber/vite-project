@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Toast, getUsers } from '../../lib/utils';
+import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
+import { forgotPasswordAPI } from '../../services/allApis';
 
 export function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) {
       Toast.fire({
@@ -20,33 +21,37 @@ export function ForgotPassword() {
 
     setIsLoading(true);
     
-    // Simulate API call to check user existence
-    setTimeout(() => {
+    try {
+      const response = await forgotPasswordAPI(email);
       setIsLoading(false);
       
-      const users = getUsers();
-      const userExists = users.some(u => u.email === email);
-      
-      if (!userExists) {
+      console.log("Forgot Password API Response:", response);
+
+      if (response && (response.status === 200 || response.status === 201)) {
+        sessionStorage.setItem('resetEmail', email);
+
+        Toast.fire({
+          icon: 'success',
+          title: 'OTP has been sent to your email address.',
+        }).then(() => {
+          navigate('/verify-otp');
+        });
+      } else {
+        console.error("Forgot Password Failed:", response);
+        const errorMsg = response?.data?.message || response?.data?.error || 'No account found with that email address';
         Toast.fire({
           icon: 'error',
-          title: 'No account found with that email address',
+          title: errorMsg,
         });
-        return;
       }
-      
-      // Generate 4-digit OTP
-      const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
-      sessionStorage.setItem('resetEmail', email);
-      sessionStorage.setItem('resetOtp', generatedOtp);
-
+    } catch (err) {
+      setIsLoading(false);
+      console.error("Unexpected Error:", err);
       Toast.fire({
-        icon: 'success',
-        title: `OTP sent: ${generatedOtp}`,
-      }).then(() => {
-        navigate('/verify-otp');
+        icon: 'error',
+        title: 'Server error. Please check your connection.',
       });
-    }, 1500);
+    }
   };
 
   return (
