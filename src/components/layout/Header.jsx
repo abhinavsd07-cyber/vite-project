@@ -36,6 +36,9 @@ export function Header({ setMobileMenuOpen }) {
         }
     }).then((result) => {
         if (result.isConfirmed) {
+            // Clear session data
+            sessionStorage.clear();
+            localStorage.clear();
             navigate('/');
         }
     });

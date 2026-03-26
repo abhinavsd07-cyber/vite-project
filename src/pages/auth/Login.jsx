@@ -31,22 +31,40 @@ export function Login() {
     try {
       const response = await loginAPI(payload);
       setIsLoading(false);
-      console.log(response.data);
+      
+      console.log("Login Response:", response);
 
-      if(response.message === "Success"){
+      // Success check: statusCode is "SB000"
+      if (response && response.statusCode === "SB000") {
+        const token = response.data?.accessToken;
+        
+        if (token) {
+          sessionStorage.setItem("token", token);
+          sessionStorage.setItem("authToken", JSON.stringify(response.data));
+        }
+
         Toast.fire({
           icon: "success",
           title: "Login Successful",
+        }).then(() => {
+          navigate("/dashboard");
         });
-        navigate("/dashboard");
-      }else{
+      } else {
+        // Error handling: Use responseDescription from responseResult
+        const errorMsg = response?.responseResult?.responseDescription || response?.message || "Login Failed";
+        console.log(errorMsg)
         Toast.fire({
           icon: "error",
           title: "Login Failed",
         });
       }
     } catch (err) {
-      console.log(err);
+      setIsLoading(false);
+      console.error("Login Error:", err);
+      Toast.fire({
+        icon: "error",
+        title: "Server Error. Please try again later.",
+      });
     }
   };
 

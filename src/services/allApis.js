@@ -27,3 +27,11 @@ export const resetPasswordAPI = async (data) => {
     // data format: { EmailID: email, Password: password }
     return await commonRequest("POST", `${BASE_URL}/api/auth/reset-password`, data);
 }
+
+// Logout API Call (Optional based on backend requirements)
+export const logoutAPI = async () => {
+    // Some backends require a token to invalidate on the server
+    const token = sessionStorage.getItem("token");
+    const headers = token ? { "Authorization": `Bearer ${token}` } : {};
+    return await commonRequest("POST", `${BASE_URL}/api/auth/logout`, {}, headers);
+}

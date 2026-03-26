@@ -57,19 +57,19 @@ export function ResetPassword() {
       
       console.log("Reset Password API Response:", response);
 
-      if (response && (response.status === 200 || response.status === 201)) {
+      if (response && response.statusCode === "SB000") {
         sessionStorage.removeItem('resetEmail');
         sessionStorage.removeItem('tempOtp');
         
         Toast.fire({
           icon: 'success',
-          title: 'Your password has been reset successfully.',
+          title: response.message || 'Your password has been reset successfully.',
         }).then(() => {
           navigate('/'); // Redirect to login
         });
       } else {
         console.error("Password Reset Failed:", response);
-        const errorMsg = response?.data?.message || response?.data?.error || 'Failed to update password. Please try again.';
+        const errorMsg = response?.responseResult?.responseDescription || response?.message || 'Failed to update password. Please try again.';
         Toast.fire({
           icon: 'error',
           title: errorMsg,

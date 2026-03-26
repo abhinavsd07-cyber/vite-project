@@ -27,18 +27,18 @@ export function ForgotPassword() {
       
       console.log("Forgot Password API Response:", response);
 
-      if (response && (response.status === 200 || response.status === 201)) {
+      if (response && response.statusCode === "SB000") {
         sessionStorage.setItem('resetEmail', email);
 
         Toast.fire({
           icon: 'success',
-          title: 'OTP has been sent to your email address.',
+          title: response.message || 'OTP has been sent to your email address.',
         }).then(() => {
           navigate('/verify-otp');
         });
       } else {
         console.error("Forgot Password Failed:", response);
-        const errorMsg = response?.data?.message || response?.data?.error || 'No account found with that email address';
+        const errorMsg = response?.responseResult?.responseDescription || response?.message || 'No account found with that email address';
         Toast.fire({
           icon: 'error',
           title: errorMsg,

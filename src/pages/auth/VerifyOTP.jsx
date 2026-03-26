@@ -85,18 +85,18 @@ export function VerifyOTP() {
       
       console.log("Verify OTP API Response:", response);
 
-      if (response && (response.status === 200 || response.status === 201)) {
+      if (response && response.statusCode === "SB000") {
         sessionStorage.setItem('tempOtp', enteredOtp); // Temporarily store for reset step if needed
 
         Toast.fire({
           icon: 'success',
-          title: 'Verified successfully!',
+          title: response.message || 'Verified successfully!',
         }).then(() => {
           navigate('/reset-password');
         });
       } else {
         console.error("OTP Verification Failed:", response);
-        const errorMsg = response?.data?.message || response?.data?.error || 'Invalid OTP. Please try again.';
+        const errorMsg = response?.responseResult?.responseDescription || response?.message || 'Invalid OTP. Please try again.';
         Toast.fire({
           icon: 'error',
           title: errorMsg,

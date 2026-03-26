@@ -61,6 +61,9 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
+                // Clear session data
+                sessionStorage.clear();
+                localStorage.clear();
                 navigate('/');
             }
         });
