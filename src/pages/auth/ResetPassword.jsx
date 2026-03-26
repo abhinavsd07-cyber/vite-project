@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { EyeOff, Eye } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { Toast, updatePassword } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
+import { useEffect } from 'react';
 
 export function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,26 +11,40 @@ export function ResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const resetEmail = sessionStorage.getItem('resetEmail');
+
+  useEffect(() => {
+    if (!resetEmail) {
+      navigate('/forgot-password');
+    }
+  }, [navigate, resetEmail]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
     if (!password || !confirmPassword) {
-      Swal.fire({
+      Toast.fire({
         icon: 'error',
-        title: 'Empty Fields',
-        text: 'Please fill in both password fields.',
-        confirmButtonColor: '#0f172a',
+        title: 'Please fill in both password fields.',
       });
       return;
     }
 
     if (password !== confirmPassword) {
-      Swal.fire({
+      Toast.fire({
         icon: 'error',
-        title: 'Mismatch',
-        text: 'Passwords do not match! Please try again.',
-        confirmButtonColor: '#0f172a',
+        title: 'Passwords do not match! Please try again.',
+      });
+      return;
+    }
+
+    // Password strength policy (8+ chars, uppercase, lowercase, number, symbol)
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})");
+    if (!strongRegex.test(password)) {
+      Toast.fire({
+        icon: 'warning',
+        title: 'Weak Password',
+        text: 'Password must be 8+ chars and contain uppercase, lowercase, number, and symbol.',
       });
       return;
     }
@@ -37,14 +52,25 @@ export function ResetPassword() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      Swal.fire({
-        icon: 'success',
-        title: 'Password Updated!',
-        text: 'Your password has been reset successfully.',
-        confirmButtonColor: '#0f172a',
-      }).then(() => {
-        navigate('/dashboard');
-      });
+      
+      const updated = updatePassword(resetEmail, password);
+      
+      if (updated) {
+        sessionStorage.removeItem('resetEmail');
+        sessionStorage.removeItem('resetOtp');
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'Your password has been reset successfully.',
+        }).then(() => {
+          navigate('/'); // Redirect to login on successful password change
+        });
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: 'Failed to update password. User not found.',
+        });
+      }
     }, 1500);
   };
 

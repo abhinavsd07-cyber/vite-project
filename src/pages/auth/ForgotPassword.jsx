@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { Toast, getUsers } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
 
 export function ForgotPassword() {
@@ -11,24 +11,38 @@ export function ForgotPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email) {
-      Swal.fire({
+      Toast.fire({
         icon: 'error',
-        title: 'Oops...',
-        text: 'Please enter your email address!',
-        confirmButtonColor: '#0f172a',
+        title: 'Please enter your email address!',
       });
       return;
     }
 
     setIsLoading(true);
-    // Simulate API call
+    
+    // Simulate API call to check user existence
     setTimeout(() => {
       setIsLoading(false);
-      Swal.fire({
+      
+      const users = getUsers();
+      const userExists = users.some(u => u.email === email);
+      
+      if (!userExists) {
+        Toast.fire({
+          icon: 'error',
+          title: 'No account found with that email address',
+        });
+        return;
+      }
+      
+      // Generate 4-digit OTP
+      const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+      sessionStorage.setItem('resetEmail', email);
+      sessionStorage.setItem('resetOtp', generatedOtp);
+
+      Toast.fire({
         icon: 'success',
-        title: 'OTP Sent!',
-        text: `We've sent a 4-digit code to ${email}`,
-        confirmButtonColor: '#0f172a',
+        title: `OTP sent: ${generatedOtp}`,
       }).then(() => {
         navigate('/verify-otp');
       });

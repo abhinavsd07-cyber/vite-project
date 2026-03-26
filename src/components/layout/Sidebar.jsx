@@ -11,7 +11,7 @@ import {
   ChevronDown,
   X,
 } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn, Toast } from "../../lib/utils";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -35,14 +35,9 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
         
         // Show toast for non-implemented features
         if (name !== 'Finsights') {
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
+            Toast.fire({
                 icon: 'info',
                 title: `${name} Feature Coming Soon`,
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true
             });
         }
     };
@@ -72,14 +67,9 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
     };
 
     const handlePlaceholderClick = (label) => {
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
+        Toast.fire({
             icon: 'info',
             title: `${label} module under development`,
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true
         });
     };
 

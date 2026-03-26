@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
 
 export function VerifyOTP() {
@@ -9,6 +9,13 @@ export function VerifyOTP() {
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
   const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+  const resetEmail = sessionStorage.getItem('resetEmail');
+
+  useEffect(() => {
+    if (!resetEmail) {
+      navigate('/forgot-password');
+    }
+  }, [navigate, resetEmail]);
 
   useEffect(() => {
     let interval = null;
@@ -33,13 +40,14 @@ export function VerifyOTP() {
     if (!canResend) return;
     setTimer(60);
     setCanResend(false);
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
+    
+    // Generate new OTP
+    const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+    sessionStorage.setItem('resetOtp', generatedOtp);
+    
+    Toast.fire({
       icon: 'success',
-      title: 'New OTP Sent!',
-      showConfirmButton: false,
-      timer: 2000,
+      title: `New OTP sent: ${generatedOtp}`,
     });
   };
 
@@ -62,21 +70,27 @@ export function VerifyOTP() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (otp.some(digit => !digit)) {
-      Swal.fire({
+      Toast.fire({
         icon: 'error',
-        title: 'Invalid OTP',
-        text: 'Please enter all 4 digits of the OTP.',
-        confirmButtonColor: '#0f172a',
+        title: 'Please enter all 4 digits of the OTP.',
       });
       return;
     }
 
-    Swal.fire({
+    const expectedOtp = sessionStorage.getItem('resetOtp');
+    const enteredOtp = otp.join('');
+
+    if (enteredOtp !== expectedOtp) {
+      Toast.fire({
+        icon: 'error',
+        title: 'Invalid OTP. Please try again.',
+      });
+      return;
+    }
+
+    Toast.fire({
       icon: 'success',
-      title: 'Verified!',
-      text: 'Your OTP has been verified successfully.',
-      showConfirmButton: false,
-      timer: 1500,
+      title: 'Verified successfully!',
     }).then(() => {
       navigate('/reset-password');
     });
@@ -88,7 +102,7 @@ export function VerifyOTP() {
 
       <div className="text-center mb-8 flex flex-col items-center">
         <h2 className="text-[22px] font-bold text-slate-900 mb-2">Verify OTP</h2>
-        <p className="text-xs text-slate-400 max-w-[280px]">Please enter OTP that sent to <span className="text-slate-600 font-medium">arunkumar123@gmail.com</span></p>
+        <p className="text-xs text-slate-400 max-w-[280px]">Please enter OTP sent to <span className="text-slate-600 font-medium">{resetEmail || "your email"}</span></p>
       </div>
 
       <form className="space-y-6" onSubmit={handleSubmit}>

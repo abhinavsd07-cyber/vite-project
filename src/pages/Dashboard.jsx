@@ -3,7 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Label
 } from 'recharts';
-import Swal from 'sweetalert2';
+import { Toast } from '../lib/utils';
 import {
   TrendingUp, TrendingDown, Coins, BarChart2, FileText, PieChart as LucidePieChart, Info, Download, Filter, MoreVertical, Search, Bell, Plus, Menu, Banknote, CreditCard
 } from 'lucide-react';
@@ -113,14 +113,9 @@ export function Dashboard() {
   );
 
   const handleCardClick = (title) => {
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
+    Toast.fire({
       icon: 'success',
       title: `Generating ${title} Detail Report...`,
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true
     });
   };
 

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useSearch } from '../../context/SearchContext';
+import { Toast } from '../../lib/utils';
 
 export function Header({ setMobileMenuOpen }) {
   const [profileOpen, setProfileOpen] = useState(false);
@@ -10,14 +11,9 @@ export function Header({ setMobileMenuOpen }) {
   const navigate = useNavigate();
 
   const handleAction = (label) => {
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
+    Toast.fire({
       icon: 'info',
       title: `${label} module under development`,
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true
     });
   };
 
