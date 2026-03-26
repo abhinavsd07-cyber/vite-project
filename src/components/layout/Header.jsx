@@ -54,41 +54,41 @@ export function Header({ setMobileMenuOpen }) {
       </button>
 
       {/* Search Bar */}
-      <div className="flex-1 max-w-2xl hidden sm:flex">
-        <div className="relative w-full max-w-xl">
-          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-black" />
+      <div className="flex-1 max-w-3xl hidden sm:flex px-4">
+        <div className="relative w-full">
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
           <input 
             type="text" 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search dashboard data..." 
-            className="w-full pl-11 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-200 transition-shadow"
+            placeholder="Search here..." 
+            className="w-full pl-10 pr-4 py-2.5 bg-white border-b border-transparent focus:border-slate-200 text-sm focus:outline-none transition-colors border-slate-100 shadow-sm rounded-xl"
           />
         </div>
       </div>
 
       {/* Right side controls */}
-      <div className="flex items-center gap-2 sm:gap-4 ml-auto">
+      <div className="flex items-center gap-4 sm:gap-6 ml-auto pr-2">
         
         {/* Action Icons */}
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-4 sm:gap-5">
           <button 
             onClick={() => handleAction('Create New')}
-            className="p-2 text-black hover:bg-slate-100 rounded-full transition-colors hidden sm:block"
+            className="text-slate-600 hover:text-black transition-colors hidden sm:block"
           >
-            <Plus size={20} strokeWidth={1.5} />
+            <Plus size={20} className="w-5 h-5" />
           </button>
           <button 
             onClick={() => handleAction('Notifications')}
-            className="relative p-2 text-black hover:bg-slate-100 rounded-full transition-colors"
+            className="relative text-slate-600 hover:text-black transition-colors"
           >
-            <Bell size={20} strokeWidth={1.5} />
-            <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            <Bell size={20} className="w-5 h-5" />
+            <span className="absolute 1 top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
           </button>
         </div>
 
         {/* User Profile */}
-        <div className="relative ml-1 sm:ml-2">
+        <div className="relative flex items-center gap-2">
           <button 
             onClick={() => setProfileOpen(!profileOpen)}
             className="flex items-center gap-2 hover:bg-slate-50 p-1 pr-2 rounded-full transition-colors"

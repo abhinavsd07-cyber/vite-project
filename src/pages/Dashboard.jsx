@@ -145,8 +145,8 @@ export function Dashboard() {
             onClick={() => setActiveTab(tab)}
             className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap shrink-0 ${
               activeTab === tab
-                ? 'bg-[#7c3aed] text-white shadow-sm'
-                : 'text-black hover:bg-slate-100'
+                ? 'bg-[#6366f1] text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-800'
             }`}
           >
             <TabIcon className="w-4 h-4" />
@@ -156,13 +156,13 @@ export function Dashboard() {
       </div>
 
       {/* Top Value Cards - Dynamic columns for all sizes */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         <div 
           onClick={() => handleCardClick('Revenue')}
           className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
         >
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-black shrink-0 group-hover:bg-slate-100 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-[#ecfdf5] flex items-center justify-center text-[#10b981] shrink-0 group-hover:bg-[#d1fae5] transition-colors">
               <TrendingUp className="w-6 h-6" />
             </div>
             <div>
@@ -184,8 +184,8 @@ export function Dashboard() {
           className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
         >
            <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-black shrink-0 group-hover:bg-slate-100 transition-colors">
-              <TrendingDown className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-xl bg-[#fef2f2] flex items-center justify-center text-[#f87171] shrink-0 group-hover:bg-[#fee2e2] transition-colors">
+              <CreditCard className="w-6 h-6" />
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500 mb-1">Total Expense</p>
@@ -206,7 +206,7 @@ export function Dashboard() {
           className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
         >
            <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-black shrink-0 group-hover:bg-slate-200 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-[#312e81] shrink-0 group-hover:bg-slate-200 transition-colors">
               <Coins className="w-6 h-6" />
             </div>
             <div>
@@ -228,22 +228,25 @@ export function Dashboard() {
         <>
           {/* Performance Overview */}
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+            <div className="flex flex-col mb-8 gap-4">
               <h3 className="text-lg font-semibold text-slate-800">Performance Overview</h3>
-              <div className="flex items-center gap-4 text-sm font-medium">
+              <div className="flex flex-wrap items-center gap-4 text-sm font-medium">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-[#10b981]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#10b981]"></div>
                   <span className="text-slate-500">Total Revenue</span>
                 </div>
+                <span className="text-slate-300">|</span>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-[#f87171]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#f87171]"></div>
                   <span className="text-slate-500">Total Expenses</span>
                 </div>
+                <span className="text-slate-300">|</span>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-[#312e81]"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#312e81]"></div>
                   <span className="text-slate-500">Profit</span>
                 </div>
-                <span className="text-[#7c3aed] ml-2 cursor-pointer hover:underline border-b-2 border-[#7c3aed]">All</span>
+                <span className="text-slate-300">|</span>
+                <span className="text-slate-600 border-b-2 border-slate-300 px-1 hover:text-slate-900 cursor-pointer">All</span>
               </div>
             </div>
             <div className="h-[220px] sm:h-[280px] lg:h-[350px] 2xl:h-[500px] w-full">

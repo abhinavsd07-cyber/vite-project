@@ -114,7 +114,7 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
                         className={cn(
                             "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative",
                             activeItem === item.name
-                                ? "bg-[#514d9b] text-white font-medium shadow-md shadow-indigo-200/50"
+                                ? "bg-[#5b58ff] text-white font-medium shadow-md shadow-indigo-200/50"
                                 : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
                         )}
                         title={collapsed ? item.name : undefined}
@@ -167,7 +167,7 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
                     </svg>
                 </div>
 
-                <div className="relative z-10 p-3 space-y-1.5">
+                <div className="relative z-10 m-3 p-2 bg-white/70 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60 space-y-1">
                     {[
                         { ItemIcon: HelpCircle, label: "Help" },
                         { ItemIcon: Settings, label: "Settings" },
@@ -176,7 +176,7 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
                             key={label}
                             onClick={() => handlePlaceholderClick(label)}
                             className={cn(
-                                "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/80 backdrop-blur-sm shadow-sm text-slate-700 hover:bg-white transition-colors border border-white/40 text-sm font-medium",
+                                "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white text-slate-700 transition-colors text-sm font-medium",
                                 collapsed && "justify-center px-0",
                             )}
                         >
@@ -188,7 +188,7 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
                     <button
                         onClick={handleLogout}
                         className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/80 backdrop-blur-sm shadow-sm text-slate-700 hover:bg-white transition-colors border border-white/40 text-sm font-medium",
+                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white text-slate-700 transition-colors text-sm font-medium",
                             collapsed && "justify-center px-0",
                         )}
                     >
