@@ -31,7 +31,7 @@ export function Login() {
     try {
       const response = await loginAPI(payload);
       setIsLoading(false);
-      console.log(response);
+      console.log(response.data);
 
       if(response.message === "Success"){
         Toast.fire({

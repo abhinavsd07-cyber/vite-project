@@ -1,3 +1,3 @@
 // src/services/baseUrl.js
 
-export const BASE_URL = "https://fin-face.com/connectadmin/api";
+export const BASE_URL = "http://localhost:5000";
