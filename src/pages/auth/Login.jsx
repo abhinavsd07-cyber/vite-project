@@ -41,6 +41,13 @@ export function Login() {
         if (token) {
           sessionStorage.setItem("token", token);
           sessionStorage.setItem("authToken", JSON.stringify(response.data));
+          
+          // Store businessUID separately for use in Forgot Password flow
+          if (response.data?.businessUID) {
+            sessionStorage.setItem("businessUID", response.data.businessUID);
+          } else if (response.data?.BusinessUID) {
+            sessionStorage.setItem("businessUID", response.data.BusinessUID);
+          }
         }
 
         Toast.fire({

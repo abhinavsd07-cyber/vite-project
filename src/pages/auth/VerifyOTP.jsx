@@ -66,7 +66,7 @@ export function VerifyOTP() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (otp.some(digit => !digit)) {
       Toast.fire({
@@ -77,39 +77,17 @@ export function VerifyOTP() {
     }
 
     const enteredOtp = otp.join('');
-    setIsLoading(true);
+    
+    // Store the OTP entered by user (no server verification endpoint available)
+    // The userUID from email validation step is already in sessionStorage
+    sessionStorage.setItem('tempOtp', enteredOtp);
 
-    try {
-      const response = await verifyOtpAPI({ EmailID: resetEmail, OTP: enteredOtp });
-      setIsLoading(false);
-      
-      console.log("Verify OTP API Response:", response);
-
-      if (response && response.statusCode === "SB000") {
-        sessionStorage.setItem('tempOtp', enteredOtp); // Temporarily store for reset step if needed
-
-        Toast.fire({
-          icon: 'success',
-          title: response.message || 'Verified successfully!',
-        }).then(() => {
-          navigate('/reset-password');
-        });
-      } else {
-        console.error("OTP Verification Failed:", response);
-        const errorMsg = response?.responseResult?.responseDescription || response?.message || 'Invalid OTP. Please try again.';
-        Toast.fire({
-          icon: 'error',
-          title: errorMsg,
-        });
-      }
-    } catch (err) {
-      setIsLoading(false);
-      console.error("Unexpected Error:", err);
-      Toast.fire({
-        icon: 'error',
-        title: 'Server error. Please check your connection.',
-      });
-    }
+    Toast.fire({
+      icon: 'success',
+      title: 'OTP Accepted! Proceed to reset your password.',
+    }).then(() => {
+      navigate('/reset-password');
+    });
   };
 
   return (

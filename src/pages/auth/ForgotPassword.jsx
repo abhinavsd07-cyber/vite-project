@@ -21,18 +21,43 @@ export function ForgotPassword() {
 
     setIsLoading(true);
     
+    // Read businessUID from sessionStorage (stored during login)
+    // Falls back to the company's default businessUID if not logged in
+    const BUSINESS_UID = "3B8248F7-6655-EF11-97DD-00155D01229B"; // company default
+    const authData = JSON.parse(sessionStorage.getItem('authToken') || '{}');
+    const businessUID = sessionStorage.getItem('businessUID') 
+                     || authData?.businessUID 
+                     || authData?.BusinessUID 
+                     || BUSINESS_UID;
+
+    if (!businessUID) {
+      console.warn("businessUID not found in sessionStorage. Check login API response.");
+    }
+
+    const payload = {
+      EmailID: email,
+      businessUID: businessUID
+    };
+    console.log("Forgot Password Payload:", payload);
+
     try {
-      const response = await forgotPasswordAPI(email);
+      const response = await forgotPasswordAPI(payload);
       setIsLoading(false);
       
       console.log("Forgot Password API Response:", response);
 
-      if (response && response.statusCode === "SB000") {
+      if (response && response.responseResult?.responseCode === "000") {
+        // Store email and userUID from response into sessionStorage
         sessionStorage.setItem('resetEmail', email);
+        sessionStorage.setItem('forgotPasswordResult', JSON.stringify(response));
+        // Note: API returns capital 'Data', not 'data'
+        if (response.Data?.userUID) {
+          sessionStorage.setItem('userUID', response.Data.userUID);
+        }
 
         Toast.fire({
           icon: 'success',
-          title: response.message || 'OTP has been sent to your email address.',
+          title: 'Email validated successfully!',
         }).then(() => {
           navigate('/verify-otp');
         });

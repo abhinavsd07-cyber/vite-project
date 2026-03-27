@@ -12,6 +12,7 @@ export function ResetPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const resetEmail = sessionStorage.getItem('resetEmail');
+  const userUID = sessionStorage.getItem('userUID');
 
   useEffect(() => {
     if (!resetEmail) {
@@ -51,19 +52,31 @@ export function ResetPassword() {
 
     setIsLoading(true);
     
+    // Use the exact payload format: { userUID, PassWord }
+    const payload = {
+      userUID: userUID || "",
+      PassWord: password
+    };
+    console.log("Reset Password Payload:", payload);
+
     try {
-      const response = await resetPasswordAPI({ EmailID: resetEmail, Password: password });
+      const response = await resetPasswordAPI(payload);
       setIsLoading(false);
       
       console.log("Reset Password API Response:", response);
 
-      if (response && response.statusCode === "SB000") {
+      // Store result in sessionStorage as requested
+      sessionStorage.setItem('resetPasswordResult', JSON.stringify(response));
+
+      if (response && response.responseResult?.responseCode === "000") {
         sessionStorage.removeItem('resetEmail');
+        sessionStorage.removeItem('userUID');
+        sessionStorage.removeItem('forgotPasswordResult');
         sessionStorage.removeItem('tempOtp');
         
         Toast.fire({
           icon: 'success',
-          title: response.message || 'Your password has been reset successfully.',
+          title: response.responseResult?.responseDescription || 'Your password has been reset successfully.',
         }).then(() => {
           navigate('/'); // Redirect to login
         });

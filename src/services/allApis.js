@@ -9,10 +9,10 @@ export const loginAPI = async (user) => {
     return await commonRequest("POST", `${BASE_URL}/api/auth/login`, user);
 };
 
-// Forgot Password — POST /api/auth/forgot-password
-// Payload: { EmailID }
-export const forgotPasswordAPI = async (email) => {
-    return await commonRequest("POST", `${BASE_URL}/api/auth/forgot-password`, { EmailID: email });
+// Forgot Password Email Validation — POST /api/auth/forgot-password
+// Payload: { EmailID, businessUID }
+export const forgotPasswordAPI = async (data) => {
+    return await commonRequest("POST", `${BASE_URL}/api/auth/forgot-password`, data);
 };
 
 // Verify OTP — POST /api/auth/verify-otp
@@ -21,8 +21,8 @@ export const verifyOtpAPI = async (data) => {
     return await commonRequest("POST", `${BASE_URL}/api/auth/verify-otp`, data);
 };
 
-// Reset Password — POST /api/auth/reset-password
-// Payload: { EmailID, Password }
+// Reset Password / Update Password — POST /api/auth/reset-password
+// Payload: { userUID, PassWord }
 export const resetPasswordAPI = async (data) => {
     return await commonRequest("POST", `${BASE_URL}/api/auth/reset-password`, data);
 };
