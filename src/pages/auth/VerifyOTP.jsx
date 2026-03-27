@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
-import { verifyOtpAPI } from '../../services/allApis';
+import { verifyOtpAPI, forgotPasswordAPI } from '../../services/allApis';
 
 export function VerifyOTP() {
   const navigate = useNavigate();
@@ -38,16 +38,46 @@ export function VerifyOTP() {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (!canResend) return;
     setTimer(60);
     setCanResend(false);
-    
-    // In real app, the server would resend the OTP
-    Toast.fire({
-      icon: 'info',
-      title: `OTP resent to ${resetEmail}`,
-    });
+    setOtp(['', '', '', '']); // Clear OTP inputs
+
+    // Read businessUID for the resend call
+    const BUSINESS_UID = "3B8248F7-6655-EF11-97DD-00155D01229B";
+    const authData = JSON.parse(sessionStorage.getItem('authToken') || '{}');
+    const businessUID = sessionStorage.getItem('businessUID') || authData?.businessUID || BUSINESS_UID;
+
+    try {
+      const response = await forgotPasswordAPI({ EmailID: resetEmail, businessUID });
+      console.log("Resend OTP Response:", response);
+      console.log("OTP:", response.Data?.userPasswordOTP);
+
+      if (response && response.responseResult?.responseCode === "000") {
+        // Update sessionStorage with new OTP result
+        sessionStorage.setItem('forgotPasswordResult', JSON.stringify(response));
+        if (response.Data?.userUID) {
+          sessionStorage.setItem('userUID', response.Data.userUID);
+        }
+        Toast.fire({
+          icon: 'success',
+          title: `New OTP sent to ${resetEmail}`,
+        });
+      } else {
+        console.error("Resend OTP Failed:", response);
+        Toast.fire({
+          icon: 'error',
+          title: 'Failed to resend OTP. Please try again.',
+        });
+      }
+    } catch (err) {
+      console.error("Resend OTP Error:", err);
+      Toast.fire({
+        icon: 'error',
+        title: 'Server error. Please check your connection.',
+      });
+    }
   };
 
   const handleChange = (index, value) => {
