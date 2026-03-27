@@ -45,6 +45,7 @@ export function ForgotPassword() {
       setIsLoading(false);
       
       console.log("Forgot Password API Response:", response);
+      console.log("OTP:", response.Data?.userPasswordOTP);
 
       if (response && response.responseResult?.responseCode === "000") {
         // Store email and userUID from response into sessionStorage

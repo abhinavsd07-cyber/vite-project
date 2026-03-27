@@ -77,17 +77,39 @@ export function VerifyOTP() {
     }
 
     const enteredOtp = otp.join('');
-    
-    // Store the OTP entered by user (no server verification endpoint available)
-    // The userUID from email validation step is already in sessionStorage
-    sessionStorage.setItem('tempOtp', enteredOtp);
 
-    Toast.fire({
-      icon: 'success',
-      title: 'OTP Accepted! Proceed to reset your password.',
-    }).then(() => {
-      navigate('/reset-password');
-    });
+    // Get the OTP from the Forgot Password API response stored in sessionStorage
+    const forgotResult = JSON.parse(sessionStorage.getItem('forgotPasswordResult') || '{}');
+    const serverOtp = forgotResult?.Data?.userPasswordOTP;
+
+    console.log("Entered OTP:", enteredOtp);
+    console.log("Expected OTP from server:", serverOtp);
+
+    if (!serverOtp) {
+      Toast.fire({
+        icon: 'error',
+        title: 'Session expired. Please go back and try again.',
+      });
+      return;
+    }
+
+    if (enteredOtp === String(serverOtp)) {
+      // OTP matches — store it and proceed to Reset Password
+      sessionStorage.setItem('tempOtp', enteredOtp);
+
+      Toast.fire({
+        icon: 'success',
+        title: 'OTP Verified Successfully!',
+      }).then(() => {
+        navigate('/reset-password');
+      });
+    } else {
+      console.error("OTP mismatch! Entered:", enteredOtp, "Expected:", serverOtp);
+      Toast.fire({
+        icon: 'error',
+        title: 'Invalid OTP. Please try again.',
+      });
+    }
   };
 
   return (
