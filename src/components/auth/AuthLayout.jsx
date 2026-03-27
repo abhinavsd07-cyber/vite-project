@@ -1,9 +1,9 @@
 import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
-import img1 from "../../assets/image1.jpg";
-import img2 from "../../assets/image2.jpg";
-import img3 from "../../assets/image3.jpg";
+import img1 from "../../assets/image1.webp";
+import img2 from "../../assets/image2.webp";
+import img3 from "../../assets/image3.webp";
 import { Logo } from "./Logo";
 
 const defaultCarousel = [img1, img2, img3];
