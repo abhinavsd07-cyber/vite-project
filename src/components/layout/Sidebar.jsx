@@ -25,7 +25,7 @@ const navItems = [
   { name: "Meetings", icon: Video, href: "#" },
 ];
 
-export function Sidebar({ collapsed, setCollapsed, onClose }) {
+export function Sidebar({ collapsed, onClose }) {
     const [activeItem, setActiveItem] = useState("Finsights");
     const navigate = useNavigate();
 
@@ -89,14 +89,7 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
                     <Logo collapsed={collapsed} />
                 </div>
 
-                {/* Desktop collapse toggle */}
-                <button
-                    onClick={() => setCollapsed(!collapsed)}
-                    className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors hidden lg:block shrink-0"
-                    title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                >
-                    <Menu size={18} />
-                </button>
+
 
                 {/* Mobile close button */}
                 <button
@@ -115,7 +108,8 @@ export function Sidebar({ collapsed, setCollapsed, onClose }) {
                         key={item.name}
                         onClick={() => handleItemClick(item.name)}
                         className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative",
+                            "w-full flex items-center gap-3 py-2.5 rounded-lg transition-all duration-200 group relative",
+                            collapsed ? "justify-center px-0" : "px-3",
                             activeItem === item.name
                                 ? "bg-[#5b58ff] text-white font-medium shadow-md shadow-indigo-200/50"
                                 : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",

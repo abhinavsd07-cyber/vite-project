@@ -3,7 +3,7 @@ import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 
 export function DashboardLayout({ children }) {
-  const [collapsed, setCollapsed] = useState(false);
+  const collapsed = false;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -25,7 +25,6 @@ export function DashboardLayout({ children }) {
       `}>
         <Sidebar 
           collapsed={collapsed} 
-          setCollapsed={setCollapsed}
           onClose={() => setMobileMenuOpen(false)}
         />
       </div>

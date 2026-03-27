@@ -19,19 +19,20 @@ export function Logo({ collapsed = false, className = "" }) {
         </svg>
       </div>
       {!collapsed && (
-        <div className="flex flex-col">
+        <div className="flex flex-col -mt-1">
           <span
-            className="text-2xl leading-none text-[#222]"
+            className="text-2xl leading-tight text-[#222]"
             style={{ fontFamily: "Georgia, serif", letterSpacing: "0.05em" }}
           >
             finbook
           </span>
           <span
-            className="text-xl leading-none text-[#888]"
+            className="text-xl leading-tight text-[#888]"
             style={{
               fontFamily: "Georgia, serif",
               letterSpacing: "0.08em",
               marginLeft: "1.25rem",
+              marginTop: "-0.2rem"
             }}
           >
             globa<span style={{ color: "#E53E3E" }}>l</span>

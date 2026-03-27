@@ -48,6 +48,15 @@ export function Login() {
           } else if (response.data?.BusinessUID) {
             sessionStorage.setItem("businessUID", response.data.BusinessUID);
           }
+
+          // Store user display info from userInfo array
+          const userInfo = response.data?.userInfo?.[0];
+          if (userInfo?.userName) {
+            sessionStorage.setItem("userName", userInfo.userName);
+          }
+          if (userInfo?.userEmail) {
+            sessionStorage.setItem("userEmail", userInfo.userEmail);
+          }
         }
 
         Toast.fire({

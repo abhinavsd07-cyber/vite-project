@@ -10,6 +10,15 @@ export function Header({ setMobileMenuOpen }) {
   const { searchQuery, setSearchQuery } = useSearch();
   const navigate = useNavigate();
 
+  // Get logged-in user info from sessionStorage
+  const userName = sessionStorage.getItem('userName') || (() => {
+    try { return JSON.parse(sessionStorage.getItem('authToken'))?.userInfo?.[0]?.userName; } catch { return null; }
+  })() || 'User';
+  const userEmail = sessionStorage.getItem('userEmail') || (() => {
+    try { return JSON.parse(sessionStorage.getItem('authToken'))?.userInfo?.[0]?.userEmail; } catch { return null; }
+  })() || '';
+  const avatarInitials = userName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+
   const handleAction = (label) => {
     Toast.fire({
       icon: 'info',
@@ -98,7 +107,7 @@ export function Header({ setMobileMenuOpen }) {
           >
             <div className="h-8 w-8 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
               <img
-                src="https://ui-avatars.com/api/?name=User&background=cbd5e1&color=ffffff&bold=true"
+                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=cbd5e1&color=ffffff&bold=true`}
                 alt="UserAvatar"
                 className="h-full w-full object-cover"
               />
@@ -108,17 +117,17 @@ export function Header({ setMobileMenuOpen }) {
 
           {/* Profile Popover */}
           {profileOpen && (
-            <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-lg border border-slate-100 py-6 px-4 z-50 animate-slide-up">
+            <div className="absolute right-0 top-full mt-2 w-64 sm:w-72 bg-white rounded-xl shadow-lg border border-slate-100 py-6 px-4 z-50 animate-slide-up">
               <div className="flex flex-col items-center text-center">
                  <div className="h-20 w-20 rounded-full bg-slate-200 mb-3 flex items-center justify-center overflow-hidden">
                     <img
-                      src="https://ui-avatars.com/api/?name=User&background=cbd5e1&color=ffffff&bold=true&size=128"
+                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=cbd5e1&color=ffffff&bold=true&size=128`}
                       alt="Avatar Large"
                       className="h-full w-full object-cover"
                     />
                  </div>
-                 <h4 className="font-semibold text-slate-900 text-base">Finbook User</h4>
-                 <p className="text-sm text-slate-500 mb-6">user@finbook.com</p>
+                 <h4 className="font-semibold text-slate-900 text-base">{userName}</h4>
+                 <p className="text-sm text-slate-500 mb-6">{userEmail || 'No email available'}</p>
                  
                  <div className="flex gap-3 w-full">
                     <button 

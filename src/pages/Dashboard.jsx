@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Label
@@ -39,9 +39,22 @@ const HorizontalBarTooltip = ({ active, payload, label }) => {
   return null;
 };
 
+// Hook to reactively track viewport width for responsive chart radii
+function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return width;
+}
+
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState('Profit & Loss');
   const { searchQuery } = useSearch();
+  const windowWidth = useWindowWidth();
+  const isMobile = windowWidth < 640;
 
   // Dummy data for Performance Overview
   const performanceData = [
@@ -159,7 +172,7 @@ export function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         <div 
           onClick={() => handleCardClick('Revenue')}
-          className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
+          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
         >
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-[#ecfdf5] flex items-center justify-center text-[#10b981] shrink-0 group-hover:bg-[#d1fae5] transition-colors">
@@ -167,10 +180,10 @@ export function Dashboard() {
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500 mb-1">Total Revenue</p>
-              <h3 className="text-2xl font-bold text-slate-800">$16,670.79</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$16,670.79</h3>
             </div>
           </div>
-          <div className="w-24 h-12 shrink-0 overflow-hidden">
+          <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={sparklineData1} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                 <Line type="monotone" dataKey="v" stroke="#22c55e" strokeWidth={2} dot={false} />
@@ -181,7 +194,7 @@ export function Dashboard() {
         
         <div 
           onClick={() => handleCardClick('Expense')}
-          className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
+          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
         >
            <div className="flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-[#fef2f2] flex items-center justify-center text-[#f87171] shrink-0 group-hover:bg-[#fee2e2] transition-colors">
@@ -189,10 +202,10 @@ export function Dashboard() {
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500 mb-1">Total Expense</p>
-              <h3 className="text-2xl font-bold text-slate-800">$623,516.96</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$623,516.96</h3>
             </div>
           </div>
-          <div className="w-24 h-12 shrink-0 overflow-hidden">
+          <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={sparklineData2} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                 <Line type="monotone" dataKey="v" stroke="#ef4444" strokeWidth={2} dot={false} />
@@ -203,7 +216,7 @@ export function Dashboard() {
 
         <div 
           onClick={() => handleCardClick('Profit')}
-          className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
+          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
         >
            <div className="flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-[#312e81] shrink-0 group-hover:bg-slate-200 transition-colors">
@@ -211,10 +224,10 @@ export function Dashboard() {
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500 mb-1">Net Profit</p>
-              <h3 className="text-2xl font-bold text-slate-800">$623,516.96</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$623,516.96</h3>
             </div>
           </div>
-          <div className="w-24 h-12 shrink-0 overflow-hidden">
+          <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={sparklineData3} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                 <Line type="monotone" dataKey="v" stroke="#94a3b8" strokeWidth={2} dot={false} />
@@ -227,7 +240,7 @@ export function Dashboard() {
       {activeTab === 'Profit & Loss' && (
         <>
           {/* Performance Overview */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100">
             <div className="flex flex-col mb-8 gap-4">
               <h3 className="text-lg font-semibold text-slate-800">Performance Overview</h3>
               <div className="flex flex-wrap items-center gap-4 text-sm font-medium">
@@ -268,7 +281,7 @@ export function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             
             {/* Top Expenses (Gauge) */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
               <h3 className="text-lg font-semibold text-slate-800 mb-6">Top Expenses</h3>
               <div className="flex-1 flex flex-col items-center justify-center relative min-h-[300px] 2xl:min-h-[450px]">
                 <div className="h-[200px] 2xl:h-[300px] w-full relative flex items-center justify-center">
@@ -280,8 +293,8 @@ export function Dashboard() {
                         cy="100%"
                         startAngle={180}
                         endAngle={0}
-                        innerRadius={90}
-                        outerRadius={120}
+                        innerRadius={isMobile ? 60 : 90}
+                        outerRadius={isMobile ? 80 : 120}
                         paddingAngle={2}
                         dataKey="value"
                         stroke="none"
@@ -296,12 +309,12 @@ export function Dashboard() {
                   {/* Gauge Text Center */}
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center text-center">
                     <span className="text-sm font-medium text-slate-500">Total Expenses</span>
-                    <span className="text-3xl font-bold text-slate-800 mt-1">$4,652.42</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-slate-800 mt-1">$4,652.42</span>
                   </div>
                 </div>
 
                 {/* Legend */}
-                <div className="mt-8 flex justify-center gap-8 w-full border-t border-slate-100 pt-6">
+                <div className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-8 w-full border-t border-slate-100 pt-6">
                   {topExpensesData.map((item, i) => (
                     <div key={i} className="flex flex-col items-center text-center">
                       <div className="flex items-center gap-1.5 mb-1.5">
@@ -316,7 +329,7 @@ export function Dashboard() {
             </div>
 
             {/* Top Revenue (Doughnut) */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
               <h3 className="text-lg font-semibold text-slate-800 mb-6">Top Revenue</h3>
               <div className="flex-1 flex flex-col relative min-h-[300px] 2xl:min-h-[450px]">
                 <div className="h-[220px] 2xl:h-[350px] w-full flex items-center justify-center">
@@ -326,8 +339,8 @@ export function Dashboard() {
                         data={topRevenueData}
                         cx="50%"
                         cy="50%"
-                        innerRadius={70}
-                        outerRadius={100}
+                        innerRadius={isMobile ? 50 : 70}
+                        outerRadius={isMobile ? 70 : 100}
                         paddingAngle={1}
                         dataKey="value"
                         stroke="none"
@@ -358,7 +371,7 @@ export function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             
             {/* Summary Line Chart */}
-            <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
+            <div className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-lg font-semibold text-slate-800">Summary</h3>
                 <div className="relative">
@@ -378,7 +391,7 @@ export function Dashboard() {
                 {/* Left stats */}
                 <div className="flex flex-col justify-center">
                   <p className="text-sm font-medium text-slate-500 mb-1">Total Spend</p>
-                  <h3 className="text-3xl font-bold text-slate-900 mb-3">$4,652.42</h3>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">$4,652.42</h3>
                   
                   <div className="flex flex-col gap-2">
                     <div className="bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full inline-flex items-center w-fit gap-1">
@@ -431,7 +444,7 @@ export function Dashboard() {
             </div>
 
             {/* Expenses Donut Indicator */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full items-center text-center">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full items-center text-center">
               <h3 className="text-lg font-semibold text-slate-800 w-full text-left mb-4">Expenses</h3>
               <div className="flex-1 flex flex-col items-center justify-center relative w-full mt-4 min-h-[250px] 2xl:min-h-[400px]">
                 
@@ -447,8 +460,8 @@ export function Dashboard() {
                         cy="100%"
                         startAngle={180}
                         endAngle={0}
-                        innerRadius={85}
-                        outerRadius={95}
+                        innerRadius={isMobile ? 65 : 85}
+                        outerRadius={isMobile ? 75 : 95}
                         dataKey="value"
                         stroke="none"
                         cornerRadius={10}
@@ -465,13 +478,13 @@ export function Dashboard() {
                   
                   {/* Center Text inside gauge */}
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center">
-                    <span className="text-4xl font-semibold text-slate-800 tracking-tight">78%</span>
+                    <span className="text-3xl sm:text-4xl font-semibold text-slate-800 tracking-tight">78%</span>
                   </div>
                 </div>
 
                 {/* Subtext */}
                 <div className="mt-8 flex flex-col">
-                  <span className="text-3xl font-semibold text-slate-800 tracking-tight">82.5k</span>
+                  <span className="text-2xl sm:text-3xl font-semibold text-slate-800 tracking-tight">82.5k</span>
                   <span className="text-xs text-slate-400 max-w-[140px] mt-1 mx-auto leading-relaxed">$21k Expenses More Than Last Month</span>
                 </div>
               </div>
@@ -484,9 +497,9 @@ export function Dashboard() {
       {activeTab === 'Top Expenses' && (
         <div className="flex flex-col gap-6">
           {/* Detailed Top Expenses Bar Chart */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100">
             <h3 className="text-lg font-semibold text-slate-800 mb-6">Top Expenses</h3>
-            <div className="h-[400px] 2xl:h-[600px] w-full">
+            <div className="h-[300px] sm:h-[400px] 2xl:h-[600px] w-full">
               {filteredExpensesData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -512,7 +525,7 @@ export function Dashboard() {
                       axisLine={false} 
                       tickLine={false} 
                       tick={{ fill: '#475569', fontSize: 10, fontWeight: 500 }}
-                      width={window.innerWidth < 640 ? 80 : 110}
+                      width={isMobile ? 80 : 110}
                     />
                     <Tooltip cursor={{ fill: '#f8fafc' }} content={<HorizontalBarTooltip />} />
                     <Bar dataKey="value" fill="#58508d" radius={[0, 4, 4, 0]} />
@@ -528,9 +541,9 @@ export function Dashboard() {
           </div>
 
           {/* Detailed Revenue Bar Chart */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
             <h3 className="text-lg font-semibold text-slate-800 mb-6">Revenue</h3>
-            <div className="h-[450px] 2xl:h-[750px] w-full">
+            <div className="h-[350px] sm:h-[450px] 2xl:h-[750px] w-full">
               {filteredRevenueData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -556,7 +569,7 @@ export function Dashboard() {
                       axisLine={false} 
                       tickLine={false} 
                       tick={{ fill: '#475569', fontSize: 10, fontWeight: 500 }} 
-                      width={window.innerWidth < 640 ? 120 : 175}
+                      width={isMobile ? 120 : 175}
                     />
                     <Tooltip cursor={{ fill: '#f8fafc' }} content={<HorizontalBarTooltip />} />
                     <Bar dataKey="value" fill="#6a82af" radius={[0, 4, 4, 0]} />
