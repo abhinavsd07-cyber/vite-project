@@ -5,7 +5,7 @@ import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
 import { resetPasswordAPI } from '../../services/allApis';
 
-export function ResetPassword() {
+export const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

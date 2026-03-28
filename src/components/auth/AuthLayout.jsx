@@ -8,7 +8,7 @@ import { Logo } from "./Logo";
 
 const defaultCarousel = [img1, img2, img3];
 
-export function AuthLayout({ children }) {
+export const AuthLayout = ({ children }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
 
   useEffect(() => {

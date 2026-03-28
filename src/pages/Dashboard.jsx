@@ -50,7 +50,7 @@ function useWindowWidth() {
   return width;
 }
 
-export function Dashboard() {
+export const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('Profit & Loss');
   const { searchQuery } = useSearch();
   const windowWidth = useWindowWidth();

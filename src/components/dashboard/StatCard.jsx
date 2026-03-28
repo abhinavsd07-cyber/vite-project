@@ -1,7 +1,7 @@
 import { cn } from '../../lib/utils';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
-export function StatCard({ title, value, change, changeText, trend, icon: Icon, colorClass }) {
+export const StatCard = ({ title, value, change, changeText, trend, icon: Icon, colorClass }) => {
   const isPositive = trend === 'up';
 
   return (

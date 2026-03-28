@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 
-export function DashboardLayout({ children }) {
+export const DashboardLayout = ({ children }) => {
   const collapsed = false;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

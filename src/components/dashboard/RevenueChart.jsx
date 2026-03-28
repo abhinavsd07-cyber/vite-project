@@ -15,7 +15,7 @@ const data = [
   { name: 'Dec', revenue: 9500, expenses: 6800 },
 ];
 
-export function RevenueChart() {
+export const RevenueChart = () => {
   return (
     <div className="interactive-card p-6 h-[400px]">
       <div className="flex items-center justify-between mb-6">

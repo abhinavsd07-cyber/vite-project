@@ -1,6 +1,6 @@
 import { cn } from "../../lib/utils";
 
-export function Logo({ collapsed = false, className = "" }) {
+export const Logo = ({ collapsed = false, className = "" }) => {
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <div className={cn("flex items-start shrink-0", collapsed && "mx-auto")}>

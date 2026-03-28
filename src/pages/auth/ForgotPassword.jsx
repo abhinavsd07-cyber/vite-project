@@ -4,7 +4,7 @@ import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
 import { forgotPasswordAPI } from '../../services/allApis';
 
-export function ForgotPassword() {
+export const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();

@@ -25,7 +25,7 @@ const pieData = [
 
 const COLORS = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b'];
 
-export function MainLineChart() {
+export const MainLineChart = () => {
   return (
     <div className="interactive-card p-6 h-[350px]">
       <div className="mb-4">
@@ -48,7 +48,7 @@ export function MainLineChart() {
   );
 }
 
-export function PerformanceBarChart() {
+export const PerformanceBarChart = () => {
   return (
     <div className="interactive-card p-6 h-[350px]">
       <div className="mb-4">
@@ -71,7 +71,7 @@ export function PerformanceBarChart() {
   );
 }
 
-export function DistributionPieChart() {
+export const DistributionPieChart = () => {
   return (
     <div className="interactive-card p-6 h-[350px]">
       <div className="mb-4">

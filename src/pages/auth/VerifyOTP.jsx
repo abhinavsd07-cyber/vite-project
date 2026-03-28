@@ -4,7 +4,7 @@ import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
 import { verifyOtpAPI, forgotPasswordAPI } from '../../services/allApis';
 
-export function VerifyOTP() {
+export const VerifyOTP = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(60);

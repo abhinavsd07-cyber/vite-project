@@ -5,7 +5,7 @@ import { Toast } from "../../lib/utils";
 import { AuthLayout } from "../../components/auth/AuthLayout";
 import { loginAPI } from "../../services/allApis";
 
-export function Login() {
+export const Login = () => {
   const [email, setEmail] = useState("superadmin@gmail.com");
   const [password, setPassword] = useState("Admin@123");
   const [showPassword, setShowPassword] = useState(false);

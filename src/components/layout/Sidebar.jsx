@@ -25,7 +25,7 @@ const navItems = [
   { name: "Meetings", icon: Video, href: "#" },
 ];
 
-export function Sidebar({ collapsed, onClose }) {
+export const Sidebar = ({ collapsed, onClose }) => {
     const [activeItem, setActiveItem] = useState("Finsights");
     const navigate = useNavigate();
 

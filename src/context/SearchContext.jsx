@@ -5,7 +5,7 @@ const SearchContext = createContext({
   setSearchQuery: () => {},
 });
 
-export function SearchProvider({ children }) {
+export const SearchProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (

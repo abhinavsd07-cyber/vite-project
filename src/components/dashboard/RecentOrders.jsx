@@ -14,7 +14,7 @@ const statusStyles = {
   Pending: 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20',
 };
 
-export function RecentOrders() {
+export const RecentOrders = () => {
   return (
     <div className="interactive-card p-0 overflow-hidden">
       <div className="p-6 border-b border-slate-100 flex items-center justify-between">

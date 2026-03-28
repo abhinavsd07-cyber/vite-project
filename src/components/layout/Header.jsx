@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { useSearch } from '../../context/SearchContext';
 import { Toast } from '../../lib/utils';
 
-export function Header({ setMobileMenuOpen }) {
+export const Header = ({ setMobileMenuOpen }) => {
   const [profileOpen, setProfileOpen] = useState(false);
   const { searchQuery, setSearchQuery } = useSearch();
   const navigate = useNavigate();
