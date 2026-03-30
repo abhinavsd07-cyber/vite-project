@@ -36,3 +36,9 @@ export const logoutAPI = async () => {
         : { "Content-Type": "application/json" };
     return await commonRequest("POST", `${BASE_URL}/api/auth/logout`, {}, headers);
 };
+
+// Refresh Token — POST /api/auth/refresh-token
+// Payload: { refreshToken }
+export const refreshTokenAPI = async (data) => {
+    return await commonRequest("POST", `${BASE_URL}/api/auth/refresh-token`, data);
+};

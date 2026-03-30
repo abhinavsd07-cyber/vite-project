@@ -49,6 +49,17 @@ export const Login = () => {
             sessionStorage.setItem("businessUID", response.data.BusinessUID);
           }
 
+          // Store refresh token and expiry times
+          if (response.data?.refreshToken) {
+            sessionStorage.setItem("refreshToken", response.data.refreshToken);
+          }
+          if (response.data?.accessTokenExpirationTime) {
+            sessionStorage.setItem("accessTokenExpiry", response.data.accessTokenExpirationTime);
+          }
+          if (response.data?.refreshTokenExpirationTime) {
+            sessionStorage.setItem("refreshTokenExpiry", response.data.refreshTokenExpirationTime);
+          }
+
           // Store user display info from userInfo array
           const userInfo = response.data?.userInfo?.[0];
           if (userInfo?.userName) {

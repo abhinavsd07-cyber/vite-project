@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { DashboardLayout } from './components/layout/DashboardLayout';
-import { Dashboard } from './pages/Dashboard';
-import { Login } from './pages/auth/Login';
-import { ForgotPassword } from './pages/auth/ForgotPassword';
-import { VerifyOTP } from './pages/auth/VerifyOTP';
-import { ResetPassword } from './pages/auth/ResetPassword';
-import { Logo } from './components/auth/Logo';
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { DashboardLayout } from "./components/layout/DashboardLayout";
+import { Dashboard } from "./pages/Dashboard";
+import { Login } from "./pages/auth/Login";
+import { ForgotPassword } from "./pages/auth/ForgotPassword";
+import { VerifyOTP } from "./pages/auth/VerifyOTP";
+import { ResetPassword } from "./pages/auth/ResetPassword";
+import { Logo } from "./components/auth/Logo";
 
-import { SearchProvider } from './context/SearchContext';
+import { SearchProvider } from "./context/SearchContext";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -39,17 +39,17 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        
+
         {/* ERP Dashboard Layout */}
-        <Route 
-          path="/dashboard" 
+        <Route
+          path="/dashboard"
           element={
             <SearchProvider>
               <DashboardLayout>
                 <Dashboard />
               </DashboardLayout>
             </SearchProvider>
-          } 
+          }
         />
       </Routes>
     </Router>
