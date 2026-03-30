@@ -42,8 +42,8 @@ export const AuthLayout = ({ children }) => {
           {/* Removed Figma Blend Overlay to match clean design */}
 
           {/* Text Content */}
-          <div className="relative z-20 flex flex-col justify-end h-full px-8 md:px-12 lg:px-20 pb-16">
-            <h1 className="text-[24px] md:text-[28px] lg:text-[34px] leading-tight tracking-tight mb-4 flex flex-col lg:flex-row lg:items-center gap-y-1 lg:gap-x-2">
+          <div className="relative z-20 flex flex-col justify-end h-full px-8 md:px-12 lg:px-20 pb-16 w-[697px] max-w-full">
+            <h1 className="text-[24px] md:text-[28px] lg:text-[34px] leading-tight tracking-tight mb-4 flex items-center gap-x-2 whitespace-nowrap">
               <span className="font-semibold text-slate-800">Accounting</span>
               <span className="font-semibold text-white">
                 Excellence Guaranteed

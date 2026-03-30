@@ -54,7 +54,7 @@ export const Header = ({ setMobileMenuOpen }) => {
   };
 
   return (
-    <header className="h-16 bg-white/80 backdrop-blur-md flex items-center px-3 sm:px-4 md:px-6 justify-between sticky top-0 z-30 flex-shrink-0 border-b border-slate-100">
+    <header className="h-16 bg-white/80 backdrop-blur-md flex items-center px-3 sm:px-4 md:px-6 sticky top-0 z-30 flex-shrink-0">
       
       {/* Mobile hamburger */}
       <button
@@ -65,90 +65,88 @@ export const Header = ({ setMobileMenuOpen }) => {
         <Menu size={20} />
       </button>
 
-      {/* Search Bar */}
-      <div className="flex-1 max-w-3xl hidden sm:flex px-4">
-        <div className="relative w-full">
-          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
-          <input 
-            type="text" 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search here..." 
-            className="w-full pl-10 pr-4 py-2.5 bg-white border-b border-transparent focus:border-slate-200 text-sm focus:outline-none transition-colors border-slate-100 shadow-sm rounded-xl"
-          />
-        </div>
-      </div>
-
-      {/* Right side controls */}
-      <div className="flex items-center gap-4 sm:gap-6 ml-auto pr-2">
+      {/* Single unified bar: Search + Actions + Profile */}
+      <div className="flex-1 flex items-center bg-white border border-slate-100 rounded-xl px-4 h-11 shadow-sm">
         
-        {/* Action Icons */}
-        <div className="flex items-center gap-4 sm:gap-5">
+        {/* Search section */}
+        <Search size={16} className="text-slate-400 flex-shrink-0" />
+        <input 
+          type="text" 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search here..." 
+          className="flex-1 pl-3 pr-4 py-2 bg-transparent text-sm focus:outline-none placeholder-slate-400"
+        />
+
+        {/* Right side: +, Bell, Profile — all inside the same bar */}
+        <div className="flex items-center gap-4 sm:gap-5 ml-auto pl-4 border-l border-slate-100">
           <button 
             onClick={() => handleAction('Create New')}
-            className="text-slate-600 hover:text-black transition-colors hidden sm:block"
+            className="text-slate-500 hover:text-black transition-colors hidden sm:block"
           >
-            <Plus size={20} className="w-5 h-5" />
+            <Plus size={20} />
           </button>
           <button 
             onClick={() => handleAction('Notifications')}
-            className="relative text-slate-600 hover:text-black transition-colors"
+            className="relative text-slate-500 hover:text-black transition-colors"
           >
-            <Bell size={20} className="w-5 h-5" />
-            <span className="absolute 1 top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-          </button>
-        </div>
-
-        {/* User Profile */}
-        <div className="relative flex items-center gap-2">
-          <button 
-            onClick={() => setProfileOpen(!profileOpen)}
-            className="flex items-center gap-2 hover:bg-slate-50 p-1 pr-2 rounded-full transition-colors"
-          >
-            <div className="h-8 w-8 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
-              <img
-                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=cbd5e1&color=ffffff&bold=true`}
-                alt="UserAvatar"
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <ChevronDown size={14} className="text-black hidden sm:block" />
+            <Bell size={20} />
+            <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
           </button>
 
-          {/* Profile Popover */}
-          {profileOpen && (
-            <div className="absolute right-0 top-full mt-2 w-64 sm:w-72 bg-white rounded-xl shadow-lg border border-slate-100 py-6 px-4 z-50 animate-slide-up">
-              <div className="flex flex-col items-center text-center">
-                 <div className="h-20 w-20 rounded-full bg-slate-200 mb-3 flex items-center justify-center overflow-hidden">
-                    <img
-                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=cbd5e1&color=ffffff&bold=true&size=128`}
-                      alt="Avatar Large"
-                      className="h-full w-full object-cover"
-                    />
-                 </div>
-                 <h4 className="font-semibold text-slate-900 text-base">{userName}</h4>
-                 <p className="text-sm text-slate-500 mb-6">{userEmail || 'No email available'}</p>
-                 
-                 <div className="flex gap-3 w-full">
-                    <button 
-                      onClick={() => handleAction('Profile Settings')}
-                      className="flex-1 py-2 px-3 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors h-10 flex items-center justify-center"
-                    >
-                      Settings
-                    </button>
-                    <button 
-                      onClick={handleLogout}
-                      className="flex-shrink-0 flex items-center gap-2 py-2 px-4 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-sm font-medium transition-colors h-10"
-                    >
-                      <LogOut size={16} />
-                      Log out
-                    </button>
-                 </div>
+          {/* Divider */}
+          <div className="w-px h-5 bg-slate-200"></div>
+
+          {/* User Profile */}
+          <div className="relative flex items-center gap-2">
+            <button 
+              onClick={() => setProfileOpen(!profileOpen)}
+              className="flex items-center gap-2 hover:bg-slate-50 p-1 pr-2 rounded-full transition-colors"
+            >
+              <div className="h-8 w-8 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
+                <img
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=cbd5e1&color=ffffff&bold=true`}
+                  alt="UserAvatar"
+                  className="h-full w-full object-cover"
+                />
               </div>
-            </div>
-          )}
+              <ChevronDown size={14} className="text-black hidden sm:block" />
+            </button>
+
+            {/* Profile Popover */}
+            {profileOpen && (
+              <div className="absolute right-0 top-full mt-2 w-64 sm:w-72 bg-white rounded-xl shadow-lg border border-slate-100 py-6 px-4 z-50 animate-slide-up">
+                <div className="flex flex-col items-center text-center">
+                   <div className="h-20 w-20 rounded-full bg-slate-200 mb-3 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=cbd5e1&color=ffffff&bold=true&size=128`}
+                        alt="Avatar Large"
+                        className="h-full w-full object-cover"
+                      />
+                   </div>
+                   <h4 className="font-semibold text-slate-900 text-base">{userName}</h4>
+                   <p className="text-sm text-slate-500 mb-6">{userEmail || 'No email available'}</p>
+                   
+                   <div className="flex gap-3 w-full">
+                      <button 
+                        onClick={() => handleAction('Profile Settings')}
+                        className="flex-1 py-2 px-3 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors h-10 flex items-center justify-center"
+                      >
+                        Settings
+                      </button>
+                      <button 
+                        onClick={handleLogout}
+                        className="flex-shrink-0 flex items-center gap-2 py-2 px-4 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-sm font-medium transition-colors h-10"
+                      >
+                        <LogOut size={16} />
+                        Log out
+                      </button>
+                   </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-        
       </div>
     </header>
   );
