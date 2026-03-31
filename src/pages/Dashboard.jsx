@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { Toast } from '../lib/utils';
 import {
-  TrendingUp, TrendingDown, Coins, BarChart2, FileText, PieChart as LucidePieChart, Info, Download, Filter, MoreVertical, Search, Bell, Plus, Menu, Banknote, CreditCard
+  TrendingUp, TrendingDown, Coins, BarChart2, FileText, PieChart as LucidePieChart, Info, Download, Filter, MoreVertical, Search, Bell, Plus, Menu, Banknote, CreditCard, ChevronDown, ArrowDownLeft, ArrowUpRight, Wallet, Layers, Building2, CreditCard as CardIcon
 } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
 
@@ -115,6 +115,61 @@ export const Dashboard = () => {
     { name: 'Commission Income', value: 25, color: '#e879f9' },
     { name: 'Consulting Fees', value: 15, color: '#ede9fe' },
     { name: 'Royalties', value: 10, color: '#93c5fd' },
+  ];
+
+  // Dummy data for Cash Reports Tab
+  const cashAccountsData = [
+    { name: 'Cash In Hand', balance: 20000.00, iconBg: '#f8fafc', iconCol: '#475569', IconComp: Wallet },
+    { name: 'State Bank Of India (SBI)', balance: 1200.00, iconBg: '#0ea5e9', iconCol: '#ffffff', IconComp: Building2 },
+    { name: 'HDFC Bank', balance: 1150.00, iconBg: '#ef4444', iconCol: '#ffffff', IconComp: Building2 },
+    { name: 'ICICI Bank', balance: 1180.00, iconBg: '#f97316', iconCol: '#ffffff', IconComp: Building2 },
+  ];
+
+  const creditCardsData = [
+    { name: 'ICICI Bank Coral Credit Card', balance: 4000.00, iconBg: '#ef4444', iconCol: '#ffffff', IconComp: CardIcon },
+    { name: 'SBI Platinum Credit Card', balance: 3170.79, iconBg: '#ffffff', iconCol: '#94a3b8', IconComp: CardIcon },
+    { name: 'HDFC Millennia Card', balance: 4500.00, iconBg: '#1e3a8a', iconCol: '#ffffff', IconComp: CardIcon },
+    { name: 'PNB Global Gold Credit Card', balance: 5000.00, iconBg: '#ffffff', iconCol: '#94a3b8', IconComp: CardIcon },
+  ];
+
+  const cashFlowData = [
+    { name: 'JAN', cashIn: 0, cashOut: 0 },
+    { name: 'FEB', cashIn: 55000, cashOut: 60000 },
+    { name: 'MAR', cashIn: 35000, cashOut: 20000 },
+    { name: 'APR', cashIn: 90000, cashOut: 55000 },
+    { name: 'MAY', cashIn: 80000, cashOut: 125000 },
+    { name: 'JUN', cashIn: 130000, cashOut: 10000 },
+    { name: 'JUL', cashIn: 160000, cashOut: 10000 },
+    { name: 'AUG', cashIn: 155000, cashOut: 80000 },
+    { name: 'SEP', cashIn: 145000, cashOut: 110000 },
+    { name: 'OCT', cashIn: 165000, cashOut: 60000 },
+    { name: 'NOV', cashIn: 185000, cashOut: 135000 },
+    { name: 'DEC', cashIn: 200000, cashOut: 90000 },
+  ];
+
+  const topTransactionsData = [
+    { id: '23426', date: '23/07/2020', amount: 1200.00, type: 'in' },
+    { id: '23422', date: '19/07/2020', amount: 2500.00, type: 'out' },
+    { id: '23420', date: '10/07/2020', amount: 7300.00, type: 'in' },
+    { id: '23417', date: '17/07/2020', amount: 5600.00, type: 'in' },
+    { id: '23402', date: '18/07/2020', amount: 7300.00, type: 'out' },
+    { id: '23413', date: '21/07/2020', amount: 8950.00, type: 'in' },
+    { id: '23412', date: '05/08/2020', amount: 9400.00, type: 'out' },
+  ];
+
+  const netCashPositionData = [
+    { name: 'JAN', value: 125000 },
+    { name: 'FEB', value: 25000 },
+    { name: 'MAR', value: 185000 },
+    { name: 'APR', value: 90000 },
+    { name: 'MAY', value: 135000 },
+    { name: 'JUN', value: 85000 },
+    { name: 'JUL', value: 200000 },
+    { name: 'AUG', value: 30000 },
+    { name: 'SEP', value: 105000 },
+    { name: 'OCT', value: 140000 },
+    { name: 'NOV', value: 195000 },
+    { name: 'DEC', value: 75000 },
   ];
 
   const filteredExpensesData = allExpensesData.filter(item => 
@@ -620,8 +675,186 @@ export const Dashboard = () => {
         </div>
       )}
 
+      {activeTab === 'Cash Reports' && (
+        <div className="flex flex-col gap-6 animate-slide-up">
+          {/* Top Section: Summary Cards */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+            
+            {/* Bank Accounts */}
+            <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 flex flex-col md:flex-row gap-6 md:gap-8 justify-between">
+              {/* Left Side */}
+              <div className="flex flex-col gap-4 w-full md:w-auto md:min-w-[180px] shrink-0">
+                <div className="w-[85px]">
+                  <div className="relative border border-slate-200 rounded-xl px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
+                    <span className="text-sm font-medium text-slate-600">All</span>
+                    <ChevronDown size={14} className="text-slate-400" />
+                  </div>
+                </div>
+                
+                <div className="w-12 h-12 rounded-2xl bg-[#e0f2fe] flex items-center justify-center text-[#0ea5e9]">
+                  <Coins size={22} className="stroke-[1.5]" />
+                </div>
+                
+                <div className="mt-1">
+                  <p className="text-[13px] font-medium text-slate-500 mb-1">Total Balance</p>
+                  <h3 className="text-[26px] font-bold text-slate-900 tracking-tight leading-none">$4,652.42</h3>
+                  <div className="flex flex-col gap-2 mt-4">
+                    <div className="bg-[#10b981] text-white text-[11px] font-bold px-2.5 py-1 rounded-full inline-flex items-center w-fit gap-1 shadow-sm shadow-emerald-500/20">
+                      Increased By 20 %
+                      <ArrowUpRight size={12} strokeWidth={3} />
+                    </div>
+                    <span className="text-[11px] text-slate-400 font-medium whitespace-nowrap">Compared To Last Year</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Right Side List */}
+              <div className="flex-1 flex flex-col gap-2.5 min-w-0">
+                {cashAccountsData.map((item, i) => (
+                  <div key={i} className="flex items-center justify-between border border-slate-100/80 p-3 rounded-[14px] hover:border-slate-200 transition-colors bg-white">
+                    <div className="flex items-center gap-3.5 min-w-0 pr-2">
+                       <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)]" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
+                        <item.IconComp size={16} className={item.iconBg === '#ffffff' ? 'text-slate-400 stroke-[1.5]' : 'stroke-[1.5]'} />
+                      </div>
+                      <span className="text-[13px] font-medium text-slate-600 truncate" title={item.name}>{item.name}</span>
+                    </div>
+                    <span className="text-[14px] font-bold text-slate-800 whitespace-nowrap pl-2">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Credit Cards Card */}
+            <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 flex flex-col md:flex-row gap-6 md:gap-8 justify-between">
+              {/* Left Side */}
+               <div className="flex flex-col gap-4 w-full md:w-auto md:min-w-[180px] shrink-0">
+                <div className="w-[85px]">
+                  <div className="relative border border-slate-200 rounded-xl px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
+                    <span className="text-sm font-medium text-slate-600">All</span>
+                    <ChevronDown size={14} className="text-slate-400" />
+                  </div>
+                </div>
+                
+                <div className="w-12 h-12 rounded-2xl bg-[#f3e8ff] flex items-center justify-center text-[#a855f7]">
+                  <Layers size={22} className="stroke-[1.5]" />
+                </div>
+                
+                <div className="mt-1">
+                  <p className="text-[13px] font-medium text-slate-500 mb-1">Total Balance</p>
+                  <h3 className="text-[26px] font-bold text-slate-900 tracking-tight leading-none">$16,670.79</h3>
+                  <div className="flex flex-col gap-2 mt-4">
+                    <div className="bg-[#10b981] text-white text-[11px] font-bold px-2.5 py-1 rounded-full inline-flex items-center w-fit gap-1 shadow-sm shadow-emerald-500/20">
+                      Increased By 20 %
+                      <ArrowUpRight size={12} strokeWidth={3} />
+                    </div>
+                    <span className="text-[11px] text-slate-400 font-medium whitespace-nowrap">Compared To Last Year</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side List */}
+              <div className="flex-1 flex flex-col gap-2.5 min-w-0">
+                {creditCardsData.map((item, i) => (
+                  <div key={i} className="flex items-center justify-between border border-slate-100/80 p-3 rounded-[14px] hover:border-slate-200 transition-colors bg-white">
+                    <div className="flex items-center gap-3.5 min-w-0 pr-2">
+                       <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)] border border-slate-50" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
+                         <item.IconComp size={16} className={item.iconBg === '#ffffff' ? 'text-slate-400 stroke-[1.5]' : 'stroke-[1.5]'} />
+                      </div>
+                      <span className="text-[13px] font-medium text-slate-600 truncate" title={item.name}>{item.name}</span>
+                    </div>
+                    <span className="text-[14px] font-bold text-slate-800 whitespace-nowrap pl-2">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+          {/* Middle Section: Line Chart & Top Transactions */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] 2xl:grid-cols-[1fr_450px] gap-4 sm:gap-6">
+            
+            {/* Cash In, Cash Out Chart */}
+            <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 flex flex-col h-[400px]">
+              <h3 className="text-base font-semibold text-slate-800 mb-6">Cash In, Cash Out</h3>
+              <div className="flex items-center gap-6 mb-8 px-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#312e81]"></div>
+                  <span className="text-[13px] font-medium text-slate-500">Cash In</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#d97706]"></div>
+                  <span className="text-[13px] font-medium text-slate-500">Cash Out</span>
+                </div>
+              </div>
+              <div className="flex-1 min-h-[200px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={cashFlowData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f8fafc" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }} dy={15} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }} tickFormatter={(val) => `$${val/1000} K`} domain={[0, 200000]} ticks={[0, 50000, 100000, 150000, 200000]} dx={-10} />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Line type="smooth" dataKey="cashIn" name="Cash In" stroke="#312e81" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: '#312e81' }} />
+                    <Line type="smooth" dataKey="cashOut" name="Cash Out" stroke="#d97706" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: '#d97706' }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Top Transactions Table */}
+            <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 flex flex-col h-[400px] overflow-hidden">
+              <h3 className="text-base font-semibold text-slate-800 mb-4">Top Transactions</h3>
+              <div className="flex-1 overflow-auto pr-1">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-slate-100">
+                      <th className="pb-4 pt-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider w-10"></th>
+                      <th className="pb-4 pt-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Transaction ID</th>
+                      <th className="pb-4 pt-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Date</th>
+                      <th className="pb-4 pt-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider text-right">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {topTransactionsData.map((tx, idx) => (
+                      <tr key={idx} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
+                        <td className="py-3.5">
+                          {tx.type === 'in' ? (
+                            <ArrowDownLeft size={16} strokeWidth={2.5} className="text-[#10b981]" />
+                          ) : (
+                            <ArrowUpRight size={16} strokeWidth={2.5} className="text-[#ef4444]" />
+                          )}
+                        </td>
+                        <td className="py-3.5 text-[13px] font-medium text-slate-600">{tx.id}</td>
+                        <td className="py-3.5 text-[13px] font-medium text-slate-500">{tx.date}</td>
+                        <td className="py-3.5 text-[13px] font-semibold text-slate-700 text-right">${tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Section: Net Cash Position */}
+           <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 h-[350px] flex flex-col">
+            <h3 className="text-base font-semibold text-slate-800 mb-6">Net Cash Position</h3>
+            <div className="flex-1 min-h-0 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={netCashPositionData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }} barSize={24} barCategoryGap="20%">
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f8fafc" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }} dy={15} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }} tickFormatter={(val) => `$${val/1000} K`} domain={[0, 200000]} ticks={[0, 50000, 100000, 150000, 200000]} dx={-10} />
+                  <Tooltip cursor={{ fill: '#f1f5f9' }} content={<CustomTooltip />} />
+                  <Bar dataKey="value" name="Net Cash" fill="#312e81" radius={[0, 0, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Put placeholders for other tabs if they click on them */}
-      {activeTab !== 'Profit & Loss' && activeTab !== 'Top Expenses' && (
+      {activeTab !== 'Profit & Loss' && activeTab !== 'Top Expenses' && activeTab !== 'Cash Reports' && (
         <div className="bg-white p-12 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center">
            <p className="text-slate-500 text-lg">No data available for {activeTab}</p>
         </div>

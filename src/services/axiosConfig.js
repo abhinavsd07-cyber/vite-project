@@ -12,6 +12,7 @@ const isExpired = (expiryTimeStr) => {
 // Clear all session data and redirect to login page
 const forceLogout = () => {
     sessionStorage.clear();
+    sessionStorage.setItem('sessionExpired', 'true');
     window.location.href = '/';
 };
 

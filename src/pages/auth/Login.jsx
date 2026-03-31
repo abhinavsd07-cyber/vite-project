@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { EyeOff, Eye } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Toast } from "../../lib/utils";
@@ -11,6 +11,16 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("sessionExpired") === "true") {
+      Toast.fire({
+        icon: "warning",
+        title: "Session expired. Please log in again.",
+      });
+      sessionStorage.removeItem("sessionExpired");
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
