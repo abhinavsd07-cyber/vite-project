@@ -1,44 +1,127 @@
 import {
-  LayoutDashboard,
+  Gauge, // or LayoutDashboard
   User,
+  UserCog,
+  Users,
   FileText,
   Video,
   FileSearch,
+  Settings,
   HelpCircle,
   LogOut,
-  Settings,
-  Menu,
   ChevronDown,
+  ChevronRight,
   X,
+  Circle,
 } from "lucide-react";
 import { cn, Toast } from "../../lib/utils";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Logo } from "../auth/Logo";
 
 const navItems = [
-  { name: "Dashboard", icon: LayoutDashboard, href: "#" },
-  { name: "Vendor", icon: User, href: "#", hasDropdown: true },
-  { name: "Task Uploads", icon: FileText, href: "#" },
-  { name: "Request Document", icon: FileSearch, href: "#" },
-  { name: "Meetings", icon: Video, href: "#" },
+  { name: "Dashboard", icon: Gauge, path: "/dashboard" },
+  {
+    name: "Users",
+    icon: User,
+    subItems: [
+      { name: "User List", path: "/users/list" },
+      { name: "Create User", path: "/users/create" },
+    ],
+  },
+  { name: "Vendor", icon: UserCog, path: "/vendor" },
+  {
+    name: "Customers",
+    icon: Users,
+    subItems: [
+      { name: "Customers List", path: "/customers/list" },
+      { name: "Create Customers", path: "/customers/create" },
+      { name: "Company List", path: "/customers/companies" },
+    ],
+  },
+  {
+    name: "Doc Management",
+    icon: FileText,
+    subItems: [
+      { name: "Doc List", path: "/docs/list" },
+      { name: "Upload Doc", path: "/docs/upload" },
+      { name: "Archived", path: "/docs/archived" },
+    ],
+  },
+  { name: "Settings", icon: Settings, path: "/settings" },
+  { name: "Meetings", icon: Video, path: "/meetings" },
+  { name: "Document Request", icon: FileSearch, path: "/document-requests" },
 ];
 
 export const Sidebar = ({ collapsed, onClose }) => {
-  const [activeItem, setActiveItem] = useState("Dashboard");
+  const [expandedMenus, setExpandedMenus] = useState({});
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const handleItemClick = (name) => {
-    setActiveItem(name);
-    if (onClose) onClose();
+  // Initialize active expanded menu based on path
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const newExpanded = { ...expandedMenus };
+    
+    navItems.forEach(item => {
+      if (item.subItems) {
+        const isChildActive = item.subItems.some(sub => currentPath === sub.path);
+        if (isChildActive) {
+          newExpanded[item.name] = true;
+        }
+      }
+    });
+    
+    setExpandedMenus(newExpanded);
+  }, []);
 
-    // Show toast for non-implemented features
-    if (name !== "Dashboard") {
-      Toast.fire({
-        icon: "info",
-        title: `${name} Feature Coming Soon`,
-      });
+  const toggleSubMenu = (name) => {
+    if (collapsed) return;
+    setExpandedMenus(prev => ({
+      ...prev,
+      [name]: !prev[name]
+    }));
+  };
+
+  const isItemActive = (path) => {
+    return location.pathname === path;
+  };
+
+  const isParentActive = (item) => {
+    if (item.path && isItemActive(item.path)) return true;
+    if (item.subItems) {
+      return item.subItems.some(sub => isItemActive(sub.path));
+    }
+    return false;
+  };
+
+  const handleItemClick = (item) => {
+    if (item.subItems) {
+      toggleSubMenu(item.name);
+    } else {
+      if (onClose && window.innerWidth < 1024) onClose();
+      // Only navigation items that don't have subItems will push history or show toast
+      if (!item.path.startsWith('/dashboard') && !item.path.startsWith('/users') && !item.path.startsWith('/vendor') && !item.path.startsWith('/customers') && !item.path.startsWith('/docs')) {
+          Toast.fire({
+            icon: "info",
+            title: `${item.name} Feature Coming Soon`,
+          });
+      } else {
+          navigate(item.path);
+      }
+    }
+  };
+
+  const handleSubItemClick = (path) => {
+    if (onClose && window.innerWidth < 1024) onClose();
+    if (!path.startsWith('/dashboard') && !path.startsWith('/users') && !path.startsWith('/vendor') && !path.startsWith('/customers') && !path.startsWith('/docs')) {
+          Toast.fire({
+            icon: "info",
+            title: `Feature Coming Soon`,
+          });
+    } else {
+        navigate(path);
     }
   };
 
@@ -61,7 +144,6 @@ export const Sidebar = ({ collapsed, onClose }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        // Clear session data
         sessionStorage.clear();
         localStorage.clear();
         navigate("/");
@@ -79,17 +161,16 @@ export const Sidebar = ({ collapsed, onClose }) => {
   return (
     <aside
       className={cn(
-        "h-full flex flex-col bg-white border-r border-slate-200 transition-all duration-300 ease-in-out",
+        "h-full flex flex-col bg-slate-50 border-r border-slate-200 transition-all duration-300 ease-in-out",
         collapsed ? "w-20" : "w-64",
       )}
     >
       {/* Logo + Controls */}
-      <div className="flex h-16 items-center flex-shrink-0 px-4 justify-between border-b border-slate-100">
+      <div className="flex h-16 items-center flex-shrink-0 px-4 justify-between border-b border-slate-200 bg-white">
         <div className="flex items-center gap-2 overflow-hidden min-w-0">
           <Logo collapsed={collapsed} />
         </div>
 
-        {/* Mobile close button */}
         <button
           onClick={onClose}
           className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors lg:hidden shrink-0"
@@ -100,94 +181,87 @@ export const Sidebar = ({ collapsed, onClose }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-        {navItems.map((item) => (
-          <button
-            key={item.name}
-            onClick={() => handleItemClick(item.name)}
-            className={cn(
-              "w-full flex items-center gap-3 py-2.5 rounded-lg transition-all duration-200 group relative",
-              collapsed ? "justify-center px-0" : "px-3",
-              activeItem === item.name
-                ? "bg-[#5b58ff] text-white font-medium shadow-md shadow-indigo-200/50"
-                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
-            )}
-            title={collapsed ? item.name : undefined}
-          >
-            <item.icon
-              size={20}
-              strokeWidth={1.5}
-              className={cn(
-                "flex-shrink-0 transition-colors duration-200",
-                activeItem === item.name
-                  ? "text-white"
-                  : "text-black group-hover:text-black",
-              )}
-            />
-            {!collapsed && (
-              <span className="flex-1 text-left whitespace-nowrap text-sm">
-                {item.name}
-              </span>
-            )}
-            {!collapsed && item.hasDropdown && (
-              <ChevronDown
-                size={16}
+      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1 bg-white">
+        {navItems.map((item) => {
+          const parentActive = isParentActive(item);
+          
+          return (
+            <div key={item.name} className="flex flex-col">
+              <button
+                onClick={() => handleItemClick(item)}
                 className={cn(
-                  activeItem === item.name ? "text-white/70" : "text-slate-400",
+                  "w-full flex items-center gap-3 py-3 px-3 rounded-lg transition-all duration-200 group relative text-sm font-medium",
+                  collapsed ? "justify-center px-0" : "",
+                  parentActive && !item.subItems
+                    ? "text-[#ce2a2a] bg-[#fff5f5]" // Theme red color from screenshot
+                    : "text-slate-700 hover:bg-slate-50",
                 )}
-              />
-            )}
-          </button>
-        ))}
+                title={collapsed ? item.name : undefined}
+              >
+                <item.icon
+                  size={20}
+                  strokeWidth={parentActive ? 2 : 1.5}
+                  className={cn(
+                    "flex-shrink-0 transition-colors duration-200",
+                    parentActive && !item.subItems ? "text-[#ce2a2a]" : "text-slate-500",
+                  )}
+                />
+                {!collapsed && (
+                  <span className="flex-1 text-left whitespace-nowrap">
+                    {item.name}
+                  </span>
+                )}
+                {!collapsed && item.subItems && (
+                  <ChevronDown
+                    size={16}
+                    className={cn(
+                      "transition-transform",
+                      expandedMenus[item.name] ? "rotate-180 text-slate-700" : "text-slate-400"
+                    )}
+                  />
+                )}
+              </button>
+              
+              {/* Nested submenu */}
+              {!collapsed && item.subItems && expandedMenus[item.name] && (
+                <div className="mt-1 ml-4 border-l border-slate-200 pl-4 py-1 space-y-1">
+                  {item.subItems.map(subItem => {
+                    const active = isItemActive(subItem.path);
+                    return (
+                      <button
+                        key={subItem.name}
+                        onClick={() => handleSubItemClick(subItem.path)}
+                        className={cn(
+                          "w-full flex items-center gap-3 py-2 px-3 rounded-lg transition-all duration-200 text-sm",
+                          active
+                            ? "bg-slate-100 text-black font-semibold"
+                            : "text-slate-600 hover:text-black hover:bg-slate-50"
+                        )}
+                      >
+                        <Circle size={8} className={cn(
+                            "fill-current",
+                            active ? "text-slate-800" : "text-slate-300"
+                        )}/>
+                        <span>{subItem.name}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </nav>
 
       {/* Bottom Actions */}
-      <div className="relative overflow-hidden shrink-0">
-        <div className="absolute inset-0 z-0 bg-blue-50/50">
-          <svg
-            className="absolute bottom-0 left-0 w-full text-blue-100/50"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            style={{ height: "150%" }}
-          >
-            <path
-              d="M0,100 C30,80 50,60 100,70 L100,100 Z"
-              fill="currentColor"
-            />
-            <path
-              d="M0,80 C40,90 60,50 100,60 L100,100 L0,100 Z"
-              fill="currentColor"
-              opacity="0.5"
-            />
-          </svg>
-        </div>
+      <div className="relative overflow-hidden shrink-0 bg-white">
+        <div className="absolute inset-0 z-0 bg-slate-50/50"></div>
 
-        {/* Card 1: Help + Settings */}
-        <div className="relative z-10 m-3 mb-2 p-2 bg-white/80 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60 space-y-1">
-          {[
-            { ItemIcon: HelpCircle, label: "Help" },
-            { ItemIcon: Settings, label: "Settings" },
-          ].map(({ ItemIcon, label }) => (
-            <button
-              key={label}
-              onClick={() => handlePlaceholderClick(label)}
-              className={cn(
-                "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white text-slate-700 transition-colors text-sm font-medium",
-                collapsed && "justify-center px-0",
-              )}
-            >
-              <ItemIcon size={18} className="text-slate-800 shrink-0" />
-              {!collapsed && <span>{label}</span>}
-            </button>
-          ))}
-        </div>
-
-        {/* Card 2: Log Out (separate card) */}
-        <div className="relative z-10 mx-3 mb-3 p-2 bg-white/80 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
+        <div className="relative z-10 mx-3 mb-3 p-2 bg-white rounded-2xl border border-slate-100 mt-2">
           <button
             onClick={handleLogout}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white text-slate-700 transition-colors text-sm font-medium",
+              "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 transition-colors text-sm font-medium",
               collapsed && "justify-center px-0",
             )}
           >

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/auth/Login";
@@ -7,6 +7,24 @@ import { ForgotPassword } from "./pages/auth/ForgotPassword";
 import { VerifyOTP } from "./pages/auth/VerifyOTP";
 import { ResetPassword } from "./pages/auth/ResetPassword";
 import { Logo } from "./components/auth/Logo";
+
+import { UserList } from "./pages/users/UserList";
+import { CreateUser } from "./pages/users/CreateUser";
+import { VendorList } from "./pages/vendor/VendorList";
+import { CustomerList } from "./pages/customers/CustomerList";
+import { CreateCustomer } from "./pages/customers/CreateCustomer";
+import { CompanyList } from "./pages/customers/CompanyList";
+import { DocList } from "./pages/docs/DocList";
+import { UploadDoc } from "./pages/docs/UploadDoc";
+import { ArchivedDocs } from "./pages/docs/ArchivedDocs";
+import { Settings } from "./pages/settings/Settings";
+import { BusinessDomainList } from "./pages/settings/BusinessDomainList";
+import { CategoryList } from "./pages/settings/CategoryList";
+import { CountryList } from "./pages/settings/CountryList";
+import { FinancialYearList } from "./pages/settings/FinancialYearList";
+import { UserGroupList } from "./pages/settings/UserGroupList";
+import { Meetings } from "./pages/meetings/Meetings";
+import { DocumentRequests } from "./pages/requests/DocumentRequests";
 
 import { SearchProvider } from "./context/SearchContext";
 
@@ -31,6 +49,15 @@ function App() {
     );
   }
 
+  // A wrapper for dashboard pages to keep code DRY
+  const DashboardRoute = ({ children }) => (
+    <SearchProvider>
+      <DashboardLayout>
+        {children}
+      </DashboardLayout>
+    </SearchProvider>
+  );
+
   return (
     <Router>
       <Routes>
@@ -40,17 +67,39 @@ function App() {
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* ERP Dashboard Layout */}
-        <Route
-          path="/dashboard"
-          element={
-            <SearchProvider>
-              <DashboardLayout>
-                <Dashboard />
-              </DashboardLayout>
-            </SearchProvider>
-          }
-        />
+        {/* ERP Dashboard Routes */}
+        <Route path="/dashboard" element={<DashboardRoute><Dashboard /></DashboardRoute>} />
+        
+        {/* Users */}
+        <Route path="/users" element={<Navigate to="/users/list" />} />
+        <Route path="/users/list" element={<DashboardRoute><UserList /></DashboardRoute>} />
+        <Route path="/users/create" element={<DashboardRoute><CreateUser /></DashboardRoute>} />
+
+        {/* Vendors */}
+        <Route path="/vendor" element={<DashboardRoute><VendorList /></DashboardRoute>} />
+        
+        {/* Customers */}
+        <Route path="/customers" element={<Navigate to="/customers/list" />} />
+        <Route path="/customers/list" element={<DashboardRoute><CustomerList /></DashboardRoute>} />
+        <Route path="/customers/create" element={<DashboardRoute><CreateCustomer /></DashboardRoute>} />
+        <Route path="/customers/companies" element={<DashboardRoute><CompanyList /></DashboardRoute>} />
+
+        {/* Doc Management */}
+        <Route path="/docs" element={<Navigate to="/docs/list" />} />
+        <Route path="/docs/list" element={<DashboardRoute><DocList /></DashboardRoute>} />
+        <Route path="/docs/upload" element={<DashboardRoute><UploadDoc /></DashboardRoute>} />
+        <Route path="/docs/archived" element={<DashboardRoute><ArchivedDocs /></DashboardRoute>} />
+
+        {/* Other sidebar items */}
+        <Route path="/settings" element={<DashboardRoute><Settings /></DashboardRoute>} />
+        <Route path="/settings/business-domain" element={<DashboardRoute><BusinessDomainList /></DashboardRoute>} />
+        <Route path="/settings/category" element={<DashboardRoute><CategoryList /></DashboardRoute>} />
+        <Route path="/settings/country" element={<DashboardRoute><CountryList /></DashboardRoute>} />
+        <Route path="/settings/financial-year" element={<DashboardRoute><FinancialYearList /></DashboardRoute>} />
+        <Route path="/settings/user-group" element={<DashboardRoute><UserGroupList /></DashboardRoute>} />
+        
+        <Route path="/meetings" element={<DashboardRoute><Meetings /></DashboardRoute>} />
+        <Route path="/document-requests" element={<DashboardRoute><DocumentRequests /></DashboardRoute>} />
       </Routes>
     </Router>
   );
