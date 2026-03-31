@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { Toast } from '../lib/utils';
 import {
-  TrendingUp, TrendingDown, Coins, BarChart2, FileText, PieChart as LucidePieChart, Info, Download, Filter, MoreVertical, Search, Bell, Plus, Menu, Banknote, CreditCard, ChevronDown, ArrowDownLeft, ArrowUpRight, Wallet, Layers, Building2, CreditCard as CardIcon
+  TrendingUp, TrendingDown, Coins, BarChart2, FileText, PieChart as LucidePieChart, Info, Download, Filter, MoreVertical, Search, Bell, Plus, Menu, Banknote, CreditCard, ChevronDown, ArrowDownLeft, ArrowUpRight, Wallet, Layers, Building2, CreditCard as CardIcon, Calculator
 } from 'lucide-react';
 import { useSearch } from '../context/SearchContext';
 
@@ -179,6 +179,36 @@ export const Dashboard = () => {
   const filteredRevenueData = allRevenueData.filter(item => 
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Dummy data for Account Receivable / Payable Tab
+  const agingData = [
+    { name: 'More Than 5 Years', value: 12000 },
+    { name: '2 - 5 Years', value: 40000 },
+    { name: 'Less Than 2 Years', value: 65000 },
+    { name: 'More Than 1 Year', value: 105000 },
+    { name: '180 - 365 Days', value: 155000 },
+    { name: '90 - 180 Days', value: 215000 },
+    { name: '30 - 90 Days', value: 235000 },
+    { name: '0 - 30 Days', value: 350000 },
+  ];
+
+  const customerReceivableData = [
+    { txId: '9232734', name: 'Bessie Cooper', date: '27/02/2020', amount: 1200.00 },
+    { txId: '8656436', name: 'Eleanor Pena', date: '12/06/2020', amount: 2500.00 },
+    { txId: '7372572', name: 'Annette Black', date: '14/02/2020', amount: 7300.00 },
+    { txId: '3562756', name: 'Ronald Richards', date: '24/03/2020', amount: 5600.00 },
+    { txId: '5227365', name: 'Dianne Russell', date: '22/08/2020', amount: 4800.00 },
+    { txId: '3342756', name: 'Cody Fisher', date: '08/04/2020', amount: 9200.00 },
+  ];
+
+  const vendorPayableData = [
+    { txId: '5637657', name: 'Marvin McKinney', date: '25/01/2020', amount: 1200.00 },
+    { txId: '5262261', name: 'Dianne Russell', date: '03/03/2020', amount: 2500.00 },
+    { txId: '7372572', name: 'Kristin Watson', date: '16/06/2020', amount: 7300.00 },
+    { txId: '7632785', name: 'Eleanor Pena', date: '30/07/2020', amount: 5600.00 },
+    { txId: '3342756', name: 'Ronald Richards', date: '09/04/2020', amount: 7300.00 },
+    { txId: '9232734', name: 'Darrell Steward', date: '30/04/2020', amount: 8950.00 },
+  ];
 
   const handleCardClick = (title) => {
     Toast.fire({
