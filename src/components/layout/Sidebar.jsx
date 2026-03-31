@@ -164,7 +164,8 @@ export const Sidebar = ({ collapsed, onClose }) => {
                     </svg>
                 </div>
 
-                <div className="relative z-10 m-3 p-2 bg-white/70 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60 space-y-1">
+                {/* Card 1: Help + Settings */}
+                <div className="relative z-10 m-3 mb-2 p-2 bg-white/80 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60 space-y-1">
                     {[
                         { ItemIcon: HelpCircle, label: "Help" },
                         { ItemIcon: Settings, label: "Settings" },
@@ -177,11 +178,14 @@ export const Sidebar = ({ collapsed, onClose }) => {
                                 collapsed && "justify-center px-0",
                             )}
                         >
-                            <ItemIcon size={18} className="text-black shrink-0" />
+                            <ItemIcon size={18} className="text-slate-800 shrink-0" />
                             {!collapsed && <span>{label}</span>}
                         </button>
                     ))}
+                </div>
 
+                {/* Card 2: Log Out (separate card) */}
+                <div className="relative z-10 mx-3 mb-3 p-2 bg-white/80 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
                     <button
                         onClick={handleLogout}
                         className={cn(
@@ -189,7 +193,7 @@ export const Sidebar = ({ collapsed, onClose }) => {
                             collapsed && "justify-center px-0",
                         )}
                     >
-                        <LogOut size={18} className="text-black shrink-0" />
+                        <LogOut size={18} className="text-slate-800 shrink-0" />
                         {!collapsed && <span>Log Out</span>}
                     </button>
                 </div>

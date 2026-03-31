@@ -18,7 +18,7 @@
   --color-surface-900: #0f172a;
 
   --font-sans: 'Open Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-display: 'Open Sans', system-ui, -apple-system, sans-serif;
 
   --animate-slide-up: slideUp 0.5s ease-out;
   --animate-zoom-in: zoomIn 2.2s ease-in-out forwards;
