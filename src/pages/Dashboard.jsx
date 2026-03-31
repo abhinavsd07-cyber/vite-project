@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Label
+  PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Label, LabelList
 } from 'recharts';
 import { Toast } from '../lib/utils';
 import {
@@ -119,17 +119,17 @@ export const Dashboard = () => {
 
   // Dummy data for Cash Reports Tab
   const cashAccountsData = [
-    { name: 'Cash In Hand', balance: 20000.00, iconBg: '#f8fafc', iconCol: '#475569', IconComp: Wallet },
+    { name: 'Cash In Hand', balance: 20000.00, iconBg: '#ffffff', iconCol: '#475569', IconComp: Wallet },
     { name: 'State Bank Of India (SBI)', balance: 1200.00, iconBg: '#0ea5e9', iconCol: '#ffffff', IconComp: Building2 },
     { name: 'HDFC Bank', balance: 1150.00, iconBg: '#ef4444', iconCol: '#ffffff', IconComp: Building2 },
     { name: 'ICICI Bank', balance: 1180.00, iconBg: '#f97316', iconCol: '#ffffff', IconComp: Building2 },
   ];
 
   const creditCardsData = [
-    { name: 'ICICI Bank Coral Credit Card', balance: 4000.00, iconBg: '#ef4444', iconCol: '#ffffff', IconComp: CardIcon },
-    { name: 'SBI Platinum Credit Card', balance: 3170.79, iconBg: '#ffffff', iconCol: '#94a3b8', IconComp: CardIcon },
+    { name: 'ICICI Bank Coral Credit Card', balance: 4000.00, iconBg: '#f97316', iconCol: '#ffffff', IconComp: CardIcon },
+    { name: 'SBI Platinum Credit Card', balance: 3170.79, iconBg: '#f8fafc', iconCol: '#64748b', IconComp: CardIcon },
     { name: 'HDFC Millennia Card', balance: 4500.00, iconBg: '#1e3a8a', iconCol: '#ffffff', IconComp: CardIcon },
-    { name: 'PNB Global Gold Credit Card', balance: 5000.00, iconBg: '#ffffff', iconCol: '#94a3b8', IconComp: CardIcon },
+    { name: 'PNB Global Gold Credit Card', balance: 5000.00, iconBg: '#f8fafc', iconCol: '#64748b', IconComp: CardIcon },
   ];
 
   const cashFlowData = [
@@ -253,108 +253,110 @@ export const Dashboard = () => {
         ))}
       </div>
 
-      {/* Top Value Cards - Dynamic columns for all sizes */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-        <div 
-          onClick={() => handleCardClick('Revenue')}
-          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
-        >
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#ecfdf5] flex items-center justify-center shrink-0 group-hover:bg-[#d1fae5] transition-colors">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="14" width="3" height="7" rx="1" fill="#10b981"/>
-                <rect x="8" y="10" width="3" height="11" rx="1" fill="#10b981"/>
-                <rect x="13" y="6" width="3" height="15" rx="1" fill="#10b981"/>
-                <rect x="18" y="12" width="3" height="9" rx="1" fill="#10b981"/>
-                <path d="M3 12C5 8 8 4 12 6C16 8 19 5 21 3" stroke="#10b981" strokeWidth="2" strokeLinecap="round" fill="none"/>
-              </svg>
+      {/* Top Value Cards - visible only on specific tabs */}
+      {(activeTab === 'Profit & Loss' || activeTab === 'Top Expenses') && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+          <div 
+            onClick={() => handleCardClick('Revenue')}
+            className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
+          >
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[#ecfdf5] flex items-center justify-center shrink-0 group-hover:bg-[#d1fae5] transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="14" width="3" height="7" rx="1" fill="#10b981"/>
+                  <rect x="8" y="10" width="3" height="11" rx="1" fill="#10b981"/>
+                  <rect x="13" y="6" width="3" height="15" rx="1" fill="#10b981"/>
+                  <rect x="18" y="12" width="3" height="9" rx="1" fill="#10b981"/>
+                  <path d="M3 12C5 8 8 4 12 6C16 8 19 5 21 3" stroke="#10b981" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-slate-500 mb-1">Total Revenue</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$16,670.79</h3>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium text-slate-500 mb-1">Total Revenue</p>
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$16,670.79</h3>
-            </div>
-          </div>
-          <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={sparklineData1} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                <defs>
-                  <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#22c55e" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#22c55e" stopOpacity={0.02} />
-                  </linearGradient>
-                </defs>
-                <Area type="monotone" dataKey="v" stroke="#22c55e" strokeWidth={2} fill="url(#greenGrad)" dot={false} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-        
-        <div 
-          onClick={() => handleCardClick('Expense')}
-          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
-        >
-           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#fef2f2] flex items-center justify-center shrink-0 group-hover:bg-[#fee2e2] transition-colors">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="5" width="18" height="15" rx="3" stroke="#f87171" strokeWidth="2" fill="none"/>
-                <path d="M2 9H20" stroke="#f87171" strokeWidth="2"/>
-                <rect x="15" y="12" width="5" height="4" rx="1" stroke="#f87171" strokeWidth="2" fill="none"/>
-                <path d="M6 5V3C6 2.45 6.45 2 7 2H15C15.55 2 16 2.45 16 3V5" stroke="#f87171" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-slate-500 mb-1">Total Expense</p>
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$623,516.96</h3>
+            <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={sparklineData1} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#22c55e" stopOpacity={0.3} />
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="v" stroke="#22c55e" strokeWidth={2} fill="url(#greenGrad)" dot={false} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
-          <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={sparklineData2} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                <defs>
-                  <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#ef4444" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#ef4444" stopOpacity={0.02} />
-                  </linearGradient>
-                </defs>
-                <Area type="monotone" dataKey="v" stroke="#ef4444" strokeWidth={2} fill="url(#redGrad)" dot={false} />
-              </AreaChart>
-            </ResponsiveContainer>
+          
+          <div 
+            onClick={() => handleCardClick('Expense')}
+            className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
+          >
+             <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[#fef2f2] flex items-center justify-center shrink-0 group-hover:bg-[#fee2e2] transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="5" width="18" height="15" rx="3" stroke="#f87171" strokeWidth="2" fill="none"/>
+                  <path d="M2 9H20" stroke="#f87171" strokeWidth="2"/>
+                  <rect x="15" y="12" width="5" height="4" rx="1" stroke="#f87171" strokeWidth="2" fill="none"/>
+                  <path d="M6 5V3C6 2.45 6.45 2 7 2H15C15.55 2 16 2.45 16 3V5" stroke="#f87171" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-slate-500 mb-1">Total Expense</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$623,516.96</h3>
+              </div>
+            </div>
+            <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={sparklineData2} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.3} />
+                      <stop offset="100%" stopColor="#ef4444" stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="v" stroke="#ef4444" strokeWidth={2} fill="url(#redGrad)" dot={false} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-        </div>
 
-        <div 
-          onClick={() => handleCardClick('Profit')}
-          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
-        >
-           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-slate-200 transition-colors">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="9" cy="9" rx="7" ry="3" stroke="#312e81" strokeWidth="2" fill="none"/>
-                <path d="M2 9V13C2 14.66 5.13 16 9 16C12.87 16 16 14.66 16 13V9" stroke="#312e81" strokeWidth="2" fill="none"/>
-                <path d="M16 11C19.31 11.28 22 12.56 22 14C22 15.66 18.87 17 15 17" stroke="#312e81" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                <path d="M22 14V18C22 19.66 18.87 21 15 21C12.07 21 9.56 20.17 8.5 19" stroke="#312e81" strokeWidth="2" strokeLinecap="round" fill="none"/>
-              </svg>
+          <div 
+            onClick={() => handleCardClick('Profit')}
+            className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
+          >
+             <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-slate-200 transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <ellipse cx="9" cy="9" rx="7" ry="3" stroke="#312e81" strokeWidth="2" fill="none"/>
+                  <path d="M2 9V13C2 14.66 5.13 16 9 16C12.87 16 16 14.66 16 13V9" stroke="#312e81" strokeWidth="2" fill="none"/>
+                  <path d="M16 11C19.31 11.28 22 12.56 22 14C22 15.66 18.87 17 15 17" stroke="#312e81" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                  <path d="M22 14V18C22 19.66 18.87 21 15 21C12.07 21 9.56 20.17 8.5 19" stroke="#312e81" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-slate-500 mb-1">Net Profit</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$623,516.96</h3>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium text-slate-500 mb-1">Net Profit</p>
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$623,516.96</h3>
+            <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={sparklineData3} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="indigoGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#312e81" stopOpacity={0.2} />
+                      <stop offset="100%" stopColor="#312e81" stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="v" stroke="#312e81" strokeWidth={2} fill="url(#indigoGrad)" dot={false} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
-          </div>
-          <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={sparklineData3} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                <defs>
-                  <linearGradient id="indigoGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#312e81" stopOpacity={0.2} />
-                    <stop offset="100%" stopColor="#312e81" stopOpacity={0.02} />
-                  </linearGradient>
-                </defs>
-                <Area type="monotone" dataKey="v" stroke="#312e81" strokeWidth={2} fill="url(#indigoGrad)" dot={false} />
-              </AreaChart>
-            </ResponsiveContainer>
           </div>
         </div>
-      </div>
+      )}
 
       {activeTab === 'Profit & Loss' && (
         <>
@@ -706,93 +708,93 @@ export const Dashboard = () => {
       )}
 
       {activeTab === 'Cash Reports' && (
-        <div className="flex flex-col gap-6 animate-slide-up">
+        <div className="flex flex-col gap-6 w-full min-w-0">
           {/* Top Section: Summary Cards */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 w-full min-w-0">
             
             {/* Bank Accounts */}
-            <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 flex flex-col md:flex-row gap-6 md:gap-8 justify-between">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row w-full h-full min-w-0">
               {/* Left Side */}
-              <div className="flex flex-col gap-4 w-full md:w-auto md:min-w-[180px] shrink-0">
-                <div className="w-[85px]">
-                  <div className="relative border border-slate-200 rounded-xl px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
-                    <span className="text-sm font-medium text-slate-600">All</span>
-                    <ChevronDown size={14} className="text-slate-400" />
+              <div className="md:w-[35%] flex flex-col md:border-r border-slate-100 pr-0 md:pr-6 gap-4 sm:gap-5 min-w-0 shrink-0">
+                <div className="w-24 shrink-0">
+                  <div className="relative border border-slate-200 rounded-lg px-3 py-1.5 flex items-center justify-between cursor-pointer bg-white">
+                    <span className="text-sm font-medium text-slate-700 truncate">All</span>
+                    <ChevronDown size={14} className="text-slate-400 shrink-0" />
                   </div>
                 </div>
                 
-                <div className="w-12 h-12 rounded-2xl bg-[#e0f2fe] flex items-center justify-center text-[#0ea5e9]">
-                  <Coins size={22} className="stroke-[1.5]" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#e0f2fe] flex items-center justify-center text-[#0ea5e9] shrink-0">
+                  <Coins size={24} />
                 </div>
                 
-                <div className="mt-1">
-                  <p className="text-[13px] font-medium text-slate-500 mb-1">Total Balance</p>
-                  <h3 className="text-[26px] font-bold text-slate-900 tracking-tight leading-none">$4,652.42</h3>
-                  <div className="flex flex-col gap-2 mt-4">
-                    <div className="bg-[#10b981] text-white text-[11px] font-bold px-2.5 py-1 rounded-full inline-flex items-center w-fit gap-1 shadow-sm shadow-emerald-500/20">
+                <div className="flex flex-col mt-auto md:mt-2 min-w-0">
+                  <p className="text-sm font-medium text-slate-500 truncate">Total Balance</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight mt-1 truncate">$4,652.42</h3>
+                  <div className="flex flex-col gap-1.5 mt-3 sm:mt-4 min-w-0">
+                    <div className="bg-emerald-500 text-white text-[11px] font-bold px-2 py-0.5 rounded inline-flex items-center w-fit gap-1 shadow-sm whitespace-nowrap shrink-0">
                       Increased By 20 %
-                      <ArrowUpRight size={12} strokeWidth={3} />
+                      <ArrowUpRight size={12} strokeWidth={3} className="shrink-0" />
                     </div>
-                    <span className="text-[11px] text-slate-400 font-medium whitespace-nowrap">Compared To Last Year</span>
+                    <span className="text-xs text-slate-400 font-medium truncate mt-0.5">Compared To Last Year</span>
                   </div>
                 </div>
               </div>
               
               {/* Right Side List */}
-              <div className="flex-1 flex flex-col gap-2.5 min-w-0">
+              <div className="md:w-[65%] flex flex-col pl-0 md:pl-6 mt-6 md:mt-0 justify-between gap-3 h-full min-w-0">
                 {cashAccountsData.map((item, i) => (
-                  <div key={i} className="flex items-center justify-between border border-slate-100/80 p-3 rounded-[14px] hover:border-slate-200 transition-colors bg-white">
-                    <div className="flex items-center gap-3.5 min-w-0 pr-2">
-                       <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)]" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
-                        <item.IconComp size={16} className={item.iconBg === '#ffffff' ? 'text-slate-400 stroke-[1.5]' : 'stroke-[1.5]'} />
+                  <div key={i} className="flex items-center justify-between border border-slate-100 p-2.5 sm:p-3 rounded-xl bg-white shadow-sm flex-1 min-w-0 gap-2">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-slate-50" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
+                        <item.IconComp size={16} className="shrink-0" />
                       </div>
-                      <span className="text-[13px] font-medium text-slate-600 truncate" title={item.name}>{item.name}</span>
+                      <span className="text-[12px] sm:text-[13px] font-medium text-slate-600 truncate" title={item.name}>{item.name}</span>
                     </div>
-                    <span className="text-[14px] font-bold text-slate-800 whitespace-nowrap pl-2">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                    <span className="text-[12px] sm:text-[13px] font-bold text-slate-800 whitespace-nowrap pl-1 sm:pl-2 shrink-0">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Credit Cards Card */}
-            <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 flex flex-col md:flex-row gap-6 md:gap-8 justify-between">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row w-full h-full min-w-0">
               {/* Left Side */}
-               <div className="flex flex-col gap-4 w-full md:w-auto md:min-w-[180px] shrink-0">
-                <div className="w-[85px]">
-                  <div className="relative border border-slate-200 rounded-xl px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
-                    <span className="text-sm font-medium text-slate-600">All</span>
-                    <ChevronDown size={14} className="text-slate-400" />
+              <div className="md:w-[35%] flex flex-col md:border-r border-slate-100 pr-0 md:pr-6 gap-4 sm:gap-5 min-w-0 shrink-0">
+                 <div className="w-24 shrink-0">
+                  <div className="relative border border-slate-200 rounded-lg px-3 py-1.5 flex items-center justify-between cursor-pointer bg-white">
+                    <span className="text-sm font-medium text-slate-700 truncate">All</span>
+                    <ChevronDown size={14} className="text-slate-400 shrink-0" />
                   </div>
                 </div>
                 
-                <div className="w-12 h-12 rounded-2xl bg-[#f3e8ff] flex items-center justify-center text-[#a855f7]">
-                  <Layers size={22} className="stroke-[1.5]" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#f3e8ff] flex items-center justify-center text-[#a855f7] shrink-0">
+                  <Layers size={24} />
                 </div>
                 
-                <div className="mt-1">
-                  <p className="text-[13px] font-medium text-slate-500 mb-1">Total Balance</p>
-                  <h3 className="text-[26px] font-bold text-slate-900 tracking-tight leading-none">$16,670.79</h3>
-                  <div className="flex flex-col gap-2 mt-4">
-                    <div className="bg-[#10b981] text-white text-[11px] font-bold px-2.5 py-1 rounded-full inline-flex items-center w-fit gap-1 shadow-sm shadow-emerald-500/20">
+                <div className="flex flex-col mt-auto md:mt-2 min-w-0">
+                  <p className="text-sm font-medium text-slate-500 truncate">Total Balance</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight mt-1 truncate">$16,670.79</h3>
+                  <div className="flex flex-col gap-1.5 mt-3 sm:mt-4 min-w-0">
+                    <div className="bg-emerald-500 text-white text-[11px] font-bold px-2 py-0.5 rounded inline-flex items-center w-fit gap-1 shadow-sm whitespace-nowrap shrink-0">
                       Increased By 20 %
-                      <ArrowUpRight size={12} strokeWidth={3} />
+                      <ArrowUpRight size={12} strokeWidth={3} className="shrink-0" />
                     </div>
-                    <span className="text-[11px] text-slate-400 font-medium whitespace-nowrap">Compared To Last Year</span>
+                    <span className="text-xs text-slate-400 font-medium truncate mt-0.5">Compared To Last Year</span>
                   </div>
                 </div>
               </div>
 
               {/* Right Side List */}
-              <div className="flex-1 flex flex-col gap-2.5 min-w-0">
+              <div className="md:w-[65%] flex flex-col pl-0 md:pl-6 mt-6 md:mt-0 justify-between gap-3 h-full min-w-0">
                 {creditCardsData.map((item, i) => (
-                  <div key={i} className="flex items-center justify-between border border-slate-100/80 p-3 rounded-[14px] hover:border-slate-200 transition-colors bg-white">
-                    <div className="flex items-center gap-3.5 min-w-0 pr-2">
-                       <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)] border border-slate-50" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
-                         <item.IconComp size={16} className={item.iconBg === '#ffffff' ? 'text-slate-400 stroke-[1.5]' : 'stroke-[1.5]'} />
+                  <div key={i} className="flex items-center justify-between border border-slate-100 p-2.5 sm:p-3 rounded-xl bg-white shadow-sm flex-1 min-w-0 gap-2">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="w-8 h-6 rounded flex items-center justify-center shrink-0 border border-slate-100 shadow-sm" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
+                         <item.IconComp size={12} className="shrink-0" />
                       </div>
-                      <span className="text-[13px] font-medium text-slate-600 truncate" title={item.name}>{item.name}</span>
+                      <span className="text-[12px] sm:text-[13px] font-medium text-slate-600 truncate" title={item.name}>{item.name}</span>
                     </div>
-                    <span className="text-[14px] font-bold text-slate-800 whitespace-nowrap pl-2">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                    <span className="text-[12px] sm:text-[13px] font-bold text-slate-800 whitespace-nowrap pl-1 sm:pl-2 shrink-0">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                   </div>
                 ))}
               </div>
@@ -801,11 +803,11 @@ export const Dashboard = () => {
           </div>
 
           {/* Middle Section: Line Chart & Top Transactions */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] 2xl:grid-cols-[1fr_450px] gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-4 sm:gap-6 min-w-0">
             
             {/* Cash In, Cash Out Chart */}
-            <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 flex flex-col h-[400px]">
-              <h3 className="text-base font-semibold text-slate-800 mb-6">Cash In, Cash Out</h3>
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-[450px] min-w-0">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Cash In, Cash Out</h3>
               <div className="flex items-center gap-6 mb-8 px-2">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#312e81]"></div>
@@ -816,46 +818,46 @@ export const Dashboard = () => {
                   <span className="text-[13px] font-medium text-slate-500">Cash Out</span>
                 </div>
               </div>
-              <div className="flex-1 min-h-[200px] w-full">
+              <div className="flex-1 min-h-[250px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={cashFlowData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f8fafc" />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }} dy={15} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }} tickFormatter={(val) => `$${val/1000} K`} domain={[0, 200000]} ticks={[0, 50000, 100000, 150000, 200000]} dx={-10} />
+                  <LineChart data={cashFlowData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 11, fontWeight: 500 }} dy={10} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 11, fontWeight: 500 }} tickFormatter={(val) => `$${val/1000} K`} domain={[0, 200000]} ticks={[0, 50000, 100000, 150000, 200000]} dx={-10} />
                     <Tooltip content={<CustomTooltip />} />
-                    <Line type="smooth" dataKey="cashIn" name="Cash In" stroke="#312e81" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: '#312e81' }} />
-                    <Line type="smooth" dataKey="cashOut" name="Cash Out" stroke="#d97706" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: '#d97706' }} />
+                    <Line type="monotone" dataKey="cashIn" name="Cash In" stroke="#312e81" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
+                    <Line type="monotone" dataKey="cashOut" name="Cash Out" stroke="#d97706" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
             {/* Top Transactions Table */}
-            <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 flex flex-col h-[400px] overflow-hidden">
-              <h3 className="text-base font-semibold text-slate-800 mb-4">Top Transactions</h3>
-              <div className="flex-1 overflow-auto pr-1">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-[450px]">
+              <h3 className="text-lg font-bold text-slate-800 mb-6">Top Transactions</h3>
+              <div className="flex-1 overflow-auto pr-2 scrollbar-hide">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-slate-100">
-                      <th className="pb-4 pt-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider w-10"></th>
-                      <th className="pb-4 pt-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Transaction ID</th>
-                      <th className="pb-4 pt-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Date</th>
-                      <th className="pb-4 pt-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider text-right">Amount</th>
+                      <th className="pb-4 text-[13px] font-semibold text-slate-800 w-8"></th>
+                      <th className="pb-4 text-[13px] font-semibold text-slate-800">Transaction ID</th>
+                      <th className="pb-4 text-[13px] font-semibold text-slate-800">Date</th>
+                      <th className="pb-4 text-[13px] font-semibold text-slate-800 text-right">Amount</th>
                     </tr>
                   </thead>
                   <tbody>
                     {topTransactionsData.map((tx, idx) => (
                       <tr key={idx} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
-                        <td className="py-3.5">
+                        <td className="py-4">
                           {tx.type === 'in' ? (
-                            <ArrowDownLeft size={16} strokeWidth={2.5} className="text-[#10b981]" />
+                            <ArrowDownLeft size={16} strokeWidth={2.5} className="text-emerald-500" />
                           ) : (
-                            <ArrowUpRight size={16} strokeWidth={2.5} className="text-[#ef4444]" />
+                            <ArrowUpRight size={16} strokeWidth={2.5} className="text-red-500" />
                           )}
                         </td>
-                        <td className="py-3.5 text-[13px] font-medium text-slate-600">{tx.id}</td>
-                        <td className="py-3.5 text-[13px] font-medium text-slate-500">{tx.date}</td>
-                        <td className="py-3.5 text-[13px] font-semibold text-slate-700 text-right">${tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                        <td className="py-4 text-sm font-medium text-slate-600">{tx.id}</td>
+                        <td className="py-4 text-[13px] font-medium text-slate-500">{tx.date}</td>
+                        <td className="py-4 text-[13px] font-medium text-slate-800 text-right">${tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -866,16 +868,16 @@ export const Dashboard = () => {
           </div>
 
           {/* Bottom Section: Net Cash Position */}
-           <div className="bg-white p-5 sm:p-6 rounded-[20px] shadow-sm border border-slate-100 h-[350px] flex flex-col">
-            <h3 className="text-base font-semibold text-slate-800 mb-6">Net Cash Position</h3>
+           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-[380px] flex flex-col">
+            <h3 className="text-lg font-bold text-slate-800 mb-8">Net Cash Position</h3>
             <div className="flex-1 min-h-0 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={netCashPositionData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }} barSize={24} barCategoryGap="20%">
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f8fafc" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }} dy={15} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }} tickFormatter={(val) => `$${val/1000} K`} domain={[0, 200000]} ticks={[0, 50000, 100000, 150000, 200000]} dx={-10} />
-                  <Tooltip cursor={{ fill: '#f1f5f9' }} content={<CustomTooltip />} />
-                  <Bar dataKey="value" name="Net Cash" fill="#312e81" radius={[0, 0, 0, 0]} />
+                <BarChart data={netCashPositionData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }} barSize={20}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 11, fontWeight: 500 }} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 11, fontWeight: 500 }} tickFormatter={(val) => `$${val/1000} K`} domain={[0, 200000]} ticks={[0, 50000, 100000, 150000, 200000]} dx={-10} />
+                  <Tooltip cursor={{ fill: '#f8fafc' }} content={<CustomTooltip />} />
+                  <Bar dataKey="value" name="Net Cash" fill="#312e81" radius={[2, 2, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -883,8 +885,181 @@ export const Dashboard = () => {
         </div>
       )}
 
+      {/* Account Receivable / Payable Tab */}
+      {activeTab === 'Account Receivable / Payable' && (
+        <div className="flex flex-col gap-6 w-full min-w-0">
+          
+          {/* Top Value Cards (3 Columns) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full min-w-0">
+            {/* Amount Receivable */}
+            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+               <div className="w-12 h-12 rounded-xl bg-[#e0f2fe] flex items-center justify-center shrink-0 border border-[#bae6fd]">
+                <FileText size={20} className="text-[#0284c7]" />
+               </div>
+               <div className="flex flex-col min-w-0">
+                 <p className="text-sm font-medium text-slate-500 mb-0.5 truncate">Amount Receivable</p>
+                 <h3 className="text-2xl font-bold text-slate-800 truncate">$623,516.96</h3>
+               </div>
+            </div>
+
+            {/* Amount Payable */}
+            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+               <div className="w-12 h-12 rounded-xl bg-[#fee2e2] flex items-center justify-center shrink-0 border border-[#fecaca]">
+                <ArrowUpRight size={22} className="text-[#dc2626]" strokeWidth={2.5} />
+               </div>
+               <div className="flex flex-col min-w-0">
+                 <p className="text-sm font-medium text-slate-500 mb-0.5 truncate">Amount Payable</p>
+                 <h3 className="text-2xl font-bold text-slate-800 truncate">$16,670.79</h3>
+               </div>
+            </div>
+
+            {/* Difference */}
+            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+               <div className="w-12 h-12 rounded-xl bg-[#ffedd5] flex items-center justify-center shrink-0 border border-[#fed7aa]">
+                <Banknote size={22} className="text-[#ea580c]" />
+               </div>
+               <div className="flex flex-col min-w-0">
+                 <p className="text-sm font-medium text-slate-500 mb-0.5 truncate">Difference</p>
+                 <h3 className="text-2xl font-bold text-slate-800 truncate">$606,846.17</h3>
+               </div>
+            </div>
+          </div>
+
+          {/* Account Receivable Horizontal Chart */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-[500px] min-w-0">
+            <h3 className="text-lg font-bold text-slate-800 mb-8">Account Receivable</h3>
+            <div className="flex-1 w-full min-h-0 pl-16 sm:pl-24 pr-4 sm:pr-12">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={agingData} layout="vertical" margin={{ top: 20, right: 30, left: 10, bottom: 5 }} barSize={12}>
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
+                  <XAxis 
+                    type="number" 
+                    orientation="top" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#9ca3af', fontSize: 11, fontWeight: 500 }} 
+                    tickFormatter={(val) => `$${val/1000} K`} 
+                    domain={[0, 400000]} 
+                    ticks={[0, 50000, 100000, 150000, 200000, 250000, 300000, 350000, 400000]}
+                    dy={-10}
+                  />
+                  <YAxis 
+                    type="category" 
+                    dataKey="name" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }} 
+                    width={100}
+                    dx={-15}
+                  />
+                  <Tooltip cursor={{ fill: '#f8fafc' }} content={<CustomTooltip />} />
+                  <Bar dataKey="value" name="Amount" fill="#5b92aa" radius={[0, 2, 2, 0]}>
+                    <LabelList dataKey="value" position="right" formatter={(val) => `$${val.toLocaleString()}`} fill="#475569" fontSize={11} fontWeight={600} style={{ paddingLeft: '8px' }} offset={8} />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Account Payable Horizontal Chart */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-[500px] min-w-0">
+            <h3 className="text-lg font-bold text-slate-800 mb-8">Account Payable</h3>
+            <div className="flex-1 w-full min-h-0 pl-16 sm:pl-24 pr-4 sm:pr-12">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={agingData} layout="vertical" margin={{ top: 20, right: 30, left: 10, bottom: 5 }} barSize={12}>
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
+                  <XAxis 
+                    type="number" 
+                    orientation="top" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#9ca3af', fontSize: 11, fontWeight: 500 }} 
+                    tickFormatter={(val) => `$${val/1000} K`} 
+                    domain={[0, 400000]} 
+                    ticks={[0, 50000, 100000, 150000, 200000, 250000, 300000, 350000, 400000]}
+                    dy={-10}
+                  />
+                  <YAxis 
+                    type="category" 
+                    dataKey="name" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }} 
+                    width={100}
+                    dx={-15}
+                  />
+                  <Tooltip cursor={{ fill: '#f8fafc' }} content={<CustomTooltip />} />
+                  <Bar dataKey="value" name="Amount" fill="#8fbcab" radius={[0, 2, 2, 0]}>
+                    <LabelList dataKey="value" position="right" formatter={(val) => `$${val.toLocaleString()}`} fill="#475569" fontSize={11} fontWeight={600} offset={8} />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Bottom Grid Tables */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 w-full min-w-0">
+            
+            {/* Customer Receivable Balance */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col min-w-0">
+              <h3 className="text-[15px] font-bold text-slate-800 mb-6 border-b border-slate-100 pb-4">Customer Receivable Balance</h3>
+              <div className="overflow-x-auto scrollbar-hide">
+                <table className="w-full text-left min-w-[500px]">
+                  <thead>
+                    <tr className="border-b border-slate-100">
+                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%]">Transaction ID</th>
+                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[35%]">Customer name</th>
+                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[25%] text-center">Date</th>
+                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%] text-right pr-2">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {customerReceivableData.map((row, idx) => (
+                      <tr key={idx} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
+                        <td className="py-4 text-xs font-medium text-slate-600 truncate">{row.txId}</td>
+                        <td className="py-4 text-[13px] font-medium text-slate-600 truncate">{row.name}</td>
+                        <td className="py-4 text-xs font-medium text-slate-500 text-center truncate">{row.date}</td>
+                        <td className="py-4 text-[13px] font-medium text-slate-800 text-right pr-2">${row.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Vendor Payable Balance */}
+             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col min-w-0">
+              <h3 className="text-[15px] font-bold text-slate-800 mb-6 border-b border-slate-100 pb-4">Vendor Payable Balance</h3>
+              <div className="overflow-x-auto scrollbar-hide">
+                <table className="w-full text-left min-w-[500px]">
+                  <thead>
+                    <tr className="border-b border-slate-100">
+                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%]">Transaction ID</th>
+                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[35%]">Vendor name</th>
+                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[25%] text-center">Date</th>
+                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%] text-right pr-2">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {vendorPayableData.map((row, idx) => (
+                      <tr key={idx} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
+                        <td className="py-4 text-xs font-medium text-slate-600 truncate">{row.txId}</td>
+                        <td className="py-4 text-[13px] font-medium text-slate-600 truncate">{row.name}</td>
+                        <td className="py-4 text-xs font-medium text-slate-500 text-center truncate">{row.date}</td>
+                        <td className="py-4 text-[13px] font-medium text-slate-800 text-right pr-2">${row.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
       {/* Put placeholders for other tabs if they click on them */}
-      {activeTab !== 'Profit & Loss' && activeTab !== 'Top Expenses' && activeTab !== 'Cash Reports' && (
+      {activeTab !== 'Profit & Loss' && activeTab !== 'Top Expenses' && activeTab !== 'Cash Reports' && activeTab !== 'Account Receivable / Payable' && (
         <div className="bg-white p-12 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center">
            <p className="text-slate-500 text-lg">No data available for {activeTab}</p>
         </div>
