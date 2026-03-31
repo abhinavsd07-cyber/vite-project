@@ -101,28 +101,13 @@ export const Sidebar = ({ collapsed, onClose }) => {
       toggleSubMenu(item.name);
     } else {
       if (onClose && window.innerWidth < 1024) onClose();
-      // Only navigation items that don't have subItems will push history or show toast
-      if (!item.path.startsWith('/dashboard') && !item.path.startsWith('/users') && !item.path.startsWith('/vendor') && !item.path.startsWith('/customers') && !item.path.startsWith('/docs')) {
-          Toast.fire({
-            icon: "info",
-            title: `${item.name} Feature Coming Soon`,
-          });
-      } else {
-          navigate(item.path);
-      }
+      navigate(item.path);
     }
   };
 
   const handleSubItemClick = (path) => {
     if (onClose && window.innerWidth < 1024) onClose();
-    if (!path.startsWith('/dashboard') && !path.startsWith('/users') && !path.startsWith('/vendor') && !path.startsWith('/customers') && !path.startsWith('/docs')) {
-          Toast.fire({
-            icon: "info",
-            title: `Feature Coming Soon`,
-          });
-    } else {
-        navigate(path);
-    }
+    navigate(path);
   };
 
   const handleLogout = () => {

@@ -22,9 +22,9 @@ export const Settings = () => {
 
       {/* Main Content Area */}
       <div className="px-6 flex-1">
-        <div className="bg-white rounded-[20px] border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] p-8 min-h-[500px]">
+        <div className="bg-white rounded-[16px] border border-slate-200 shadow-sm p-8 min-h-[500px]">
            
-           <div className="flex flex-wrap gap-6">
+           <div className="flex flex-wrap gap-x-8 gap-y-10">
               {SETTING_ITEMS.map((item) => {
                  const Icon = item.icon;
                  return (
@@ -37,13 +37,13 @@ export const Settings = () => {
                              navigate(`/settings/${item.id}`);
                           }
                        }}
-                       className="group flex flex-col items-center justify-center p-5 w-[140px] rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100"
+                       className="group flex flex-col items-center justify-start w-[100px] outline-none"
                     >
                        {/* Icon Container box */}
-                       <div className="w-16 h-16 rounded-[14px] border border-slate-200 bg-white flex items-center justify-center mb-4 group-hover:shadow-sm transition-shadow">
-                          <Icon size={24} className="text-slate-600 group-hover:text-slate-900 transition-colors" strokeWidth={1.5} />
+                       <div className="w-[84px] h-[84px] rounded-[16px] border border-slate-200/80 bg-[#fbfcfd] flex items-center justify-center mb-3 group-hover:border-blue-400 group-hover:shadow-md group-hover:-translate-y-0.5 transition-all duration-200">
+                          <Icon size={26} className="text-slate-500 group-hover:text-blue-600 transition-colors" strokeWidth={1.5} />
                        </div>
-                       <span className="text-[13px] font-medium text-slate-700 text-center leading-tight min-h-[32px]">
+                       <span className="text-[12px] font-medium text-slate-700 text-center leading-tight group-hover:text-blue-700 transition-colors">
                           {item.label}
                        </span>
                     </button>
