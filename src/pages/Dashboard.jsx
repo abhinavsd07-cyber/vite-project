@@ -172,11 +172,17 @@ export const Dashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         <div 
           onClick={() => handleCardClick('Revenue')}
-          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
+          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
         >
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#ecfdf5] flex items-center justify-center text-[#10b981] shrink-0 group-hover:bg-[#d1fae5] transition-colors">
-              <TrendingUp className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-xl bg-[#ecfdf5] flex items-center justify-center shrink-0 group-hover:bg-[#d1fae5] transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="14" width="3" height="7" rx="1" fill="#10b981"/>
+                <rect x="8" y="10" width="3" height="11" rx="1" fill="#10b981"/>
+                <rect x="13" y="6" width="3" height="15" rx="1" fill="#10b981"/>
+                <rect x="18" y="12" width="3" height="9" rx="1" fill="#10b981"/>
+                <path d="M3 12C5 8 8 4 12 6C16 8 19 5 21 3" stroke="#10b981" strokeWidth="2" strokeLinecap="round" fill="none"/>
+              </svg>
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500 mb-1">Total Revenue</p>
@@ -185,20 +191,31 @@ export const Dashboard = () => {
           </div>
           <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={sparklineData1} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                <Line type="monotone" dataKey="v" stroke="#22c55e" strokeWidth={2} dot={false} />
-              </LineChart>
+              <AreaChart data={sparklineData1} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                <defs>
+                  <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#22c55e" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#22c55e" stopOpacity={0.02} />
+                  </linearGradient>
+                </defs>
+                <Area type="monotone" dataKey="v" stroke="#22c55e" strokeWidth={2} fill="url(#greenGrad)" dot={false} />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
         
         <div 
           onClick={() => handleCardClick('Expense')}
-          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
+          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
         >
            <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#fef2f2] flex items-center justify-center text-[#f87171] shrink-0 group-hover:bg-[#fee2e2] transition-colors">
-              <CreditCard className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-xl bg-[#fef2f2] flex items-center justify-center shrink-0 group-hover:bg-[#fee2e2] transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="5" width="18" height="15" rx="3" stroke="#f87171" strokeWidth="2" fill="none"/>
+                <path d="M2 9H20" stroke="#f87171" strokeWidth="2"/>
+                <rect x="15" y="12" width="5" height="4" rx="1" stroke="#f87171" strokeWidth="2" fill="none"/>
+                <path d="M6 5V3C6 2.45 6.45 2 7 2H15C15.55 2 16 2.45 16 3V5" stroke="#f87171" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500 mb-1">Total Expense</p>
@@ -207,20 +224,31 @@ export const Dashboard = () => {
           </div>
           <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={sparklineData2} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                <Line type="monotone" dataKey="v" stroke="#ef4444" strokeWidth={2} dot={false} />
-              </LineChart>
+              <AreaChart data={sparklineData2} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                <defs>
+                  <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ef4444" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#ef4444" stopOpacity={0.02} />
+                  </linearGradient>
+                </defs>
+                <Area type="monotone" dataKey="v" stroke="#ef4444" strokeWidth={2} fill="url(#redGrad)" dot={false} />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         <div 
           onClick={() => handleCardClick('Profit')}
-          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group"
+          className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
         >
            <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-[#312e81] shrink-0 group-hover:bg-slate-200 transition-colors">
-              <Coins className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-slate-200 transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="9" cy="9" rx="7" ry="3" stroke="#312e81" strokeWidth="2" fill="none"/>
+                <path d="M2 9V13C2 14.66 5.13 16 9 16C12.87 16 16 14.66 16 13V9" stroke="#312e81" strokeWidth="2" fill="none"/>
+                <path d="M16 11C19.31 11.28 22 12.56 22 14C22 15.66 18.87 17 15 17" stroke="#312e81" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                <path d="M22 14V18C22 19.66 18.87 21 15 21C12.07 21 9.56 20.17 8.5 19" stroke="#312e81" strokeWidth="2" strokeLinecap="round" fill="none"/>
+              </svg>
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500 mb-1">Net Profit</p>
@@ -229,9 +257,15 @@ export const Dashboard = () => {
           </div>
           <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={sparklineData3} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                <Line type="monotone" dataKey="v" stroke="#94a3b8" strokeWidth={2} dot={false} />
-              </LineChart>
+              <AreaChart data={sparklineData3} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                <defs>
+                  <linearGradient id="indigoGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#312e81" stopOpacity={0.2} />
+                    <stop offset="100%" stopColor="#312e81" stopOpacity={0.02} />
+                  </linearGradient>
+                </defs>
+                <Area type="monotone" dataKey="v" stroke="#312e81" strokeWidth={2} fill="url(#indigoGrad)" dot={false} />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
@@ -264,14 +298,14 @@ export const Dashboard = () => {
             </div>
             <div className="h-[220px] sm:h-[280px] lg:h-[350px] 2xl:h-[500px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={performanceData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }} barGap={2} barSize={8}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <BarChart data={performanceData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }} barGap={1} barCategoryGap="20%" barSize={12}>
+                  <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#e2e8f0" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} dy={10} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} tickFormatter={(value) => `$${value/1000} K`} />
                   <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
-                  <Bar dataKey="revenue" name="Total Revenue" fill="#10b981" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="expenses" name="Total Expenses" fill="#f87171" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="profit" name="Profit" fill="#312e81" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="revenue" name="Total Revenue" fill="#22c769ff" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="expenses" name="Total Expenses" fill="#f87171" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="profit" name="Profit" fill="#312e81" radius={[3, 3, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
