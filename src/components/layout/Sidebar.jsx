@@ -146,7 +146,7 @@ export const Sidebar = ({ collapsed, onClose }) => {
         "h-full  flex flex-col bg-slate-50 border-r border-slate-200 transition-all duration-300 ease-in-out",
         collapsed ? "w-20" : "w-64",
       )}
-   style={{width:"300px"}} >
+   >
       {/* Logo + Controls */}
       <div className="flex h-16 items-center flex-shrink-0 px-4 justify-between border-b border-slate-200 bg-white">
         <div className="flex items-center gap-2 overflow-hidden min-w-0">

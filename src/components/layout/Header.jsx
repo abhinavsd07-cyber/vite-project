@@ -84,7 +84,7 @@ export const Header = ({ setMobileMenuOpen }) => {
           {/* Dropdown 2: Year */}
           <div className="relative hidden sm:block">
             <select 
-              className="appearance-none w-28 px-3 py-1.5 border border-slate-200 text-slate-700 bg-white shadow-sm rounded-md hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors text-sm font-medium cursor-pointer pr-8"
+              className="appearance-none w-28 px-2 py-1.5 border border-slate-200 text-slate-700 bg-white shadow-sm rounded-md hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors text-sm font-medium cursor-pointer pr-8"
               defaultValue="2023-2024"
               onChange={(e) => handleAction(`Selected Year: ${e.target.value}`)}
             >
