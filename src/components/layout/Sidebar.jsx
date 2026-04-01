@@ -1,8 +1,4 @@
 import {
-  Gauge, // or LayoutDashboard
-  User,
-  UserCog,
-  Users,
   FileText,
   Video,
   FileSearch,
@@ -14,6 +10,7 @@ import {
   X,
   Circle,
 } from "lucide-react";
+import { DashboardIcon, UsersIcon, VendorIcon, CustomersIcon } from "../icons/SidebarIcons";
 import { cn, Toast } from "../../lib/utils";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -21,19 +18,19 @@ import Swal from "sweetalert2";
 import { Logo } from "../auth/Logo";
 
 const navItems = [
-  { name: "Dashboard", icon: Gauge, path: "/dashboard" },
+  { name: "Dashboard", icon: DashboardIcon, path: "/dashboard" },
   {
     name: "Users",
-    icon: User,
+    icon: UsersIcon,
     subItems: [
       { name: "User List", path: "/users/list" },
       { name: "Create User", path: "/users/create" },
     ],
   },
-  { name: "Vendor", icon: UserCog, path: "/vendor" },
+  { name: "Vendor", icon: VendorIcon, path: "/vendor" },
   {
     name: "Customers",
-    icon: Users,
+    icon: CustomersIcon,
     subItems: [
       { name: "Customers List", path: "/customers/list" },
       { name: "Create Customers", path: "/customers/create" },
@@ -146,10 +143,10 @@ export const Sidebar = ({ collapsed, onClose }) => {
   return (
     <aside
       className={cn(
-        "h-full flex flex-col bg-slate-50 border-r border-slate-200 transition-all duration-300 ease-in-out",
+        "h-full  flex flex-col bg-slate-50 border-r border-slate-200 transition-all duration-300 ease-in-out",
         collapsed ? "w-20" : "w-64",
       )}
-    >
+   style={{width:"300px"}} >
       {/* Logo + Controls */}
       <div className="flex h-16 items-center flex-shrink-0 px-4 justify-between border-b border-slate-200 bg-white">
         <div className="flex items-center gap-2 overflow-hidden min-w-0">
@@ -238,23 +235,7 @@ export const Sidebar = ({ collapsed, onClose }) => {
         })}
       </nav>
 
-      {/* Bottom Actions */}
-      <div className="relative overflow-hidden shrink-0 bg-white">
-        <div className="absolute inset-0 z-0 bg-slate-50/50"></div>
-
-        <div className="relative z-10 mx-3 mb-3 p-2 bg-white rounded-2xl border border-slate-100 mt-2">
-          <button
-            onClick={handleLogout}
-            className={cn(
-              "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 transition-colors text-sm font-medium",
-              collapsed && "justify-center px-0",
-            )}
-          >
-            <LogOut size={18} className="text-slate-800 shrink-0" />
-            {!collapsed && <span>Log Out</span>}
-          </button>
-        </div>
-      </div>
+      
     </aside>
   );
 };
