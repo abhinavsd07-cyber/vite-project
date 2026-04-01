@@ -90,13 +90,14 @@ function App() {
         <Route path="/docs/upload" element={<DashboardRoute><UploadDoc /></DashboardRoute>} />
         <Route path="/docs/archived" element={<DashboardRoute><ArchivedDocs /></DashboardRoute>} />
 
-        {/* Other sidebar items */}
-        <Route path="/settings" element={<DashboardRoute><Settings /></DashboardRoute>} />
-        <Route path="/settings/business-domain" element={<DashboardRoute><BusinessDomainList /></DashboardRoute>} />
-        <Route path="/settings/category" element={<DashboardRoute><CategoryList /></DashboardRoute>} />
-        <Route path="/settings/country" element={<DashboardRoute><CountryList /></DashboardRoute>} />
-        <Route path="/settings/financial-year" element={<DashboardRoute><FinancialYearList /></DashboardRoute>} />
-        <Route path="/settings/user-group" element={<DashboardRoute><UserGroupList /></DashboardRoute>} />
+        {/* Settings Module with nested routes for modals */}
+        <Route path="/settings" element={<DashboardRoute><Settings /></DashboardRoute>}>
+           <Route path="business-domain" element={<BusinessDomainList />} />
+           <Route path="category" element={<CategoryList />} />
+           <Route path="country" element={<CountryList />} />
+           <Route path="financial-year" element={<FinancialYearList />} />
+           <Route path="user-group" element={<UserGroupList />} />
+        </Route>
         
         <Route path="/meetings" element={<DashboardRoute><Meetings /></DashboardRoute>} />
         <Route path="/document-requests" element={<DashboardRoute><DocumentRequests /></DashboardRoute>} />

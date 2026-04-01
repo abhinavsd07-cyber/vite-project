@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Search, Filter, MoreVertical, Plus, CheckSquare } from 'lucide-react';
+import { Search, Filter, MoreVertical, Plus, CheckSquare, ChevronDown } from 'lucide-react';
 import { Pagination } from '../../components/ui/Pagination';
+import { RightDrawer } from '../../components/ui/RightDrawer';
 
 const MOCK_VENDORS = [
   { id: 1, code: "VEND-000003", name: "Test vendor", type: "test vendor type", phone: "+91 123432434343", email: "test.test@gmail.com", country: "India", verified: true },
@@ -11,11 +12,11 @@ export const VendorList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
     <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
-      {/* Header */}
-      <div className="px-6 py-4 shrink-0">
+      <div className="px-6 py-4 shrink-0 flex justify-between items-center">
         <h1 className="text-xl font-bold text-slate-800">Vendor List</h1>
       </div>
 
@@ -43,7 +44,10 @@ export const VendorList = () => {
                 </button>
              </div>
 
-             <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-1.5 rounded text-sm font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center">
+             <button 
+                onClick={() => setIsDrawerOpen(true)}
+                className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-1.5 rounded text-sm font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center"
+             >
                 <Plus size={14} />
                 Add Vendor
              </button>
@@ -98,6 +102,110 @@ export const VendorList = () => {
           />
         </div>
       </div>
+
+      {/* Add Vendor Drawer */}
+      <RightDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="Add Vendor">
+         <div className="p-6 flex flex-col gap-5">
+            
+            {/* Vendor Name */}
+            <div>
+               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
+                  Vendor Name <span className="text-red-500">*</span>
+               </label>
+               <input
+                 type="text"
+                 placeholder="Enter Vendor Name"
+                 className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
+               />
+            </div>
+            
+            {/* Vendor Type */}
+            <div>
+               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
+                  Vendor Type <span className="text-red-500">*</span>
+               </label>
+               <input
+                 type="text"
+                 placeholder="Enter Vendor Type"
+                 className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
+               />
+            </div>
+
+            {/* Phone Number */}
+            <div>
+               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
+                  Phone Number <span className="text-red-500">*</span>
+               </label>
+               <div className="flex gap-3">
+                  <div className="relative w-[100px]">
+                     <select className="appearance-none w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 bg-white">
+                        <option>+91</option>
+                        <option>+1</option>
+                        <option>+44</option>
+                     </select>
+                     <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                  </div>
+                  <input
+                    type="tel"
+                    placeholder="Enter your Phone Number"
+                    className="flex-1 w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
+                  />
+               </div>
+            </div>
+
+            {/* Email */}
+            <div>
+               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
+                  Email <span className="text-red-500">*</span>
+               </label>
+               <input
+                 type="email"
+                 placeholder="Enter your Email"
+                 className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
+               />
+            </div>
+
+            {/* Country */}
+            <div>
+               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
+                  Country <span className="text-red-500">*</span>
+               </label>
+               <div className="relative">
+                  <select className="appearance-none w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 bg-white text-slate-400">
+                     <option>Enter your Country</option>
+                     <option>India</option>
+                     <option>USA</option>
+                  </select>
+                  <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+               </div>
+            </div>
+
+            {/* Address */}
+            <div>
+               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
+                  Address
+               </label>
+               <textarea
+                 rows={4}
+                 placeholder="Enter your Address"
+                 className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400 resize-none"
+               />
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-3 mt-4">
+               <button 
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="px-6 py-2 bg-slate-200/80 hover:bg-slate-300 text-slate-600 rounded-lg text-[13px] font-medium transition-colors"
+               >
+                  Cancel
+               </button>
+               <button className="px-8 py-2 bg-[#212529] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors">
+                  Add
+               </button>
+            </div>
+         </div>
+      </RightDrawer>
     </div>
   );
 };

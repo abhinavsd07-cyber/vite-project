@@ -1,5 +1,5 @@
 import { Briefcase, LayoutGrid, Flag, CalendarDays, Users, UserCog } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 
 const SETTING_ITEMS = [
   { id: 'business-domain', label: 'Business Domain', icon: Briefcase },
@@ -53,6 +53,9 @@ export const Settings = () => {
 
         </div>
       </div>
+      
+      {/* Drawer Overlay Target */}
+      <Outlet />
     </div>
   );
 };
