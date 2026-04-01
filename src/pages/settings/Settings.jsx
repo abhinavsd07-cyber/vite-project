@@ -14,17 +14,17 @@ export const Settings = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in pb-12">
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
       {/* Header */}
-      <div className="px-6 py-5 shrink-0 flex items-center justify-between">
+      <div className="px-6 py-4 shrink-0">
         <h1 className="text-xl font-bold text-slate-800">Master Settings</h1>
       </div>
 
       {/* Main Content Area */}
       <div className="px-6 flex-1">
-        <div className="bg-white rounded-[16px] border border-slate-200 shadow-sm p-8 min-h-[500px]">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 min-h-[200px]">
            
-           <div className="flex flex-wrap gap-x-8 gap-y-10">
+           <div className="flex flex-wrap gap-x-6 gap-y-6">
               {SETTING_ITEMS.map((item) => {
                  const Icon = item.icon;
                  return (
@@ -37,13 +37,13 @@ export const Settings = () => {
                              navigate(`/settings/${item.id}`);
                           }
                        }}
-                       className="group flex flex-col items-center justify-start w-[100px] outline-none"
+                       className="group flex flex-col items-center justify-start w-[90px] outline-none"
                     >
                        {/* Icon Container box */}
-                       <div className="w-[84px] h-[84px] rounded-[16px] border border-slate-200/80 bg-[#fbfcfd] flex items-center justify-center mb-3 group-hover:border-blue-400 group-hover:shadow-md group-hover:-translate-y-0.5 transition-all duration-200">
-                          <Icon size={26} className="text-slate-500 group-hover:text-blue-600 transition-colors" strokeWidth={1.5} />
+                       <div className="w-[80px] h-[80px] rounded-lg border border-slate-200 bg-white flex items-center justify-center mb-2 group-hover:border-slate-300 group-hover:shadow-sm transition-all duration-200">
+                          <Icon size={24} className="text-slate-500 group-hover:text-slate-700 transition-colors" strokeWidth={1.5} />
                        </div>
-                       <span className="text-[12px] font-medium text-slate-700 text-center leading-tight group-hover:text-blue-700 transition-colors">
+                       <span className="text-[12px] font-normal text-slate-600 text-center leading-tight group-hover:text-slate-800 transition-colors">
                           {item.label}
                        </span>
                     </button>

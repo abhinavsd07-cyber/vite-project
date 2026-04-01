@@ -32,8 +32,8 @@ export const DashboardLayout = ({ children }) => {
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header setMobileMenuOpen={setMobileMenuOpen} mobileMenuOpen={mobileMenuOpen} />
-        <main className="flex-1 overflow-y-auto p-4 sm:p-5 md:p-6 lg:p-8 scroll-smooth">
-          <div className="mx-auto max-w-[1600px] 2xl:max-w-[2000px] animate-slide-up">
+        <main className="flex-1 overflow-y-auto scroll-smooth">
+          <div className="animate-slide-up h-full">
             {children}
           </div>
         </main>

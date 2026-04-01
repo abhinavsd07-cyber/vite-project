@@ -36,16 +36,16 @@ export const UserList = () => {
   return (
     <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
       {/* Header */}
-      <div className="px-6 py-5 shrink-0">
+      <div className="px-6 py-4 shrink-0">
         <h1 className="text-xl font-bold text-slate-800">User List</h1>
       </div>
 
       {/* Main Content Area */}
       <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col">
-        <div className="bg-white rounded-xl border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex-1 flex flex-col overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
           
           {/* Top Actions */}
-          <div className="p-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-100">
+          <div className="px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100">
              <div className="flex items-center gap-2 w-full sm:w-auto">
                 {/* Search */}
                 <div className="relative w-full sm:w-64">
@@ -64,8 +64,8 @@ export const UserList = () => {
                 </button>
              </div>
 
-             <button className="flex items-center gap-2 bg-[#1a1c21] hover:bg-black text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center">
-                <Plus size={16} />
+             <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-1.5 rounded text-sm font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center">
+                <Plus size={14} />
                 Quick Add
              </button>
           </div>
@@ -74,39 +74,39 @@ export const UserList = () => {
           <div className="flex-1 overflow-auto">
             <table className="w-full text-left border-collapse min-w-[900px]">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50">
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">User name</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Email</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Contact Number</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">User Group</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Company</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Status</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap text-right">Action</th>
+                 <tr className="border-b border-slate-100">
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">User name</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Email</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Contact Number</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">User Group</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Company</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Status</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap text-right">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors group">
-                    <td className="py-3 px-6 text-[13px] text-slate-500">{user.id}</td>
-                    <td className="py-3 px-6 text-[13px] text-slate-800 font-medium">{user.name}</td>
-                    <td className="py-3 px-6 text-[13px] text-slate-500 hidden md:table-cell">{user.email}</td>
-                    <td className="py-3 px-6 text-[13px] text-slate-500 whitespace-nowrap">{user.phone}</td>
-                    <td className="py-3 px-6 text-[13px] text-slate-500">{user.group}</td>
-                    <td className="py-3 px-6 text-[13px] text-slate-500">{user.company}</td>
-                    <td className="py-3 px-6 text-[13px]">
-                       <StatusBadge status={user.status} />
-                    </td>
-                    <td className="py-3 px-6 flex items-center justify-end gap-3">
-                       <Toggle 
-                          initialState={user.active} 
-                          onChange={(newState) => handleToggle(user.id, newState)} 
-                       />
-                       <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
-                          <MoreVertical size={16} />
-                       </button>
-                    </td>
-                  </tr>
+                  <tr key={user.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                     <td className="py-4 px-4 text-[13px] text-slate-500">{user.id}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-800 font-medium">{user.name}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 hidden md:table-cell">{user.email}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{user.phone}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500">{user.group}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500">{user.company}</td>
+                     <td className="py-4 px-4 text-[13px]">
+                        <StatusBadge status={user.status} />
+                     </td>
+                     <td className="py-4 px-4 flex items-center justify-end gap-3">
+                        <Toggle 
+                           initialState={user.active} 
+                           onChange={(newState) => handleToggle(user.id, newState)} 
+                        />
+                        <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
+                           <MoreVertical size={16} />
+                        </button>
+                     </td>
+                   </tr>
                 ))}
               </tbody>
             </table>

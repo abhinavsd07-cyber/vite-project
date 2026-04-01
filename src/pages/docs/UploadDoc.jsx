@@ -17,9 +17,9 @@ export const UploadDoc = () => {
   );
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in pb-12">
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
       {/* Header */}
-      <div className="px-6 py-5 shrink-0 flex items-center justify-between">
+      <div className="px-6 py-4 shrink-0 flex items-center justify-between">
         <h1 className="text-xl font-bold text-slate-800">Create Document</h1>
         <button 
            onClick={() => navigate(-1)}
@@ -33,7 +33,7 @@ export const UploadDoc = () => {
       <div className="px-6 space-y-6">
         
         {/* Top Form Card */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
            {/* Tabs */}
            <div className="flex border-b border-slate-200">
               <button 
@@ -130,7 +130,7 @@ export const UploadDoc = () => {
         </div>
 
         {/* Bottom List Table Card */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden flex flex-col">
            <div className="p-5 border-b border-slate-100">
               <h2 className="text-[13px] font-bold tracking-wide text-slate-600">ALL DOCUMENTS</h2>
            </div>
@@ -138,30 +138,30 @@ export const UploadDoc = () => {
            <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse min-w-[800px]">
                  <thead>
-                    <tr className="border-b border-slate-100 bg-slate-50/50">
-                       <th className="py-4 px-6 text-[12px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
-                       <th className="py-4 px-6 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Doc ID</th>
-                       <th className="py-4 px-6 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Title</th>
-                       <th className="py-4 px-6 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Status</th>
-                       <th className="py-4 px-6 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Customer Name</th>
-                       <th className="py-4 px-6 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Category</th>
-                       <th className="py-4 px-6 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Doc Due Date</th>
-                       <th className="py-4 px-6 text-[12px] font-semibold text-slate-600 whitespace-nowrap text-right">Action</th>
+                    <tr className="border-b border-slate-100">
+                       <th className="py-3 px-4 text-[12px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
+                       <th className="py-3 px-4 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Doc ID</th>
+                       <th className="py-3 px-4 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Title</th>
+                       <th className="py-3 px-4 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Status</th>
+                       <th className="py-3 px-4 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Customer Name</th>
+                       <th className="py-3 px-4 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Category</th>
+                       <th className="py-3 px-4 text-[12px] font-semibold text-slate-600 whitespace-nowrap">Doc Due Date</th>
+                       <th className="py-3 px-4 text-[12px] font-semibold text-slate-600 whitespace-nowrap text-right">Action</th>
                     </tr>
                  </thead>
                  <tbody>
                     {MOCK_TABLE_DOCS.map((doc, i) => (
                        <tr key={doc.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                          <td className="py-4 px-6 text-[13px] text-slate-500">{i + 1}</td>
-                          <td className="py-4 px-6 text-[13px] font-medium text-slate-700">{doc.docId}</td>
-                          <td className="py-4 px-6 text-[13px] text-slate-600">{doc.title}</td>
-                          <td className="py-4 px-6 text-[13px]">
+                          <td className="py-4 px-4 text-[13px] text-slate-500">{i + 1}</td>
+                          <td className="py-4 px-4 text-[13px] font-medium text-slate-700">{doc.docId}</td>
+                          <td className="py-4 px-4 text-[13px] text-slate-600">{doc.title}</td>
+                          <td className="py-4 px-4 text-[13px]">
                              <StatusBadge status={doc.status} />
                           </td>
-                          <td className="py-4 px-6 text-[13px] text-slate-600">{doc.customer}</td>
-                          <td className="py-4 px-6 text-[13px] text-slate-500">{doc.category}</td>
-                          <td className="py-4 px-6 text-[13px] text-slate-500">{doc.due}</td>
-                          <td className="py-4 px-6 flex justify-end">
+                          <td className="py-4 px-4 text-[13px] text-slate-600">{doc.customer}</td>
+                          <td className="py-4 px-4 text-[13px] text-slate-500">{doc.category}</td>
+                          <td className="py-4 px-4 text-[13px] text-slate-500">{doc.due}</td>
+                          <td className="py-4 px-4 flex justify-end">
                              <button className="text-slate-400 hover:text-slate-600 p-1 rounded">
                                 <MoreVertical size={16} />
                              </button>

@@ -11,15 +11,15 @@ export const DocumentRequests = () => {
   const [selectedReq, setSelectedReq] = useState(MOCK_REQUESTS[0]);
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in pb-12">
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
       {/* Header */}
-      <div className="px-6 py-5 shrink-0">
+      <div className="px-6 py-4 shrink-0">
         <h1 className="text-xl font-bold text-slate-800">Document Request</h1>
       </div>
 
       {/* Main Content Area */}
       <div className="px-6 flex-1 h-[calc(100vh-140px)] min-h-[500px]">
-        <div className="bg-white rounded-[20px] border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] h-full flex overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm h-full flex overflow-hidden">
            
            {/* Left Sidebar (Requests List) */}
            <div className="w-[350px] shrink-0 border-r border-slate-100 flex flex-col bg-white">

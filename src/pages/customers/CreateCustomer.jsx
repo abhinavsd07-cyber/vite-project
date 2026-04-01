@@ -7,7 +7,7 @@ export const CreateCustomer = () => {
   return (
     <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
       {/* Header */}
-      <div className="px-6 py-5 shrink-0 flex items-center justify-between">
+      <div className="px-6 py-4 shrink-0 flex items-center justify-between">
         <h1 className="text-xl font-bold text-slate-800">Create Customer</h1>
         <button 
            onClick={() => navigate(-1)}
@@ -19,7 +19,7 @@ export const CreateCustomer = () => {
 
       {/* Main Content Area */}
       <div className="px-6 pb-6">
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] min-h-[250px] flex flex-col">
+        <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm min-h-[250px] flex flex-col">
            
            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
               {/* Customer Name */}

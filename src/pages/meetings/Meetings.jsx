@@ -32,15 +32,15 @@ export const Meetings = () => {
   );
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in pb-12">
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
       {/* Header */}
-      <div className="px-6 py-5 shrink-0">
+      <div className="px-6 py-4 shrink-0">
         <h1 className="text-xl font-bold text-slate-800">Meetings</h1>
       </div>
 
       {/* Main Content Area */}
       <div className="px-6 flex-1">
-        <div className="bg-white rounded-[20px] border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] min-h-[500px] flex flex-col overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm min-h-[500px] flex flex-col overflow-hidden">
            
            {/* Top Tabs */}
            <div className="flex border-b border-slate-200 px-6 pt-2">

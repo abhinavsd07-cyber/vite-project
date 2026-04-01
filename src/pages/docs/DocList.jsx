@@ -76,7 +76,7 @@ export const DocList = () => {
       </div>
 
       <div className="flex-1 px-6 pt-4 overflow-y-auto">
-        <div className="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-slate-200 min-h-full flex flex-col p-4 md:p-6 pb-2">
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 min-h-full flex flex-col p-4 md:p-5 pb-2">
            
            {/* Filters Row */}
            <div className="flex flex-wrap items-center gap-6 border-b border-slate-100 pb-4 mb-4">
@@ -112,10 +112,10 @@ export const DocList = () => {
               </div>
 
               <div className="flex items-center gap-4">
-                 <button className="flex items-center gap-2 bg-[#1a1c21] hover:bg-black text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors w-full sm:w-auto justify-center">
-                    <Plus size={16} />
-                    Upload Document
-                 </button>
+                  <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-1.5 rounded text-sm font-medium transition-colors w-full sm:w-auto justify-center">
+                     <Plus size={14} />
+                     Upload Document
+                  </button>
                  
                  {/* View Toggles */}
                  <div className="hidden sm:flex items-center border border-slate-200 rounded-lg p-1 bg-slate-50">

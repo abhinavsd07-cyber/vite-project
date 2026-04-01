@@ -16,23 +16,23 @@ export const CategoryList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in pb-12">
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
       {/* Header */}
-      <div className="px-6 py-5 shrink-0 flex items-center gap-4">
+      <div className="px-6 py-4 shrink-0 flex items-center gap-3">
         <button 
            onClick={() => navigate(-1)}
-           className="p-1.5 rounded-full border border-slate-300 hover:bg-slate-100 text-slate-700 transition-colors"
+           className="p-1.5 rounded-full border border-slate-300 hover:bg-slate-100 text-slate-600 transition-colors"
         >
-           <ArrowLeft size={18} />
+           <ArrowLeft size={16} />
         </button>
         <h1 className="text-xl font-bold text-slate-800">Categories</h1>
       </div>
 
       {/* Main Content Area */}
       <div className="flex-1 px-6 flex flex-col">
-        <div className="bg-white rounded-[20px] border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex-1 flex flex-col overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
           
-          <div className="p-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-100">
+          <div className="px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100">
              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <div className="relative flex-1 sm:w-64">
                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -49,39 +49,39 @@ export const CategoryList = () => {
                 </button>
              </div>
              
-             <button className="flex items-center gap-2 bg-[#1a1c21] hover:bg-black text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors w-full sm:w-auto justify-center">
-                <Plus size={16} /> Add Category
+             <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-1.5 rounded text-sm font-medium transition-colors w-full sm:w-auto justify-center">
+                <Plus size={14} /> Add Category
              </button>
           </div>
 
           <div className="flex-1 overflow-auto">
             <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50">
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap w-24">SL No</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Category Name</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Code</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap w-32">Status</th>
-                  <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap text-right w-24">Action</th>
+                 <tr className="border-b border-slate-100">
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap w-20">SL No</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Category Name</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Code</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap w-28">Status</th>
+                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap text-right w-24">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {data.map((item, index) => (
-                  <tr key={item.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors group">
-                    <td className="py-3 px-6 text-[13px] text-slate-500">{index + 1}</td>
-                    <td className="py-3 px-6 text-[13px] text-slate-800 font-medium">{item.name}</td>
-                    <td className="py-3 px-6 text-[13px] text-slate-500">{item.code}</td>
-                    <td className="py-3 px-6 text-[13px]">
-                       <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 font-medium text-xs">
-                          {item.status}
-                       </span>
-                    </td>
-                    <td className="py-3 px-6 flex items-center justify-end">
-                       <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
-                          <MoreVertical size={18} />
-                       </button>
-                    </td>
-                  </tr>
+                  <tr key={item.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                     <td className="py-4 px-4 text-[13px] text-slate-600">{index + 1}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-800">{item.name}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-600">{item.code}</td>
+                     <td className="py-4 px-4 text-[13px]">
+                        <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 font-medium text-xs">
+                           {item.status}
+                        </span>
+                     </td>
+                     <td className="py-4 px-4 flex items-center justify-end">
+                        <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
+                           <MoreVertical size={16} />
+                        </button>
+                     </td>
+                   </tr>
                 ))}
               </tbody>
             </table>

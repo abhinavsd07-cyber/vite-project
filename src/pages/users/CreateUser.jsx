@@ -5,16 +5,16 @@ export const CreateUser = () => {
   const [activeTab, setActiveTab] = useState('BASIC DETAILS');
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in relative pb-20">
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in relative pb-16">
       {/* Header */}
-      <div className="px-6 py-5 shrink-0">
+      <div className="px-6 py-4 shrink-0">
         <h1 className="text-xl font-bold text-slate-800">Create User</h1>
       </div>
 
       {/* Main Content Area */}
       <div className="flex-1 px-6 overflow-y-auto">
         {/* Tabs container */}
-        <div className="bg-white rounded-t-xl overflow-hidden border border-slate-200 border-b-0 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+        <div className="bg-white rounded-t-lg overflow-hidden border border-slate-200 border-b-0 shadow-sm">
           <div className="flex border-b border-slate-200">
              <button 
                 onClick={() => setActiveTab('BASIC DETAILS')}
@@ -35,7 +35,7 @@ export const CreateUser = () => {
         </div>
 
         {/* Form Container */}
-        <div className="bg-white p-6 rounded-b-xl border border-slate-200 border-t-0 shadow-[0_2px_10px_rgba(0,0,0,0.02)] min-h-[400px]">
+        <div className="bg-white p-5 rounded-b-lg border border-slate-200 border-t-0 shadow-sm min-h-[400px]">
            {activeTab === 'BASIC DETAILS' && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 

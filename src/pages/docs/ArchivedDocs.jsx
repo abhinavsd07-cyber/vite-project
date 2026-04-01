@@ -21,11 +21,14 @@ export const ArchivedDocs = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in p-6">
-      <div className="bg-white rounded-xl border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex-1 flex flex-col overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in px-6 pb-6">
+      <div className="px-0 py-4 shrink-0">
+        <h1 className="text-xl font-bold text-slate-800">Archived Documents</h1>
+      </div>
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
         
         {/* Top Actions */}
-        <div className="p-5 flex items-center justify-between gap-4 border-b border-slate-100">
+        <div className="px-5 py-3 flex items-center justify-between gap-3 border-b border-slate-100">
            <div className="flex items-center gap-3 w-full md:max-w-md">
               {/* Search */}
               <div className="relative flex-1">
@@ -49,26 +52,26 @@ export const ArchivedDocs = () => {
         <div className="flex-1 overflow-auto">
           <table className="w-full text-left border-collapse min-w-[1000px]">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50/50">
-                <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
-                <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Doc ID</th>
-                <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Title</th>
-                <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Customer Name</th>
-                <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Category</th>
-                <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Created Date and Time</th>
-                <th className="py-4 px-6 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Completed Date and Time</th>
+               <tr className="border-b border-slate-100">
+                 <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
+                 <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Doc ID</th>
+                 <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Title</th>
+                 <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Customer Name</th>
+                 <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Category</th>
+                 <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Created Date and Time</th>
+                 <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Completed Date and Time</th>
               </tr>
             </thead>
             <tbody>
               {docs.map((doc, index) => (
-                <tr key={doc.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                  <td className="py-4 px-6 text-[13px] text-slate-500">{index + 1}</td>
-                  <td className="py-4 px-6 text-[13px] text-slate-600 font-medium">{doc.docId}</td>
-                  <td className="py-4 px-6 text-[13px] text-slate-500">{doc.title}</td>
-                  <td className="py-4 px-6 text-[13px] text-slate-500">{doc.customer}</td>
-                  <td className="py-4 px-6 text-[13px] text-slate-500">{doc.category}</td>
-                  <td className="py-4 px-6 text-[13px] text-slate-500">{doc.created}</td>
-                  <td className="py-4 px-6 text-[13px] text-slate-500">{doc.completed}</td>
+                 <tr key={doc.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                   <td className="py-4 px-4 text-[13px] text-slate-500">{index + 1}</td>
+                   <td className="py-4 px-4 text-[13px] text-slate-600 font-medium">{doc.docId}</td>
+                   <td className="py-4 px-4 text-[13px] text-slate-500">{doc.title}</td>
+                   <td className="py-4 px-4 text-[13px] text-slate-500">{doc.customer}</td>
+                   <td className="py-4 px-4 text-[13px] text-slate-500">{doc.category}</td>
+                   <td className="py-4 px-4 text-[13px] text-slate-500">{doc.created}</td>
+                   <td className="py-4 px-4 text-[13px] text-slate-500">{doc.completed}</td>
                 </tr>
               ))}
             </tbody>
