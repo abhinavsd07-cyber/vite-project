@@ -65,23 +65,38 @@ export const Header = ({ setMobileMenuOpen }) => {
       {/* Right side Actions */}
       <div className="flex items-center gap-4 ml-auto">
         
-        {/* Dropdowns visible on larger screens */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* Dropdowns (Responsive) */}
+        <div className="flex items-center gap-1.5 sm:gap-3">
           {/* Dropdown 1: Company */}
-          <div onClick={() => handleAction('Select Company')} className="flex items-center justify-between w-32 px-3 py-1.5 border border-slate-200 text-slate-700 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-md hover:border-slate-300 cursor-pointer transition-colors text-sm font-medium">
-             <span className="truncate">Aabasoft</span>
-             <ChevronDown size={14} className="text-slate-400 flex-shrink-0 ml-1" />
+          <div className="relative">
+            <select 
+              className="appearance-none w-24 sm:w-32 px-2 sm:px-3 py-1.5 border border-slate-200 text-slate-700 bg-white shadow-sm rounded-md hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors text-xs sm:text-sm font-medium cursor-pointer pr-6 sm:pr-8"
+              defaultValue="Aabasoft"
+              onChange={(e) => handleAction(`Selected Company: ${e.target.value}`)}
+            >
+              <option value="Aabasoft">Aabasoft</option>
+              <option value="Fin-Face">Fin-Face</option>
+              <option value="Demo Inc">Demo Inc</option>
+            </select>
+            <ChevronDown size={14} className="text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
           {/* Dropdown 2: Year */}
-          <div onClick={() => handleAction('Select Year')} className="flex items-center justify-between w-28 px-3 py-1.5 border border-slate-200 text-slate-700 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.05)] rounded-md hover:border-slate-300 cursor-pointer transition-colors text-sm font-medium">
-             <span>2023-2024</span>
-             <ChevronDown size={14} className="text-slate-400 flex-shrink-0 ml-1" />
+          <div className="relative hidden sm:block">
+            <select 
+              className="appearance-none w-28 px-3 py-1.5 border border-slate-200 text-slate-700 bg-white shadow-sm rounded-md hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors text-sm font-medium cursor-pointer pr-8"
+              defaultValue="2023-2024"
+              onChange={(e) => handleAction(`Selected Year: ${e.target.value}`)}
+            >
+              <option value="2023-2024">2023-2024</option>
+              <option value="2024-2025">2024-2025</option>
+            </select>
+            <ChevronDown size={14} className="text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
         </div>
 
         {/* Divider */}
-        <div className="hidden md:block w-px h-5 bg-slate-200 mx-1"></div>
+        <div className="w-px h-5 bg-slate-200 mx-0.5 sm:mx-1"></div>
 
         <button 
           onClick={() => handleAction('Create New')}
