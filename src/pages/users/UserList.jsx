@@ -1,20 +1,26 @@
 import { useState } from 'react';
 import { Search, Filter, MoreVertical, Plus } from 'lucide-react';
-import { Toggle } from '../../components/ui/Toggle';
 import { Pagination } from '../../components/ui/Pagination';
 
 const MOCK_USERS = [
-  { id: 1, name: "Aabasoft Testodd", email: "nithinmathew@aabasoft.com", phone: "+91 8138080143", group: "Super Admin", company: "0", status: "Invited", active: true },
-  { id: 2, name: "aabasofttest", email: "aabasofttest@yopmail.com", phone: "+91 0123456789", group: "Super Admin", company: "0", status: "Invited", active: true },
-  { id: 3, name: "Alen T Jose", email: "alentjose@finbookglobal.com", phone: "+91 9400104307", group: "Super Admin", company: "8", status: "Invited", active: true },
-  { id: 4, name: "Allen (Admin)a", email: "allenjose@finbookglobal.com", phone: "+91 8971738660", group: "Super Admin", company: "13", status: "Active", active: true },
-  { id: 5, name: "Allen (Maker)", email: "allenjose99a@gmail.com", phone: "+91 8971738660", group: "Maker", company: "3", status: "Active", active: true },
-  { id: 6, name: "Allen Checker", email: "allenjosechecker@gmail.com", phone: "+91 8971738660", group: "Checker", company: "2", status: "Active", active: true },
-  { id: 7, name: "George (Checker)", email: "georgeabrchecker@gmail.com", phone: "+91 8547121715", group: "Checker", company: "1", status: "Invited", active: true },
-  { id: 8, name: "George (maker)", email: "georgeabrmaker@gmail.com", phone: "+91 8547121715", group: "Maker", company: "3", status: "Active", active: true },
-  { id: 9, name: "Jobin Checker", email: "jobinjameschecker@gmail.com", phone: "+91 9037814789", group: "Checker", company: "7", status: "Active", active: true },
-  { id: 10, name: "Jobin Maker", email: "jobinjamesmaker@gmail.com", phone: "+91 9037814789", group: "Maker", company: "13", status: "Active", active: true },
+  { id: 1, name: "Samantha Gray", email: "ali.hassan@gmail.com", phone: "(512) 543-4588", group: "Client Manager", customers: 25, status: "Inactive" },
+  { id: 2, name: "Sofía Suárez", email: "stefan.peeters@gmail.com", phone: "(728) 321-5259", group: "Payroll Administrator", customers: 7, status: "Invited" },
+  { id: 3, name: "Priyanka Gupta", email: "tanya.mehta@gmail.com", phone: "(799) 095-8314", group: "Auditor", customers: 12, status: "Active" },
+  { id: 4, name: "Cayadi Megantara", email: "minatory_plumber_43@gmail.com", phone: "(196) 357-1409", group: "Finance Manager", customers: 8, status: "Active" },
+  { id: 5, name: "Sara Gbeho", email: "amelia.rossi@gmail.com", phone: "(356) 675-3014", group: "Accountant", customers: 9, status: "Invited" },
+  { id: 6, name: "Jakub Peeters", email: "redolent_toejam_65@gmail.com", phone: "(007) 819-5008", group: "Bookkeeper", customers: 16, status: "Active" },
+  { id: 7, name: "Salma Rashid", email: "ishita.singh@gmail.com", phone: "(593) 436-3473", group: "Accountant", customers: 22, status: "Invited" },
+  { id: 8, name: "Kamau Chidubem", email: "loquacious_designer_60@gmail.com", phone: "(718) 072-1984", group: "Accountant", customers: 14, status: "Inactive" },
+  { id: 9, name: "Indah Wijayanti", email: "jejune_glitter_57@gmail.com", phone: "(017) 151-4874", group: "Bookkeeper", customers: 7, status: "Active" },
+  { id: 10, name: "Anna Diaz", email: "fatima.mohammed@gmail.com", phone: "(966) 473-1271", group: "Senior Management", customers: 3, status: "Invited" },
 ];
+
+const SortIcon = () => (
+   <svg className="w-3 h-3 text-slate-400 opacity-60 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+     <path d="m5 15 7-7 7 7" />
+     <path d="m19 9-7 7-7-7" className="translate-y-6" />
+   </svg>
+);
 
 export const UserList = () => {
   const [users, setUsers] = useState(MOCK_USERS);
@@ -23,103 +29,108 @@ export const UserList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const StatusBadge = ({ status }) => {
-    if (status === 'Active') {
-      return <div className="px-3 py-1 rounded-md bg-emerald-50 text-emerald-500 text-xs font-semibold inline-block border border-emerald-100">Active</div>;
+    switch (status) {
+       case 'Active':
+          return <div className="px-4 py-1 rounded bg-[#eefcf2] text-[#4cd988] text-[11px] font-bold text-center border border-[#e2efe7] w-20 tracking-wide mt-1">Active</div>;
+       case 'Invited':
+          return <div className="px-4 py-1 rounded bg-[#fff3eb] text-[#f7a561] text-[11px] font-bold text-center border border-[#f5ede5] w-20 tracking-wide mt-1">Invited</div>;
+       case 'Inactive':
+          return <div className="px-4 py-1 rounded bg-[#eef5fd] text-[#6cb0eb] text-[11px] font-bold text-center border border-[#e1ebf5] w-20 tracking-wide mt-1">Inactive</div>;
+       default:
+          return null;
     }
-    return <div className="px-3 py-1 rounded-md bg-orange-50 text-orange-400 text-xs font-semibold inline-block border border-orange-100">Invited</div>;
-  };
-
-  const handleToggle = (id, newState) => {
-    setUsers(users.map(u => u.id === id ? { ...u, active: newState } : u));
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
-      {/* Header */}
-      <div className="px-6 py-4 shrink-0">
-        <h1 className="text-xl font-bold text-slate-800">User List</h1>
-      </div>
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full p-4 md:p-6 animate-fade-in relative z-10">
+      
+      {/* Main Card */}
+      <div className="bg-white rounded-[14px] border border-slate-200/80 shadow-[0_1px_5px_rgba(0,0,0,0.02)] flex-1 flex flex-col overflow-hidden">
+        
+        {/* Toolbar */}
+        <div className="px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+           {/* Left Controls */}
+           <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="relative w-full sm:w-[280px]">
+                 <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                 <input
+                    type="text"
+                    placeholder="Search here..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-[13px] text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400 placeholder:font-light shadow-sm"
+                 />
+              </div>
+              <button className="flex items-center justify-center w-9 h-9 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-slate-500 shadow-sm">
+                 <Filter size={15} />
+              </button>
+           </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col">
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
-          
-          {/* Top Actions */}
-          <div className="px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100">
-             <div className="flex items-center gap-2 w-full sm:w-auto">
-                {/* Search */}
-                <div className="relative w-full sm:w-64">
-                   <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                   <input
-                      type="text"
-                      placeholder="Search User..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
-                   />
-                </div>
-                {/* Filter */}
-                <button className="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-slate-500">
-                   <Filter size={18} />
-                </button>
-             </div>
+           {/* Right Control */}
+           <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-5 py-2 rounded-lg text-[13px] font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center shadow-sm">
+              <Plus size={14} />
+              Quick add
+           </button>
+        </div>
 
-             <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-1.5 rounded text-sm font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center">
-                <Plus size={14} />
-                Quick Add
-             </button>
-          </div>
+        {/* Table Container */}
+        <div className="flex-1 overflow-auto px-6">
+          <table className="w-full text-left border-collapse min-w-[950px]">
+            <thead>
+               <tr className="border-y border-slate-100/80">
+                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap w-20">SL No</th>
+                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap">
+                    <div className="flex items-center justify-between">User Name <SortIcon /></div>
+                 </th>
+                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap hidden lg:table-cell">
+                    <div className="flex items-center justify-between">Email <SortIcon /></div>
+                 </th>
+                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap">
+                    <div className="flex items-center justify-between">Contact Number <SortIcon /></div>
+                 </th>
+                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap">
+                    <div className="flex items-center justify-between">User group <SortIcon /></div>
+                 </th>
+                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap text-center">
+                    <div className="flex items-center justify-between">Customers <SortIcon /></div>
+                 </th>
+                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap">Status</th>
+                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user, index) => (
+                <tr key={user.id} className="border-b border-slate-100/60 transition-colors bg-white hover:bg-slate-50/50 group">
+                   <td className="py-5 px-2 text-[12.5px] text-slate-500">{index + 1}</td>
+                   <td className="py-5 px-2 text-[12.5px] text-slate-600 font-medium tracking-tight pr-8">{user.name}</td>
+                   <td className="py-5 px-2 text-[12.5px] text-slate-600 hidden lg:table-cell pr-8">{user.email}</td>
+                   <td className="py-5 px-2 text-[12.5px] text-slate-600 tracking-tight pr-8">{user.phone}</td>
+                   <td className="py-5 px-2 text-[12.5px] text-slate-600 pr-8">{user.group}</td>
+                   <td className="py-5 px-2 text-[12.5px] text-slate-600">{user.customers}</td>
+                   <td className="py-5 px-2 text-left">
+                      <StatusBadge status={user.status} />
+                   </td>
+                   <td className="py-5 px-2 flex justify-end">
+                      <button className="text-slate-300 hover:text-slate-500 transition-colors p-1">
+                         <MoreVertical size={16} strokeWidth={2.5} />
+                      </button>
+                   </td>
+                 </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-          {/* Table Container */}
-          <div className="flex-1 overflow-auto">
-            <table className="w-full text-left border-collapse min-w-[900px]">
-              <thead>
-                 <tr className="border-b border-slate-100">
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">User name</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Email</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Contact Number</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">User Group</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Company</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Status</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{user.id}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-800 font-medium">{user.name}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 hidden md:table-cell">{user.email}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{user.phone}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{user.group}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{user.company}</td>
-                     <td className="py-4 px-4 text-[13px]">
-                        <StatusBadge status={user.status} />
-                     </td>
-                     <td className="py-4 px-4 flex items-center justify-end gap-3">
-                        <Toggle 
-                           initialState={user.active} 
-                           onChange={(newState) => handleToggle(user.id, newState)} 
-                        />
-                        <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
-                           <MoreVertical size={16} />
-                        </button>
-                     </td>
-                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Pagination */}
-          <Pagination 
-             currentPage={currentPage}
-             totalPages={1}
-             rowsPerPage={rowsPerPage}
-             onPageChange={setCurrentPage}
-             onRowsChange={setRowsPerPage}
-          />
+        {/* Footer */}
+        <div className="mt-auto shrink-0 w-full bg-white">
+           <Pagination 
+              currentPage={currentPage}
+              totalPages={17}
+              totalEntries={256}
+              rowsPerPage={rowsPerPage}
+              onPageChange={setCurrentPage}
+              onRowsChange={setRowsPerPage}
+           />
         </div>
       </div>
     </div>
