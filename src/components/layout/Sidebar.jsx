@@ -1,14 +1,10 @@
 import {
   FileText,
-  Video,
-  FileSearch,
   Settings,
-  HelpCircle,
-  LogOut,
   ChevronDown,
-  ChevronRight,
   X,
-  Circle,
+  Menu,
+  ClipboardCheck,
 } from "lucide-react";
 import { DashboardIcon, UsersIcon, VendorIcon, CustomersIcon } from "../icons/SidebarIcons";
 import { cn, Toast } from "../../lib/utils";
@@ -38,17 +34,15 @@ const navItems = [
     ],
   },
   {
-    name: "Doc Management",
-    icon: FileText,
+    name: "Tasks",
+    icon: ClipboardCheck,
     subItems: [
-      { name: "Doc List", path: "/docs/list" },
-      { name: "Upload Doc", path: "/docs/upload" },
-      { name: "Archived", path: "/docs/archived" },
+      { name: "Task List", path: "/tasks/list" },
+      { name: "Create Task", path: "/tasks/create" },
+      { name: "Archived", path: "/tasks/archived" },
     ],
   },
-  { name: "Settings", icon: Settings, path: "/settings" },
-  { name: "Meetings", icon: Video, path: "/meetings" },
-  { name: "Document Request", icon: FileSearch, path: "/document-requests" },
+  { name: "Settings", icon: Settings, path: "/settings", subItems: [] },
 ];
 
 export const Sidebar = ({ collapsed, onClose }) => {
@@ -148,44 +142,44 @@ export const Sidebar = ({ collapsed, onClose }) => {
       )}
    >
       {/* Logo + Controls */}
-      <div className="flex h-16 items-center flex-shrink-0 px-4 justify-between border-b border-slate-200 bg-white">
+      <div className="flex pt-6 pb-4 items-center flex-shrink-0 px-6 justify-between bg-white">
         <div className="flex items-center gap-2 overflow-hidden min-w-0">
           <Logo collapsed={collapsed} />
         </div>
 
         <button
           onClick={onClose}
-          className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors lg:hidden shrink-0"
-          aria-label="Close sidebar"
+          className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors shrink-0"
+          aria-label="Toggle sidebar"
         >
-          <X size={18} />
+          <Menu size={20} />
         </button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1 bg-white">
+      <nav className="flex-1 overflow-y-auto pt-6 pb-12 px-4 space-y-1 bg-white">
         {navItems.map((item) => {
           const parentActive = isParentActive(item);
           
           return (
-            <div key={item.name} className="flex flex-col">
+            <div key={item.name} className="flex flex-col mb-1 group">
               <button
                 onClick={() => handleItemClick(item)}
                 className={cn(
-                  "w-full flex items-center gap-3 py-3 px-3 rounded-lg transition-all duration-200 group relative text-sm font-medium",
+                  "w-full flex items-center gap-3 py-2.5 px-3 rounded-lg transition-all duration-200 relative text-[15px]",
                   collapsed ? "justify-center px-0" : "",
-                  parentActive && !item.subItems
-                    ? "text-[#ce2a2a] bg-[#fff5f5]" // Theme red color from screenshot
-                    : "text-slate-700 hover:bg-slate-50",
+                  parentActive
+                    ? "text-slate-800 font-semibold"
+                    : "text-slate-400 font-medium hover:text-slate-600 hover:bg-slate-50/50",
                 )}
                 title={collapsed ? item.name : undefined}
               >
                 <item.icon
                   size={20}
-                  strokeWidth={parentActive ? 2 : 1.5}
+                  strokeWidth={parentActive ? 2 : 1.75}
                   className={cn(
                     "flex-shrink-0 transition-colors duration-200",
-                    parentActive && !item.subItems ? "text-[#ce2a2a]" : "text-slate-500",
+                    parentActive ? "text-slate-800" : "text-slate-400 group-hover:text-slate-600",
                   )}
                 />
                 {!collapsed && (
@@ -196,36 +190,39 @@ export const Sidebar = ({ collapsed, onClose }) => {
                 {!collapsed && item.subItems && (
                   <ChevronDown
                     size={16}
+                    strokeWidth={2}
                     className={cn(
                       "transition-transform",
-                      expandedMenus[item.name] ? "rotate-180 text-slate-700" : "text-slate-400"
+                      expandedMenus[item.name] ? "rotate-180 text-slate-600" : "text-slate-400 group-hover:text-slate-500"
                     )}
                   />
                 )}
               </button>
               
               {/* Nested submenu */}
-              {!collapsed && item.subItems && expandedMenus[item.name] && (
-                <div className="mt-1 ml-4 border-l border-slate-200 pl-4 py-1 space-y-1">
+              {!collapsed && item.subItems && item.subItems.length > 0 && expandedMenus[item.name] && (
+                <div className="mt-1 ml-[22px] border-l-[1.5px] border-slate-200 py-1 flex flex-col gap-1 relative">
                   {item.subItems.map(subItem => {
                     const active = isItemActive(subItem.path);
                     return (
-                      <button
-                        key={subItem.name}
-                        onClick={() => handleSubItemClick(subItem.path)}
-                        className={cn(
-                          "w-full flex items-center gap-3 py-2 px-3 rounded-lg transition-all duration-200 text-sm",
-                          active
-                            ? "bg-slate-100 text-black font-semibold"
-                            : "text-slate-600 hover:text-black hover:bg-slate-50"
-                        )}
-                      >
-                        <Circle size={8} className={cn(
-                            "fill-current",
-                            active ? "text-slate-800" : "text-slate-300"
-                        )}/>
-                        <span>{subItem.name}</span>
-                      </button>
+                      <div key={subItem.name} className="relative flex items-center">
+                        <div className={cn(
+                          "absolute left-[-4.5px] top-1/2 -translate-y-1/2 w-[8px] h-[8px] rounded-full",
+                          active ? "bg-slate-800" : "bg-slate-200"
+                        )} />
+                        
+                        <button
+                          onClick={() => handleSubItemClick(subItem.path)}
+                          className={cn(
+                            "w-full flex items-center py-2 px-3 ml-3 rounded-md transition-all duration-200 text-[14px]",
+                            active
+                              ? "bg-slate-50 text-slate-800 font-medium"
+                              : "text-slate-400 hover:text-slate-600 hover:bg-slate-50/50"
+                          )}
+                        >
+                          {subItem.name}
+                        </button>
+                      </div>
                     )
                   })}
                 </div>

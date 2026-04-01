@@ -25,6 +25,9 @@ import { FinancialYearList } from "./pages/settings/FinancialYearList";
 import { UserGroupList } from "./pages/settings/UserGroupList";
 import { Meetings } from "./pages/meetings/Meetings";
 import { DocumentRequests } from "./pages/requests/DocumentRequests";
+import { TaskList } from "./pages/tasks/TaskList";
+import { CreateTask } from "./pages/tasks/CreateTask";
+import { ArchivedTasks } from "./pages/tasks/ArchivedTasks";
 
 import { SearchProvider } from "./context/SearchContext";
 
@@ -101,6 +104,12 @@ function App() {
         
         <Route path="/meetings" element={<DashboardRoute><Meetings /></DashboardRoute>} />
         <Route path="/document-requests" element={<DashboardRoute><DocumentRequests /></DashboardRoute>} />
+        
+        {/* Task Management */}
+        <Route path="/tasks" element={<Navigate to="/tasks/list" />} />
+        <Route path="/tasks/list" element={<DashboardRoute><TaskList /></DashboardRoute>} />
+        <Route path="/tasks/create" element={<DashboardRoute><CreateTask /></DashboardRoute>} />
+        <Route path="/tasks/archived" element={<DashboardRoute><ArchivedTasks /></DashboardRoute>} />
       </Routes>
     </Router>
   );
