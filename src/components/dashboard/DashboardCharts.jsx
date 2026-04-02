@@ -32,7 +32,7 @@ export const MainLineChart = () => {
         <h2 className="text-lg font-semibold text-slate-800">Financial Growth (Line)</h2>
       </div>
       <div className="w-full h-[250px]">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minHeight={1}>
           <LineChart data={lineData} margin={{ top: 5, right: 30, left: -20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} dy={10} />
@@ -55,7 +55,7 @@ export const PerformanceBarChart = () => {
         <h2 className="text-lg font-semibold text-slate-800">Quarterly Targets (Bar)</h2>
       </div>
       <div className="w-full h-[250px]">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minHeight={1}>
           <BarChart data={barData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} dy={10} />
@@ -78,7 +78,7 @@ export const DistributionPieChart = () => {
         <h2 className="text-lg font-semibold text-slate-800">Revenue Distribution (Pie)</h2>
       </div>
       <div className="w-full h-[250px]">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minHeight={1}>
           <PieChart>
             <Pie
               data={pieData}

@@ -1004,7 +1004,7 @@ export const Dashboard = () => {
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col min-w-0">
               <h3 className="text-[15px] font-bold text-slate-800 mb-6 border-b border-slate-100 pb-4">Customer Receivable Balance</h3>
               <div className="overflow-x-auto scrollbar-hide">
-                <table className="w-full text-left min-w-[500px]">
+                <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-slate-100">
                       <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%]">Transaction ID</th>
@@ -1031,7 +1031,7 @@ export const Dashboard = () => {
              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col min-w-0">
               <h3 className="text-[15px] font-bold text-slate-800 mb-6 border-b border-slate-100 pb-4">Vendor Payable Balance</h3>
               <div className="overflow-x-auto scrollbar-hide">
-                <table className="w-full text-left min-w-[500px]">
+                <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-slate-100">
                       <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%]">Transaction ID</th>

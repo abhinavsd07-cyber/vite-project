@@ -82,7 +82,7 @@ export const UserList = () => {
 
         {/* Table Container */}
         <div className="flex-1 overflow-auto">
-          <table className="w-full text-left border-collapse min-w-[950px]">
+          <table className="w-full text-left border-collapse">
             <thead>
                <tr className="border-y border-slate-200 bg-white">
                  <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap w-16">SL No</th>
@@ -108,12 +108,12 @@ export const UserList = () => {
             <tbody>
               {users.map((user, index) => (
                 <tr key={user.id} className="border-b border-slate-100 transition-colors bg-white hover:bg-slate-50/50">
-                   <td className="py-5 px-4 text-[13px] text-slate-600">{index + 1}</td>
-                   <td className="py-5 px-4 text-[13px] text-slate-700 font-medium tracking-tight pr-6">{user.name}</td>
-                   <td className="py-5 px-4 text-[13px] text-slate-600 pr-6">{user.email}</td>
-                   <td className="py-5 px-4 text-[13px] text-slate-600 tracking-tight pr-6">{user.phone}</td>
-                   <td className="py-5 px-4 text-[13px] text-slate-600 pr-6">{user.group}</td>
-                   <td className="py-5 px-4 text-[13px] text-slate-600 pl-4">{user.customers}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 whitespace-nowrap">{index + 1}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-700 font-medium tracking-tight pr-6 whitespace-nowrap">{user.name}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 pr-6 whitespace-nowrap">{user.email}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 tracking-tight pr-6 whitespace-nowrap">{user.phone}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 pr-6 whitespace-nowrap">{user.group}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 pl-4 whitespace-nowrap">{user.customers}</td>
                    <td className="py-5 px-4 text-left">
                       <StatusBadge status={user.status} />
                    </td>

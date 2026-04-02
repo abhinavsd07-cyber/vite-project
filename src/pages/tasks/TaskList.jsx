@@ -96,7 +96,7 @@ export const TaskList = () => {
 
         {/* Table Container */}
         <div className="flex-1 overflow-auto px-6">
-          <table className="w-full text-left border-collapse min-w-[1000px]">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-y border-slate-100/80 bg-slate-50/30">
                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap w-16">SL No</th>

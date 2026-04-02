@@ -55,7 +55,7 @@ export const VendorList = () => {
 
           {/* Table Container */}
           <div className="flex-1 overflow-auto">
-            <table className="w-full text-left border-collapse min-w-[900px]">
+            <table className="w-full text-left border-collapse">
               <thead>
                  <tr className="border-b border-slate-100">
                    <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
@@ -71,17 +71,17 @@ export const VendorList = () => {
               <tbody>
                 {vendors.map((vendor, index) => (
                   <tr key={vendor.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{index + 1}</td>
-                     <td className="py-4 px-4 text-[13px] font-medium text-slate-800 flex items-center gap-2">
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{index + 1}</td>
+                     <td className="py-4 px-4 text-[13px] font-medium text-slate-800 flex items-center gap-2 whitespace-nowrap">
                         {vendor.code}
                         {vendor.verified && <CheckSquare size={14} className="text-emerald-500" />}
                      </td>
-                     <td className="py-4 px-4 text-[13px] text-slate-800">{vendor.name}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{vendor.type}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-800 whitespace-nowrap">{vendor.name}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{vendor.type}</td>
                      <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{vendor.phone}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{vendor.email}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{vendor.country}</td>
-                     <td className="py-4 px-4 flex items-center justify-end">
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{vendor.email}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{vendor.country}</td>
+                     <td className="py-4 px-4 flex items-center justify-end whitespace-nowrap">
                         <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
                            <MoreVertical size={16} />
                         </button>

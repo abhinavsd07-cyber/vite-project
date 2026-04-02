@@ -55,7 +55,7 @@ export const CompanyList = () => {
 
           {/* Table Container */}
           <div className="flex-1 overflow-auto">
-            <table className="w-full text-left border-collapse min-w-[900px]">
+            <table className="w-full text-left border-collapse">
               <thead>
                  <tr className="border-b border-slate-100">
                    <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
@@ -70,13 +70,13 @@ export const CompanyList = () => {
               <tbody>
                 {companies.map((co, index) => (
                   <tr key={co.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{index + 1}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-800 font-medium">{co.company}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{co.customer}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{co.country}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{co.domain}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{co.date}</td>
-                     <td className="py-4 px-4 flex items-center justify-end">
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{index + 1}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-800 font-medium whitespace-nowrap">{co.company}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{co.customer}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{co.country}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{co.domain}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{co.date}</td>
+                     <td className="py-4 px-4 flex items-center justify-end whitespace-nowrap">
                         <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
                            <MoreVertical size={16} />
                         </button>

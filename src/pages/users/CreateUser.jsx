@@ -123,7 +123,7 @@ export const CreateUser = () => {
                    </label>
                    <div className="relative">
                       <select className="appearance-none w-full px-4 py-2 bg-[#fdfdfd] border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-300 text-sm text-slate-300">
-                         <option value="" disabled selected>Choose user Group</option>
+                         <option value="" disabled>Choose user Group</option>
                          <option value="admin">Admin</option>
                          <option value="super_admin">Super Admin</option>
                       </select>
@@ -177,7 +177,7 @@ export const CreateUser = () => {
 
                  {/* Search Results Table */}
                  <div className="overflow-x-auto border-t border-slate-100/80 pt-1 -mx-2 px-2">
-                    <table className="w-full text-left border-collapse min-w-[950px]">
+                    <table className="w-full text-left border-collapse">
                        <thead>
                           <tr className="border-b border-slate-100/80">
                              <th className="py-3.5 px-3 w-10">
@@ -230,7 +230,7 @@ export const CreateUser = () => {
                  <h3 className="text-[14px] font-bold text-slate-800 px-1">Added Company List</h3>
                  
                  <div className="overflow-x-auto border-t border-slate-100/80 pt-1 -mx-2 px-2">
-                    <table className="w-full text-left border-collapse min-w-[950px]">
+                    <table className="w-full text-left border-collapse">
                        <thead>
                           <tr className="border-b border-slate-100/80">
                              <th className="py-3.5 px-3 w-12 text-[11.5px] font-bold text-slate-700 whitespace-nowrap">SL No</th>

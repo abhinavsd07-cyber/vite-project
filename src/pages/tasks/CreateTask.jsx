@@ -164,7 +164,7 @@ export const CreateTask = () => {
                 </div>
 
                 <div className="flex-1 overflow-auto px-6">
-                    <table className="w-full text-left border-collapse min-w-[1000px]">
+                    <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="border-b border-slate-100/80">
                                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap w-20">SL No</th>

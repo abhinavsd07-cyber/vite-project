@@ -86,7 +86,7 @@ export const CustomerList = () => {
 
           {/* Table Container */}
           <div className="flex-1 overflow-auto">
-            <table className="w-full text-left border-collapse min-w-[900px]">
+            <table className="w-full text-left border-collapse">
               <thead>
                  <tr className="border-b border-slate-100">
                    <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
@@ -101,12 +101,12 @@ export const CustomerList = () => {
               <tbody>
                 {customers.map((customer, index) => (
                   <tr key={customer.id || customer.CustomerID || index} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{index + 1}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-800">{customer.name || customer.CustomerName || customer.Name || 'N/A'}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{customer.email || customer.EmailID || customer.Email || 'N/A'}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{index + 1}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-800 whitespace-nowrap">{customer.name || customer.CustomerName || customer.Name || 'N/A'}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{customer.email || customer.EmailID || customer.Email || 'N/A'}</td>
                      <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{customer.phone || customer.PhoneNumber || customer.Phone || 'N/A'}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center">{customer.company || customer.Company || customer.BusinessUID || '0'}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center">{customer.date || customer.CreatedDate || customer.Date || 'N/A'}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center whitespace-nowrap">{customer.company || customer.Company || customer.BusinessUID || '0'}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center whitespace-nowrap">{customer.date || customer.CreatedDate || customer.Date || 'N/A'}</td>
                      <td className="py-4 px-4 flex items-center justify-end">
                         <Toggle 
                            initialState={customer.active ?? customer.IsActive ?? true} 

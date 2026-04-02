@@ -52,7 +52,7 @@ export const ArchivedTasks = () => {
 
                 {/* Table Container */}
                 <div className="flex-1 overflow-auto px-6">
-                    <table className="w-full text-left border-collapse min-w-[1000px]">
+                    <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="border-b border-slate-100/80">
                                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap w-20">SL No</th>
@@ -80,14 +80,14 @@ export const ArchivedTasks = () => {
                         <tbody>
                             {MOCK_ARCHIVED.map((task, index) => (
                                 <tr key={task.id} className="border-b border-slate-100/60 transition-colors hover:bg-slate-50/50">
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-500">{index + 1}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 font-medium">{task.taskId}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 font-medium truncate max-w-[200px]" title={task.title}>{task.title}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 truncate max-w-[150px]">{task.customer}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 truncate max-w-[150px]">{task.category}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600">{task.deleteDate}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600">{task.requestedBy}</td>
-                                    <td className="py-4 px-2 text-right">
+                                    <td className="py-4 px-2 text-[12.5px] text-slate-500 whitespace-nowrap">{index + 1}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 font-medium whitespace-nowrap">{task.taskId}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 font-medium truncate max-w-[200px] whitespace-nowrap" title={task.title}>{task.title}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 truncate max-w-[150px] whitespace-nowrap">{task.customer}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 truncate max-w-[150px] whitespace-nowrap">{task.category}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 whitespace-nowrap">{task.deleteDate}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 whitespace-nowrap">{task.requestedBy}</td>
+                                    <td className="py-4 px-2 text-right whitespace-nowrap">
                                         <div className="flex items-center justify-end gap-3 font-medium text-[12.5px] text-slate-600">
                                           {task.actionCount}
                                           <button className="text-slate-300 hover:text-slate-500 p-1">
