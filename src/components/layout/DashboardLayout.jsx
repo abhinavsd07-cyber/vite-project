@@ -19,8 +19,8 @@ export const DashboardLayout = ({ children }) => {
 
       {/* Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out
-        lg:relative lg:translate-x-0 lg:z-auto
+        fixed inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out w-max
+        lg:relative lg:translate-x-0 lg:z-auto lg:w-auto
         ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <Sidebar 
@@ -32,8 +32,8 @@ export const DashboardLayout = ({ children }) => {
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header setMobileMenuOpen={setMobileMenuOpen} mobileMenuOpen={mobileMenuOpen} />
-        <main className="flex-1 overflow-y-auto scroll-smooth">
-          <div className="animate-slide-up h-full">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth">
+          <div className="animate-slide-up h-full overflow-x-auto">
             {children}
           </div>
         </main>

@@ -19,19 +19,19 @@ export const Logo = ({ collapsed = false, className = "" }) => {
         </svg>
       </div>
       {!collapsed && (
-        <div className="flex flex-col -mt-1">
+        <div className="flex flex-col -mt-1 whitespace-nowrap min-w-0">
           <span
-            className="text-2xl leading-tight text-[#222]"
+            className="text-xl leading-tight text-[#222]" // Reduced from 2xl
             style={{ fontFamily: "Georgia, serif", letterSpacing: "0.05em" }}
           >
             finbook
           </span>
           <span
-            className="text-xl leading-tight text-[#888]"
+            className="text-lg leading-tight text-[#888]" // Reduced from xl
             style={{
               fontFamily: "Georgia, serif",
               letterSpacing: "0.08em",
-              marginLeft: "1.25rem",
+              marginLeft: "0.5rem", // Reduced from 1rem
               marginTop: "-0.2rem"
             }}
           >

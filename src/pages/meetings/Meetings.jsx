@@ -43,12 +43,12 @@ export const Meetings = () => {
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm min-h-[500px] flex flex-col overflow-hidden">
            
            {/* Top Tabs */}
-           <div className="flex border-b border-slate-200 px-6 pt-2">
+           <div className="flex border-b border-slate-200 px-6 pt-2 overflow-x-auto scrollbar-hide">
               {['ALL', 'PENDING', 'UPCOMING', 'CLOSED', 'CANCELLED'].map(tab => (
                  <button 
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`py-3 px-5 text-xs font-bold tracking-wide relative transition-colors ${activeTab === tab ? 'text-slate-800' : 'text-slate-400 hover:text-slate-600'}`}
+                    className={`py-3 px-5 text-xs font-bold tracking-wide relative transition-colors whitespace-nowrap ${activeTab === tab ? 'text-slate-800' : 'text-slate-400 hover:text-slate-600'}`}
                  >
                     {tab}
                     {activeTab === tab && <div className="absolute bottom-0 left-0 w-full h-[3px] bg-slate-800 rounded-t-sm"></div>}

@@ -1,10 +1,17 @@
 import {
   FileText,
-  Settings,
+  Settings as SettingsLucide,
   ChevronDown,
   X,
   Menu,
   ClipboardCheck,
+  Calendar,
+  Briefcase,
+  Flag,
+  Users as UsersLucide,
+  LayoutGrid,
+  Mail,
+  Video,
 } from "lucide-react";
 import { DashboardIcon, UsersIcon, VendorIcon, CustomersIcon } from "../icons/SidebarIcons";
 import { cn, Toast } from "../../lib/utils";
@@ -34,6 +41,15 @@ const navItems = [
     ],
   },
   {
+    name: "Doc Management",
+    icon: FileText,
+    subItems: [
+      { name: "Doc List", path: "/docs/list" },
+      { name: "Upload Doc", path: "/docs/upload" },
+      { name: "Archived", path: "/docs/archived" },
+    ],
+  },
+  {
     name: "Tasks",
     icon: ClipboardCheck,
     subItems: [
@@ -42,7 +58,19 @@ const navItems = [
       { name: "Archived", path: "/tasks/archived" },
     ],
   },
-  { name: "Settings", icon: Settings, path: "/settings", subItems: [] },
+  { name: "Document Request", icon: Mail, path: "/document-requests" },
+  { name: "Meetings", icon: Video, path: "/meetings" },
+  {
+    name: "Settings",
+    icon: SettingsLucide,
+    subItems: [
+      { name: "Business Domain", path: "/settings/business-domain" },
+      { name: "Category", path: "/settings/category" },
+      { name: "Country", path: "/settings/country" },
+      { name: "Financial Year", path: "/settings/financial-year" },
+      { name: "User Group", path: "/settings/user-group" },
+    ],
+  },
 ];
 
 export const Sidebar = ({ collapsed, onClose }) => {
@@ -142,22 +170,36 @@ export const Sidebar = ({ collapsed, onClose }) => {
       )}
    >
       {/* Logo + Controls */}
-      <div className="flex pt-6 pb-4 items-center flex-shrink-0 px-6 justify-between bg-white">
-        <div className="flex items-center gap-2 overflow-hidden min-w-0">
+      <div className="flex pt-6 pb-4 items-center flex-shrink-0 px-6 justify-between bg-white relative">
+        <div className="flex items-center gap-2 overflow-hidden min-w-0 whitespace-nowrap">
           <Logo collapsed={collapsed} />
         </div>
 
-        <button
-          onClick={onClose}
-          className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors shrink-0"
-          aria-label="Toggle sidebar"
-        >
-          <Menu size={20} />
-        </button>
+        {/* Mobile Close Button (X) */}
+        {!collapsed && (
+          <button
+            onClick={onClose}
+            className="lg:hidden p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors shrink-0"
+            aria-label="Close sidebar"
+          >
+            <X size={20} />
+          </button>
+        )}
+
+        {/* Desktop Toggle Button (only when collapsed) */}
+        {collapsed && (
+          <button
+            onClick={onClose}
+            className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors shrink-0"
+            aria-label="Toggle sidebar"
+          >
+            <Menu size={20} />
+          </button>
+        )}
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto pt-6 pb-12 px-4 space-y-1 bg-white">
+      <nav className="flex-1 overflow-y-auto pt-6 pb-12 px-4 space-y-1 bg-white scrollbar-thin">
         {navItems.map((item) => {
           const parentActive = isParentActive(item);
           

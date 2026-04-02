@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Filter, Plus } from 'lucide-react';
 import { Toggle } from '../../components/ui/Toggle';
 import { Pagination } from '../../components/ui/Pagination';
+import { getCustomersAPI } from '../../services/allApis';
 
 const MOCK_CUSTOMERS = [
   { id: 1, name: "Aabasoft customer", email: "sanjay.jayan@aabasoft.com", phone: "+91 9874651111", company: "4", date: "25/04/2025", active: true },
@@ -21,6 +22,26 @@ export const CustomerList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        setIsLoading(true);
+        const res = await getCustomersAPI();
+        if (res && res.statusCode === "SB000" && res.data) {
+           setCustomers(Array.isArray(res.data) ? res.data : (res.data.data || res.data));
+        } else if (res && Array.isArray(res)) {
+           setCustomers(res);
+        }
+      } catch (err) {
+        console.error("Failed to fetch customers:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCustomers();
+  }, []);
 
   const handleToggle = (id, newState) => {
     setCustomers(customers.map(c => c.id === id ? { ...c, active: newState } : c));
@@ -79,17 +100,17 @@ export const CustomerList = () => {
               </thead>
               <tbody>
                 {customers.map((customer, index) => (
-                  <tr key={customer.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                  <tr key={customer.id || customer.CustomerID || index} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
                      <td className="py-4 px-4 text-[13px] text-slate-500">{index + 1}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-800">{customer.name}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500">{customer.email}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{customer.phone}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center">{customer.company}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center">{customer.date}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-800">{customer.name || customer.CustomerName || customer.Name || 'N/A'}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500">{customer.email || customer.EmailID || customer.Email || 'N/A'}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{customer.phone || customer.PhoneNumber || customer.Phone || 'N/A'}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center">{customer.company || customer.Company || customer.BusinessUID || '0'}</td>
+                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center">{customer.date || customer.CreatedDate || customer.Date || 'N/A'}</td>
                      <td className="py-4 px-4 flex items-center justify-end">
                         <Toggle 
-                           initialState={customer.active} 
-                           onChange={(newState) => handleToggle(customer.id, newState)} 
+                           initialState={customer.active ?? customer.IsActive ?? true} 
+                           onChange={(newState) => handleToggle(customer.id || customer.CustomerID, newState)} 
                         />
                      </td>
                    </tr>
