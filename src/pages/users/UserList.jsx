@@ -16,10 +16,10 @@ const MOCK_USERS = [
 ];
 
 const SortIcon = () => (
-   <svg className="w-3 h-3 text-slate-400 opacity-60 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-     <path d="m5 15 7-7 7 7" />
-     <path d="m19 9-7 7-7-7" className="translate-y-6" />
-   </svg>
+  <svg width="12" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400">
+    <path d="M9 18V6l-3 4" />
+    <path d="M15 6v12l3-4" />
+  </svg>
 );
 
 export const UserList = () => {
@@ -31,88 +31,95 @@ export const UserList = () => {
   const StatusBadge = ({ status }) => {
     switch (status) {
        case 'Active':
-          return <div className="px-4 py-1 rounded bg-[#eefcf2] text-[#4cd988] text-[11px] font-bold text-center border border-[#e2efe7] w-20 tracking-wide mt-1">Active</div>;
+          return <div className="px-4 py-1.5 rounded-md bg-[#eaf8f0] text-[#34d399] text-[11px] font-bold text-center w-[75px] tracking-wide">Active</div>;
        case 'Invited':
-          return <div className="px-4 py-1 rounded bg-[#fff3eb] text-[#f7a561] text-[11px] font-bold text-center border border-[#f5ede5] w-20 tracking-wide mt-1">Invited</div>;
+          return <div className="px-4 py-1.5 rounded-md bg-[#fef3eb] text-[#fb923c] text-[11px] font-bold text-center w-[75px] tracking-wide">Invited</div>;
        case 'Inactive':
-          return <div className="px-4 py-1 rounded bg-[#eef5fd] text-[#6cb0eb] text-[11px] font-bold text-center border border-[#e1ebf5] w-20 tracking-wide mt-1">Inactive</div>;
+          return <div className="px-4 py-1.5 rounded-md bg-[#eff6ff] text-[#60a5fa] text-[11px] font-bold text-center w-[75px] tracking-wide">Inactive</div>;
        default:
           return null;
     }
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full p-4 md:p-6 animate-fade-in relative z-10">
+    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in relative z-10">
       
-      {/* Main Card */}
-      <div className="bg-white rounded-[14px] border border-slate-200/80 shadow-[0_1px_5px_rgba(0,0,0,0.02)] flex-1 flex flex-col overflow-hidden">
+       {/* Page Header */}
+       <div className="px-6 py-4 shrink-0 flex justify-between items-center">
+        <h1 className="text-xl font-bold text-slate-800">User List</h1>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col">
+          {/* Main Card */}
+          <div className="bg-white rounded-lg border border-slate-200/60 shadow-sm flex-1 flex flex-col overflow-hidden">
         
         {/* Toolbar */}
-        <div className="px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-           {/* Left Controls */}
-           <div className="flex items-center gap-3 w-full sm:w-auto">
-              <div className="relative w-full sm:w-[280px]">
+        <div className="px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+           {/* Left Controls (Joined Search and Filter) */}
+           <div className="flex items-center w-full sm:w-[320px]">
+              <div className="relative flex-1">
                  <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                  <input
                     type="text"
                     placeholder="Search here..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-[13px] text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400 placeholder:font-light shadow-sm"
+                    className="w-full pl-10 pr-4 py-2 border border-slate-200 border-r-0 rounded-l-lg text-[13px] text-slate-700 focus:outline-none placeholder:text-slate-400 shadow-sm"
                  />
               </div>
-              <button className="flex items-center justify-center w-9 h-9 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-slate-500 shadow-sm">
-                 <Filter size={15} />
+              <button className="flex items-center justify-center w-11 h-[38px] border border-slate-200 rounded-r-lg hover:bg-slate-50 transition-colors text-slate-500 shadow-sm bg-white">
+                 <Filter size={16} />
               </button>
            </div>
 
            {/* Right Control */}
-           <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-5 py-2 rounded-lg text-[13px] font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center shadow-sm">
+           <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-5 py-2.5 rounded text-[13px] font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center shadow-sm">
               <Plus size={14} />
               Quick add
            </button>
         </div>
 
         {/* Table Container */}
-        <div className="flex-1 overflow-auto px-6">
+        <div className="flex-1 overflow-auto">
           <table className="w-full text-left border-collapse min-w-[950px]">
             <thead>
-               <tr className="border-y border-slate-100/80">
-                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap w-20">SL No</th>
-                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap">
+               <tr className="border-y border-slate-200 bg-white">
+                 <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap w-16">SL No</th>
+                 <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap">
                     <div className="flex items-center justify-between">User Name <SortIcon /></div>
                  </th>
-                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap hidden lg:table-cell">
+                 <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap">
                     <div className="flex items-center justify-between">Email <SortIcon /></div>
                  </th>
-                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap">
+                 <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap">
                     <div className="flex items-center justify-between">Contact Number <SortIcon /></div>
                  </th>
-                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap">
+                 <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap">
                     <div className="flex items-center justify-between">User group <SortIcon /></div>
                  </th>
-                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap text-center">
+                 <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap">
                     <div className="flex items-center justify-between">Customers <SortIcon /></div>
                  </th>
-                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap">Status</th>
-                 <th className="py-4 px-2 text-[12.5px] font-bold text-slate-700 whitespace-nowrap text-right">Action</th>
+                 <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap">Status</th>
+                 <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap text-right">Action</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user, index) => (
-                <tr key={user.id} className="border-b border-slate-100/60 transition-colors bg-white hover:bg-slate-50/50 group">
-                   <td className="py-5 px-2 text-[12.5px] text-slate-500">{index + 1}</td>
-                   <td className="py-5 px-2 text-[12.5px] text-slate-600 font-medium tracking-tight pr-8">{user.name}</td>
-                   <td className="py-5 px-2 text-[12.5px] text-slate-600 hidden lg:table-cell pr-8">{user.email}</td>
-                   <td className="py-5 px-2 text-[12.5px] text-slate-600 tracking-tight pr-8">{user.phone}</td>
-                   <td className="py-5 px-2 text-[12.5px] text-slate-600 pr-8">{user.group}</td>
-                   <td className="py-5 px-2 text-[12.5px] text-slate-600">{user.customers}</td>
-                   <td className="py-5 px-2 text-left">
+                <tr key={user.id} className="border-b border-slate-100 transition-colors bg-white hover:bg-slate-50/50">
+                   <td className="py-5 px-4 text-[13px] text-slate-600">{index + 1}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-700 font-medium tracking-tight pr-6">{user.name}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 pr-6">{user.email}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 tracking-tight pr-6">{user.phone}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 pr-6">{user.group}</td>
+                   <td className="py-5 px-4 text-[13px] text-slate-600 pl-4">{user.customers}</td>
+                   <td className="py-5 px-4 text-left">
                       <StatusBadge status={user.status} />
                    </td>
-                   <td className="py-5 px-2 flex justify-end">
+                   <td className="py-5 px-4 flex justify-end">
                       <button className="text-slate-300 hover:text-slate-500 transition-colors p-1">
-                         <MoreVertical size={16} strokeWidth={2.5} />
+                         <MoreVertical size={18} strokeWidth={2.5} />
                       </button>
                    </td>
                  </tr>
@@ -122,7 +129,7 @@ export const UserList = () => {
         </div>
 
         {/* Footer */}
-        <div className="mt-auto shrink-0 w-full bg-white">
+        <div className="mt-auto shrink-0 w-full bg-white border-t border-slate-100">
            <Pagination 
               currentPage={currentPage}
               totalPages={17}
@@ -133,6 +140,8 @@ export const UserList = () => {
            />
         </div>
       </div>
+      </div>
     </div>
   );
 };
+

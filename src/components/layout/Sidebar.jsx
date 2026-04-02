@@ -41,15 +41,6 @@ const navItems = [
     ],
   },
   {
-    name: "Doc Management",
-    icon: FileText,
-    subItems: [
-      { name: "Doc List", path: "/docs/list" },
-      { name: "Upload Doc", path: "/docs/upload" },
-      { name: "Archived", path: "/docs/archived" },
-    ],
-  },
-  {
     name: "Tasks",
     icon: ClipboardCheck,
     subItems: [
@@ -58,17 +49,12 @@ const navItems = [
       { name: "Archived", path: "/tasks/archived" },
     ],
   },
-  { name: "Document Request", icon: Mail, path: "/document-requests" },
-  { name: "Meetings", icon: Video, path: "/meetings" },
   {
     name: "Settings",
     icon: SettingsLucide,
     subItems: [
-      { name: "Business Domain", path: "/settings/business-domain" },
-      { name: "Category", path: "/settings/category" },
-      { name: "Country", path: "/settings/country" },
-      { name: "Financial Year", path: "/settings/financial-year" },
-      { name: "User Group", path: "/settings/user-group" },
+      { name: "Master Settings", path: "/settings/master" },
+      { name: "Account Settings", path: "/settings/account" },
     ],
   },
 ];

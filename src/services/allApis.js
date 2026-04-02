@@ -81,26 +81,6 @@ export const createUserAPI = (data) => authRequest("POST", `${BASE_URL}/api/user
 export const updateUserAPI = (id, data) => authRequest("PUT", `${BASE_URL}/api/users/${id}`, data);
 export const deleteUserAPI = (id) => authRequest("DELETE", `${BASE_URL}/api/users/${id}`);
 
-// SETTINGS (Domains, Categories, Countries, Years, Groups)
-export const getSettingsDataAPI = (type) => authRequest("GET", `${BASE_URL}/api/settings/${type}`);
-export const saveSettingsDataAPI = (type, data) => authRequest("POST", `${BASE_URL}/api/settings/${type}`, data);
-export const deleteSettingsDataAPI = (type, id) => authRequest("DELETE", `${BASE_URL}/api/settings/${type}/${id}`);
-
-// DOCS
-export const getDocsAPI = () => authRequest("GET", `${BASE_URL}/api/docs`);
-export const uploadDocAPI = (data) => authRequest("POST", `${BASE_URL}/api/docs/upload`, data);
-export const deleteDocAPI = (id) => authRequest("DELETE", `${BASE_URL}/api/docs/${id}`);
-
-// MEETINGS
-export const getMeetingsAPI = () => authRequest("GET", `${BASE_URL}/api/meetings`);
-export const createMeetingAPI = (data) => authRequest("POST", `${BASE_URL}/api/meetings`, data);
-export const deleteMeetingAPI = (id) => authRequest("DELETE", `${BASE_URL}/api/meetings/${id}`);
-
-// REQUESTS
-export const getRequestsAPI = () => authRequest("GET", `${BASE_URL}/api/requests`);
-export const createRequestAPI = (data) => authRequest("POST", `${BASE_URL}/api/requests`, data);
-export const updateRequestStatusAPI = (id, data) => authRequest("PATCH", `${BASE_URL}/api/requests/${id}`, data);
-
 // DASHBOARD
 export const getDashboardMetricsAPI = () => authRequest("GET", `${BASE_URL}/api/dashboard/metrics`);
 export const getDashboardChartsAPI = () => authRequest("GET", `${BASE_URL}/api/dashboard/charts`);

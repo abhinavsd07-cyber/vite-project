@@ -5,8 +5,12 @@ import { Pagination } from '../../components/ui/Pagination';
 import { RightDrawer } from '../../components/ui/RightDrawer';
 
 const MOCK_DATA = [
-  { id: 1, name: "2024-2025", status: true },
-  { id: 2, name: "2023-2024", status: false },
+  { id: 1, title: "2024(Apr) - 2025(Mar)", period: "01/04/2024 - 31/03/2025", status: false },
+  { id: 2, title: "2024(Oct) - 2025(Sep)", period: "01/10/2024 - 30/09/2025", status: true },
+  { id: 3, title: "2024(Aug) - 2025(Jul)", period: "01/08/2024 - 31/07/2025", status: true },
+  { id: 4, title: "2024(Mar) - 2025(Feb)", period: "01/03/2024 - 28/02/2025", status: false },
+  { id: 5, title: "2024(Sep) - 2025(Aug)", period: "01/09/2024 - 31/08/2025", status: true },
+  { id: 6, title: "2024(Jun) - 2025(May)", period: "01/06/2024 - 31/05/2025", status: false },
 ];
 
 export const FinancialYearList = () => {
@@ -15,24 +19,36 @@ export const FinancialYearList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [newYear, setNewYear] = useState('');
+  
+  const [newTitle, setNewTitle] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
   const handleClose = () => {
     setIsDrawerOpen(false);
     setTimeout(() => {
-       navigate('/settings');
+       navigate('/settings/master');
     }, 300);
   };
 
   const filtered = data.filter(d =>
-    d.name.toLowerCase().includes(searchTerm.toLowerCase())
+    d.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    d.period.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleAdd = () => {
-    if (newYear.trim()) {
-      setData(prev => [...prev, { id: Date.now(), name: newYear.trim(), status: true }]);
-      setNewYear('');
+    if (newTitle.trim() && startDate.trim() && endDate.trim()) {
+      setData(prev => [...prev, { 
+        id: Date.now(), 
+        title: newTitle.trim(), 
+        period: `${startDate.trim()} - ${endDate.trim()}`,
+        status: true 
+      }]);
+      setNewTitle('');
+      setStartDate('');
+      setEndDate('');
     }
   };
 
@@ -41,22 +57,55 @@ export const FinancialYearList = () => {
   };
 
   return (
-    <RightDrawer isOpen={isDrawerOpen} onClose={handleClose} title="Add Financial Year">
+    <RightDrawer isOpen={isDrawerOpen} onClose={handleClose} title="Add financial year">
       <div className="flex flex-col h-full bg-white">
          
         {/* Form Area */}
         <div className="px-6 pt-6 pb-6">
-           <label className="block text-[13px] font-medium text-slate-400 mb-2">Financial Year</label>
-           <input
-             type="text"
-             value={newYear}
-             onChange={(e) => setNewYear(e.target.value)}
-             placeholder="2025-2026"
-             className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-800 bg-white mb-6"
-           />
+           <div className="mb-4">
+              <label className="block text-[13px] font-medium text-slate-400 mb-2">Title</label>
+              <input
+                 type="text"
+                 value={newTitle}
+                 onChange={(e) => setNewTitle(e.target.value)}
+                 placeholder="Enter title"
+                 className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400 bg-white"
+              />
+           </div>
+           
+           <div className="flex items-center gap-4 mb-6">
+              <div className="flex-1">
+                 <label className="block text-[13px] font-medium text-slate-400 mb-2">Start Date</label>
+                 <input
+                   type="text"
+                   value={startDate}
+                   onChange={(e) => setStartDate(e.target.value)}
+                   placeholder="DD-MM-YY"
+                   className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400 bg-white"
+                 />
+              </div>
+              <div className="mt-7 font-semibold text-slate-800">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </div>
+              <div className="flex-1">
+                 <label className="block text-[13px] font-medium text-slate-400 mb-2">End Date</label>
+                 <input
+                   type="text"
+                   value={endDate}
+                   onChange={(e) => setEndDate(e.target.value)}
+                   placeholder="DD-MM-YY"
+                   className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400 bg-white"
+                 />
+              </div>
+           </div>
+
            <div className="flex justify-end gap-3">
              <button 
-               onClick={() => setNewYear('')}
+               onClick={() => {
+                 setNewTitle('');
+                 setStartDate('');
+                 setEndDate('');
+               }}
                className="px-6 py-2 bg-slate-200/80 hover:bg-slate-300 text-slate-600 rounded-lg text-[13px] font-medium transition-colors"
              >
                Cancel
@@ -72,7 +121,7 @@ export const FinancialYearList = () => {
 
         {/* List Area */}
         <div className="flex-1 flex flex-col px-6 pb-6">
-            <h3 className="text-[15px] font-bold text-slate-800 tracking-tight mb-4">Financial Year List</h3>
+            <h3 className="text-[15px] font-bold text-slate-800 tracking-tight mb-4">Financial year</h3>
             
             <div className="flex flex-col flex-1 border border-slate-200 rounded-lg overflow-hidden bg-white">
                {/* Search Box outside table */}
@@ -92,8 +141,9 @@ export const FinancialYearList = () => {
                  <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-slate-100 bg-slate-50/50">
-                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700 w-20">Sl.No</th>
-                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700">Financial Year</th>
+                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700 w-16">Sl.No</th>
+                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700">Title</th>
+                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700">Financial year</th>
                         <th className="py-3 px-4 text-[13px] font-semibold text-slate-700 text-right w-24">Action</th>
                       </tr>
                     </thead>
@@ -103,7 +153,8 @@ export const FinancialYearList = () => {
                           <td className="py-4 px-4 text-[13px] text-slate-600">
                              {String(index + 1).padStart(2, '0')}
                           </td>
-                          <td className="py-4 px-4 text-[13px] text-slate-800">{item.name}</td>
+                          <td className="py-4 px-4 text-[13px] text-slate-800">{item.title}</td>
+                          <td className="py-4 px-4 text-[13px] text-slate-800">{item.period}</td>
                           <td className="py-4 px-4 flex items-center justify-end gap-3">
                             <button
                               onClick={() => toggleStatus(item.id)}

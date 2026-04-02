@@ -25,7 +25,7 @@ export const UserGroupList = () => {
   const handleClose = () => {
     setIsDrawerOpen(false);
     setTimeout(() => {
-       navigate('/settings');
+       navigate('/settings/master');
     }, 300);
   };
 

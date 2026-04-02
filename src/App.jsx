@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/auth/Login";
@@ -14,17 +14,14 @@ import { VendorList } from "./pages/vendor/VendorList";
 import { CustomerList } from "./pages/customers/CustomerList";
 import { CreateCustomer } from "./pages/customers/CreateCustomer";
 import { CompanyList } from "./pages/customers/CompanyList";
-import { DocList } from "./pages/docs/DocList";
-import { UploadDoc } from "./pages/docs/UploadDoc";
-import { ArchivedDocs } from "./pages/docs/ArchivedDocs";
 import { Settings } from "./pages/settings/Settings";
 import { BusinessDomainList } from "./pages/settings/BusinessDomainList";
 import { CategoryList } from "./pages/settings/CategoryList";
 import { CountryList } from "./pages/settings/CountryList";
 import { FinancialYearList } from "./pages/settings/FinancialYearList";
 import { UserGroupList } from "./pages/settings/UserGroupList";
-import { Meetings } from "./pages/meetings/Meetings";
-import { DocumentRequests } from "./pages/requests/DocumentRequests";
+import { AccountSettings } from "./pages/settings/AccountSettings";
+
 import { TaskList } from "./pages/tasks/TaskList";
 import { CreateTask } from "./pages/tasks/CreateTask";
 import { ArchivedTasks } from "./pages/tasks/ArchivedTasks";
@@ -87,23 +84,17 @@ function App() {
         <Route path="/customers/create" element={<DashboardRoute><CreateCustomer /></DashboardRoute>} />
         <Route path="/customers/companies" element={<DashboardRoute><CompanyList /></DashboardRoute>} />
 
-        {/* Doc Management */}
-        <Route path="/docs" element={<Navigate to="/docs/list" />} />
-        <Route path="/docs/list" element={<DashboardRoute><DocList /></DashboardRoute>} />
-        <Route path="/docs/upload" element={<DashboardRoute><UploadDoc /></DashboardRoute>} />
-        <Route path="/docs/archived" element={<DashboardRoute><ArchivedDocs /></DashboardRoute>} />
-
-        {/* Settings Module with nested routes for modals */}
-        <Route path="/settings" element={<DashboardRoute><Settings /></DashboardRoute>}>
-           <Route path="business-domain" element={<BusinessDomainList />} />
-           <Route path="category" element={<CategoryList />} />
-           <Route path="country" element={<CountryList />} />
-           <Route path="financial-year" element={<FinancialYearList />} />
-           <Route path="user-group" element={<UserGroupList />} />
+        {/* Settings Module */}
+        <Route path="/settings" element={<DashboardRoute><Outlet /></DashboardRoute>}>
+           <Route path="master" element={<Settings />}>
+              <Route path="business-domain" element={<BusinessDomainList />} />
+              <Route path="category" element={<CategoryList />} />
+              <Route path="country" element={<CountryList />} />
+              <Route path="financial-year" element={<FinancialYearList />} />
+              <Route path="user-group" element={<UserGroupList />} />
+           </Route>
+           <Route path="account" element={<AccountSettings />} />
         </Route>
-        
-        <Route path="/meetings" element={<DashboardRoute><Meetings /></DashboardRoute>} />
-        <Route path="/document-requests" element={<DashboardRoute><DocumentRequests /></DashboardRoute>} />
         
         {/* Task Management */}
         <Route path="/tasks" element={<Navigate to="/tasks/list" />} />
