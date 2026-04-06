@@ -181,10 +181,10 @@ export const Sidebar = ({ collapsed, onClose }) => {
                         <button
                           onClick={() => handleSubItemClick(subItem.path)}
                           className={cn(
-                            "w-full text-left py-[8px] px-2 rounded-md text-[13px] transition-colors duration-150",
+                            "w-full text-left py-[8.5px] px-3.5 rounded-lg text-[13.5px] transition-colors duration-150 relative overflow-hidden",
                             active
-                              ? "text-gray-900 font-medium"
-                              : "text-gray-500 hover:text-gray-700"
+                              ? "text-gray-900 font-medium bg-gray-100/80"
+                              : "text-gray-500 hover:text-gray-700 hover:bg-gray-50/50"
                           )}
                         >
                           {subItem.name}

@@ -37,7 +37,7 @@ export const DashboardLayout = ({ children }) => {
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header setMobileMenuOpen={setMobileMenuOpen} mobileMenuOpen={mobileMenuOpen} />
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin">
           <div className="animate-fade-in h-full">
             {children}
           </div>

@@ -1,24 +1,39 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, Filter, MoreVertical, Plus, X, ChevronDown, Edit2, Send } from 'lucide-react';
+import { Search, Filter, MoreVertical, Plus, X, ChevronDown, Edit2, Send, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
+
+import '../../index.css'; // Ensure index.css is applied if we add custom styles
 import { Pagination } from '../../components/ui/Pagination';
 import { RightDrawer } from '../../components/ui/RightDrawer';
 import { Toast } from '../../lib/utils';
 
 const MOCK_USERS = [
-  { id: 1, name: "Aabasoft Testddd", email: "nithinmathew@aabasoft.com", phone: "+91 8138080143", group: "Super Admin" },
-  { id: 2, name: "aabasofttest", email: "aabasofttest@yopmail.com", phone: "+91 0123456789", group: "Super Admin" },
-  { id: 3, name: "Alen T Jose", email: "alentjose@finbookglobal.com", phone: "+91 9400104307", group: "Super Admin" },
-  { id: 4, name: "Allen (Admin)a", email: "allenjose@finbookglobal.com", phone: "+91 8971738660", group: "Super Admin" },
-  { id: 5, name: "Allen (Maker)", email: "allenjose99a@gmail.com", phone: "+91 8971738660", group: "Maker" },
-  { id: 6, name: "Allen Checker", email: "allenjosechecker@gmail.com", phone: "+91 8971738660", group: "Checker" },
-  { id: 7, name: "George (Checker)", email: "georgeabrchecker@gmail.com", phone: "+91 8547121715", group: "Checker" },
-  { id: 8, name: "George (maker)", email: "georgeabrmaker@gmail.com", phone: "+91 8547121715", group: "Maker" },
-  { id: 9, name: "Nithin Mathew", email: "nithin@finbookglobal.com", phone: "+91 9876543210", group: "Super Admin" },
-  { id: 10, name: "Rahul Dev", email: "rahul.dev@gmail.com", phone: "+91 7890123456", group: "Maker" },
+  { id: 1, name: "Samantha Gray", email: "ali.hassan@gmail.com", phone: "(512) 543-4588", group: "Client Manager", customers: 25, status: "Inactive" },
+  { id: 2, name: "Sofia Suárez", email: "stefan.peeters@gmail.com", phone: "(728) 321-5259", group: "Payroll Administrator", customers: 7, status: "Invited" },
+  { id: 3, name: "Priyanka Gupta", email: "tanya.mehta@gmail.com", phone: "(799) 095-8314", group: "Auditor", customers: 12, status: "Active" },
+  { id: 4, name: "Cayadi Megantara", email: "minatory_plumber_43@gmail.com", phone: "(196) 357-1409", group: "Finance Manager", customers: 8, status: "Active" },
+  { id: 5, name: "Sara Gbeho", email: "amelia.rossi@gmail.com", phone: "(356) 675-3014", group: "Accountant", customers: 9, status: "Invited" },
+  { id: 6, name: "Jakub Peeters", email: "redolent_toejam_65@gmail.com", phone: "(007) 819-5008", group: "Bookkeeper", customers: 16, status: "Active" },
+  { id: 7, name: "Salma Rashid", email: "ishita.singh@gmail.com", phone: "(593) 436-3473", group: "Accountant", customers: 22, status: "Invited" },
+  { id: 8, name: "Kamau Chidubem", email: "loquacious_designer_60@gmail.com", phone: "(718) 072-1984", group: "Accountant", customers: 14, status: "Inactive" },
+  { id: 9, name: "Indah Wijayanti", email: "jejune_glitter_57@gmail.com", phone: "(017) 151-4874", group: "Bookkeeper", customers: 7, status: "Active" },
+  { id: 10, name: "Anna Diaz", email: "fatima.mohammed@gmail.com", phone: "(966) 473-1271", group: "Senior Management", customers: 3, status: "Invited" }
 ];
 
-const USER_GROUPS = ["Super Admin", "Maker", "Checker", "Admin"];
+const USER_GROUPS = ["Client Manager", "Payroll Administrator", "Auditor", "Finance Manager", "Accountant", "Bookkeeper", "Senior Management"];
 const STATUS_OPTIONS = ["Active", "Inactive", "Invited"];
+
+const StatusBadge = ({ status }) => {
+  const styles = {
+    Active: "bg-[#e8f5e9] text-[#2e7d32]",
+    Inactive: "bg-[#e3f2fd] text-[#1976d2]",
+    Invited: "bg-[#fff3e0] text-[#f57c00]",
+  };
+  return (
+    <span className={`px-3 py-1 rounded-full text-[12px] font-medium ${styles[status] || "bg-gray-100 text-gray-600"}`}>
+      {status}
+    </span>
+  );
+};
 
 export const UserList = () => {
   const [users] = useState(MOCK_USERS);
@@ -51,7 +66,8 @@ export const UserList = () => {
       user.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.group.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesGroup = !appliedFilters.userGroup || user.group === appliedFilters.userGroup;
-    return matchesSearch && matchesGroup;
+    const matchesStatus = !appliedFilters.status || user.status === appliedFilters.status;
+    return matchesSearch && matchesGroup && matchesStatus;
   });
 
   const paginatedUsers = filteredUsers.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
@@ -85,148 +101,174 @@ export const UserList = () => {
   const handleResend = (user) => { setActiveActionMenu(null); Toast.fire({ icon: 'success', title: `Credentials resent to ${user.email}` }); };
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col h-full w-full bg-[#fafafa]">
 
       {/* Page Title */}
       <div className="px-6 pt-6 pb-4 shrink-0">
-        <h1 className="text-[20px] font-semibold text-gray-800">User List</h1>
+        <h1 className="text-[22px] font-semibold text-gray-800">User List</h1>
       </div>
 
       {/* Content */}
       <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col min-h-0">
-        <div className="bg-white rounded-lg border border-gray-200 flex-1 flex flex-col overflow-hidden">
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm flex-1 flex flex-col overflow-hidden">
 
           {/* Toolbar */}
-          <div className="px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-gray-100">
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="px-6 py-5 flex items-center justify-between gap-3 bg-white">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               {/* Search */}
-              <div className="relative flex-1 sm:w-[300px]">
-                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <div className="relative flex-1 sm:w-[320px]">
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search User..."
+                  placeholder="Search here..."
                   value={searchTerm}
                   onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-                  className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:border-gray-300 placeholder:text-gray-400 bg-white"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-[13.5px] text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-gray-100 focus:border-gray-300 placeholder:text-gray-400 transition-all"
                 />
               </div>
               {/* Filter toggle */}
               <button
                 onClick={() => setShowFilter(!showFilter)}
-                className={`flex items-center justify-center w-9 h-9 shrink-0 border rounded-lg transition-colors ${showFilter ? 'border-gray-400 text-gray-700 bg-gray-50' : 'border-gray-200 text-gray-400 hover:bg-gray-50'}`}
+                className={`flex items-center justify-center w-10 h-10 shrink-0 border rounded-lg transition-colors ${showFilter ? 'border-gray-400 text-gray-700 bg-gray-50' : 'border-gray-200 text-gray-400 hover:bg-gray-50 hover:text-gray-600'}`}
               >
-                {showFilter ? <X size={15} /> : <Filter size={15} />}
+                {showFilter ? <X size={16} /> : <Filter size={16} />}
               </button>
             </div>
 
             {/* Quick Add */}
             <button
               onClick={() => setShowQuickAdd(true)}
-              className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-2 rounded-md text-[13px] font-medium transition-colors shrink-0 w-full sm:w-auto justify-center"
+              className="flex items-center gap-2 bg-[#1a1a1a] hover:bg-black text-white px-5 py-2.5 rounded-lg text-[13.5px] font-medium transition-colors shrink-0"
             >
-              <Plus size={14} />
-              Quick Add
+              <Plus size={16} />
+              Quick add
             </button>
           </div>
 
           {/* Filter Panel */}
           {showFilter && (
-            <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50 animate-slide-down">
-              <div className="flex flex-col sm:flex-row items-end gap-3">
-                <div className="flex flex-col gap-1.5 w-full sm:w-[200px]">
-                  <label className="text-[12px] font-medium text-gray-400 uppercase tracking-wide">User Group</label>
+            <div className="px-6 py-5 border-t border-gray-100 bg-[#fafafa] animate-slide-down">
+              <div className="flex flex-col sm:flex-row items-end gap-4">
+                <div className="flex flex-col gap-2 w-full sm:w-[220px]">
+                  <label className="text-[12.5px] font-medium text-gray-600">User Group</label>
                   <div className="relative">
                     <select
                       value={filterUserGroup}
                       onChange={(e) => setFilterUserGroup(e.target.value)}
-                      className="appearance-none w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none cursor-pointer"
+                      className="appearance-none w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-lg text-[13.5px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:border-gray-300 cursor-pointer transition-all"
                     >
-                      <option value="">Select User Group</option>
+                      <option value="">All Groups</option>
                       {USER_GROUPS.map(g => <option key={g} value={g}>{g}</option>)}
                     </select>
-                    <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                   </div>
                 </div>
-                <div className="flex flex-col gap-1.5 w-full sm:w-[200px]">
-                  <label className="text-[12px] font-medium text-gray-400 uppercase tracking-wide">Status</label>
+                <div className="flex flex-col gap-2 w-full sm:w-[220px]">
+                  <label className="text-[12.5px] font-medium text-gray-600">Status</label>
                   <div className="relative">
                     <select
                       value={filterStatus}
                       onChange={(e) => setFilterStatus(e.target.value)}
-                      className="appearance-none w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none cursor-pointer"
+                      className="appearance-none w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-lg text-[13.5px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:border-gray-300 cursor-pointer transition-all"
                     >
-                      <option value="">Select Status</option>
+                      <option value="">All Statuses</option>
                       {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
-                    <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2 ml-auto">
+                <div className="flex items-center gap-3 ml-auto">
                   <button
                     onClick={() => { setFilterUserGroup(''); setFilterStatus(''); setAppliedFilters({ userGroup: '', status: '' }); }}
-                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-600 rounded-lg text-[13px] font-medium transition-colors"
+                    className="px-5 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-lg text-[13.5px] font-medium transition-colors"
                   >
                     Clear
                   </button>
                   <button
                     onClick={() => { setAppliedFilters({ userGroup: filterUserGroup, status: filterStatus }); setCurrentPage(1); }}
-                    className="px-4 py-2 bg-[#212529] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
+                    className="px-5 py-2.5 bg-[#1a1a1a] hover:bg-black text-white rounded-lg text-[13.5px] font-medium transition-colors"
                   >
-                    Search
+                    Apply Filter
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Table */}
-          <div className="flex-1 overflow-auto">
-            <table className="w-full text-left">
+          {/* Table Container */}
+          <div className="flex-1 overflow-auto scrollbar-thin pr-1 pb-2">
+            <table className="w-full text-left border-collapse min-w-[950px]">
               <thead>
-                <tr className="border-b border-gray-100">
-                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap w-16">SL No</th>
-                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">User name</th>
-                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Email</th>
-                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Contact Number</th>
-                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">User Group</th>
-                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap text-right">Action</th>
+                <tr className="bg-white border-y border-gray-100">
+                  <th className="py-3.5 px-6 text-[13px] font-medium text-[#212529] whitespace-nowrap w-16">SL No</th>
+                  <th className="py-3.5 px-6 text-[13px] font-medium text-[#212529] whitespace-nowrap group cursor-pointer hover:bg-gray-50 transition-colors">
+                    <div className="flex items-center gap-1.5">
+                      User Name
+                      <ArrowUpDown size={13} className="text-gray-400 group-hover:text-gray-600" />
+                    </div>
+                  </th>
+                  <th className="py-3.5 px-6 text-[13px] font-medium text-[#212529] whitespace-nowrap">Email</th>
+                  <th className="py-3.5 px-6 text-[13px] font-medium text-[#212529] whitespace-nowrap group cursor-pointer hover:bg-gray-50 transition-colors">
+                     <div className="flex items-center gap-1.5">
+                      Contact Number
+                      <ArrowUpDown size={13} className="text-gray-400 group-hover:text-gray-600" />
+                    </div>
+                  </th>
+                  <th className="py-3.5 px-6 text-[13px] font-medium text-[#212529] whitespace-nowrap group cursor-pointer hover:bg-gray-50 transition-colors">
+                     <div className="flex items-center gap-1.5">
+                      User group
+                      <ArrowUpDown size={13} className="text-gray-400 group-hover:text-gray-600" />
+                    </div>
+                  </th>
+                  <th className="py-3.5 px-6 text-[13px] font-medium text-[#212529] whitespace-nowrap group cursor-pointer hover:bg-gray-50 transition-colors">
+                     <div className="flex items-center gap-1.5">
+                      Customers
+                      <ArrowUpDown size={13} className="text-gray-400 group-hover:text-gray-600" />
+                    </div>
+                  </th>
+                  <th className="py-3.5 px-6 text-[13px] font-medium text-[#212529] whitespace-nowrap">Status</th>
+                  <th className="py-3.5 px-6 text-[13px] font-medium text-[#212529] whitespace-nowrap text-right pr-8">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="bg-white divide-y divide-gray-100">
                 {paginatedUsers.length > 0 ? (
                   paginatedUsers.map((user, index) => (
-                    <tr key={user.id} className="border-b border-gray-50 hover:bg-gray-50/60 transition-colors">
-                      <td className="py-4 px-6 text-[13px] text-gray-500 whitespace-nowrap">
+                    <tr key={user.id} className="hover:bg-[#fafafa] transition-colors">
+                      <td className="py-4 px-6 text-[13px] text-gray-500 font-medium whitespace-nowrap">
                         {(currentPage - 1) * rowsPerPage + index + 1}
                       </td>
-                      <td className="py-4 px-6 text-[13px] text-gray-800 whitespace-nowrap">{user.name}</td>
-                      <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{user.email}</td>
-                      <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{user.phone}</td>
-                      <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{user.group}</td>
+                      <td className="py-4 px-6 text-[13px] text-[#495057] whitespace-nowrap">{user.name}</td>
+                      <td className="py-4 px-6 text-[13px] text-[#495057] whitespace-nowrap">{user.email}</td>
+                      <td className="py-4 px-6 text-[13px] text-[#495057] whitespace-nowrap">{user.phone}</td>
+                      <td className="py-4 px-6 text-[13px] text-[#495057] whitespace-nowrap">{user.group}</td>
+                      <td className="py-4 px-6 text-[13px] text-[#495057] whitespace-nowrap">{user.customers}</td>
                       <td className="py-4 px-6 whitespace-nowrap">
+                        <StatusBadge status={user.status} />
+                      </td>
+                      <td className="py-4 px-6 whitespace-nowrap pr-8">
                         <div className="flex justify-end relative">
                           <button
                             onClick={() => setActiveActionMenu(activeActionMenu === user.id ? null : user.id)}
-                            className="text-gray-300 hover:text-gray-500 transition-colors p-1 rounded"
+                            className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded"
                           >
-                            <MoreVertical size={17} strokeWidth={2} />
+                            <MoreVertical size={18} strokeWidth={2} />
                           </button>
                           {activeActionMenu === user.id && (
                             <div
                               ref={actionMenuRef}
-                              className="absolute right-0 top-full mt-1 w-[180px] bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50"
+                              className="absolute right-0 top-full mt-1 w-[180px] bg-white rounded-lg shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-gray-100 py-1.5 z-50"
                             >
                               <button
                                 onClick={() => handleEdit(user)}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] text-gray-600 hover:bg-gray-50 transition-colors"
+                                className="w-full flex items-center gap-3 px-4 py-2 text-[13.5px] text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
                               >
-                                <Edit2 size={13} className="text-gray-400" /> Edit
+                                <Edit2 size={14} className="text-gray-400" /> Edit
                               </button>
                               <button
                                 onClick={() => handleResend(user)}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] text-gray-600 hover:bg-gray-50 transition-colors"
+                                className="w-full flex items-center gap-3 px-4 py-2 text-[13.5px] text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
                               >
-                                <Send size={13} className="text-gray-400" /> Resend Credentials
+                                <Send size={14} className="text-gray-400" /> Resend Credentials
                               </button>
                             </div>
                           )}
@@ -236,12 +278,12 @@ export const UserList = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} className="py-16 text-center">
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-1">
-                          <Search size={20} className="text-gray-300" />
+                    <td colSpan={8} className="py-16 text-center">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-14 h-14 rounded-full bg-gray-50 flex items-center justify-center">
+                          <Search size={24} className="text-gray-300" />
                         </div>
-                        <p className="text-[13px] text-gray-400">No users found</p>
+                        <p className="text-[14px] text-gray-400 font-medium">No users found</p>
                       </div>
                     </td>
                   </tr>
@@ -250,21 +292,78 @@ export const UserList = () => {
             </table>
           </div>
 
-          {/* Pagination */}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.ceil(filteredUsers.length / rowsPerPage) || 1}
-            totalEntries={filteredUsers.length}
-            rowsPerPage={rowsPerPage}
-            onPageChange={setCurrentPage}
-            onRowsChange={(n) => { setRowsPerPage(n); setCurrentPage(1); }}
-          />
+          {/* Custom Footer Pagination mimicking the image closely */}
+          <div className="px-6 py-4 border-t border-gray-100 bg-white flex flex-col sm:flex-row items-center justify-between gap-4">
+             <div className="text-[13.5px] text-gray-500">
+               Showing {(currentPage - 1) * rowsPerPage + 1} to {Math.min(currentPage * rowsPerPage, filteredUsers.length)} of 256 entries
+             </div>
+             
+             <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                     className="w-8 h-8 flex items-center justify-center rounded border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  {[1, 2, 3].map(pageNum => (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-8 h-8 flex items-center justify-center rounded text-[13px] font-medium transition-colors ${
+                        currentPage === pageNum 
+                        ? 'bg-[#1a1a1a] text-white' 
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-transparent'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
+                  <span className="text-gray-400 px-1">...</span>
+                  <button 
+                    onClick={() => setCurrentPage(17)}
+                    className={`w-8 h-8 flex items-center justify-center rounded text-[13px] font-medium transition-colors ${
+                      currentPage === 17 
+                      ? 'bg-[#1a1a1a] text-white' 
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-transparent'
+                    }`}
+                  >
+                    17
+                  </button>
+                   <button 
+                    onClick={() => setCurrentPage(Math.min(Math.ceil(filteredUsers.length / rowsPerPage), currentPage + 1))}
+                     className="w-8 h-8 flex items-center justify-center rounded border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+                
+                <div className="flex items-center gap-2 text-[13px] text-gray-500">
+                   Show 
+                   <div className="relative">
+                     <select
+                       value={rowsPerPage}
+                       onChange={(e) => { setRowsPerPage(Number(e.target.value)); setCurrentPage(1); }}
+                       className="appearance-none w-14 px-2 py-1.5 bg-white border border-gray-200 rounded text-[13px] text-gray-700 focus:outline-none cursor-pointer"
+                     >
+                       <option value={10}>10</option>
+                       <option value={25}>25</option>
+                       <option value={50}>50</option>
+                     </select>
+                     <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                   </div>
+                   entries
+                </div>
+             </div>
+          </div>
         </div>
       </div>
 
       {/* Quick Add Drawer */}
       <RightDrawer isOpen={showQuickAdd} onClose={() => setShowQuickAdd(false)} title="Add User">
         <div className="p-6 flex flex-col gap-5">
+           {/* ...rest of drawer logic remains the same... */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[13px] font-medium text-gray-600">User Name <span className="text-red-500">*</span></label>
             <input
@@ -345,7 +444,7 @@ export const UserList = () => {
           </button>
           <button
             onClick={handleQuickAddCreate}
-            className="px-4 py-2 bg-[#212529] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
+            className="px-4 py-2 bg-[#1a1a1a] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
           >
             Create
           </button>
@@ -354,3 +453,4 @@ export const UserList = () => {
     </div>
   );
 };
+

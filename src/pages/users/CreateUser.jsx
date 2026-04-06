@@ -38,7 +38,7 @@ export const CreateUser = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 px-6 pb-6 overflow-y-auto">
+      <div className="flex-1 px-6 pb-6 overflow-y-auto scrollbar-thin">
         
         {/* Tabs Bar */}
         <div className="bg-white rounded-[10px] border border-gray-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.02)] mb-4 overflow-hidden">
@@ -176,7 +176,7 @@ export const CreateUser = () => {
                  </div>
 
                  {/* Search Results Table */}
-                 <div className="overflow-x-auto border-t border-gray-100/80 pt-1 -mx-2 px-2">
+                 <div className="overflow-x-auto border-t border-gray-100/80 pt-1 -mx-2 px-2 scrollbar-thin pb-2">
                     <table className="w-full text-left border-collapse">
                        <thead>
                           <tr className="border-b border-gray-100/80">
@@ -229,7 +229,7 @@ export const CreateUser = () => {
               <div className="bg-white p-5 md:p-6 rounded-[10px] border border-gray-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col gap-6">
                  <h3 className="text-[14px] font-bold text-gray-800 px-1">Added Company List</h3>
                  
-                 <div className="overflow-x-auto border-t border-gray-100/80 pt-1 -mx-2 px-2">
+                 <div className="overflow-x-auto border-t border-gray-100/80 pt-1 -mx-2 px-2 scrollbar-thin pb-2">
                     <table className="w-full text-left border-collapse">
                        <thead>
                           <tr className="border-b border-gray-100/80">
