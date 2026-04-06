@@ -51,7 +51,7 @@ export const Header = ({ setMobileMenuOpen }) => {
   };
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200 flex items-center px-4 md:px-6 sticky top-0 z-30 flex-shrink-0 justify-between lg:justify-end gap-4 shadow-sm">
+    <header className="h-16 bg-white flex flex-shrink-0 items-center justify-between gap-4 px-4 sticky top-0 z-30 sm:px-6 lg:justify-end">
       
       {/* Mobile hamburger */}
       <button

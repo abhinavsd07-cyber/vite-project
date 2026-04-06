@@ -244,8 +244,8 @@ export const Sidebar = ({ collapsed, onClose }) => {
                           className={cn(
                             "w-full flex items-center py-2 px-3 ml-3 rounded-md transition-all duration-200 text-[14px]",
                             active
-                              ? "bg-slate-50 text-slate-800 font-medium"
-                              : "text-slate-400 hover:text-slate-600 hover:bg-slate-50/50"
+                              ? "text-slate-900 font-semibold"
+                              : "text-slate-500 hover:text-slate-700 hover:bg-slate-50/50"
                           )}
                         >
                           {subItem.name}

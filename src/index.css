@@ -21,11 +21,23 @@
   --font-display: 'Open Sans', system-ui, -apple-system, sans-serif;
 
   --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-slide-down: slideDown 0.25s ease-out;
+  --animate-fade-in: fadeIn 0.2s ease-out;
   --animate-zoom-in: zoomIn 2.2s ease-in-out forwards;
 
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   @keyframes zoomIn {
@@ -42,9 +54,6 @@
     background-color: var(--color-surface-100);
     color: var(--color-surface-900);
     @apply antialiased;
-    background-image: radial-gradient(circle at top center, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
   }
 }
 
