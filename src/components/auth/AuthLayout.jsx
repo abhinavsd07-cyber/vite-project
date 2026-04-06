@@ -1,5 +1,4 @@
-import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
-import { RiTwitterXLine } from "react-icons/ri";
+import { FaYoutube, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { Logo } from "./Logo";
 
@@ -72,21 +71,21 @@ export const AuthLayout = ({ children }) => {
           </div>
         </div>
 
-        {/* RIGHT SIDE: Form Content (Full width on mobile, 50% on tablet, 50% on laptop/desktop) */}
-        <div className="w-full md:w-1/2 lg:w-[50%] grid grid-rows-[120px_1fr_100px] px-6 sm:px-12 lg:px-20 bg-[#fafafa] min-h-screen">
+        {/* RIGHT SIDE: Form Content */}
+        <div className="w-full md:w-1/2 lg:w-[50%] flex flex-col px-6 sm:px-12 lg:px-20 bg-white h-screen overflow-y-auto">
           {/* Logo Area */}
-          <div className="flex items-end justify-center pb-4">
+          <div className="flex items-end justify-center pt-8 pb-3 shrink-0" style={{ minHeight: '100px' }}>
             <Logo />
           </div>
 
           {/* Centered form area */}
-          <div className="flex flex-col justify-center items-center w-full max-w-[400px] mx-auto">
+          <div className="flex-1 flex flex-col justify-center items-center w-full max-w-[400px] mx-auto py-4">
             <div className="w-full">{children}</div>
           </div>
 
           {/* Footer Socials & Links */}
-          <div className="flex flex-col justify-end pb-10">
-            <div className="flex justify-center gap-6 sm:gap-8 text-[12px] text-slate-400 mb-6 font-medium">
+          <div className="flex flex-col items-center pb-6 pt-4 shrink-0">
+            <div className="flex justify-center gap-8 text-[13px] text-slate-400 mb-5 font-medium">
               <a href="#" className="hover:text-slate-900 transition-colors">
                 About Us
               </a>
@@ -95,17 +94,14 @@ export const AuthLayout = ({ children }) => {
               </a>
             </div>
 
-            <div className="flex justify-center gap-6 text-slate-400 items-center">
-              <a href="#" className="hover:text-slate-600 transition-colors">
-                <FaFacebook size={18} />
+            <div className="flex justify-center gap-5 text-slate-500 items-center">
+              <a href="#" className="hover:text-slate-700 transition-colors">
+                <FaYoutube size={20} />
               </a>
-              <a href="#" className="hover:text-slate-600 transition-colors">
-                <RiTwitterXLine size={16} />
-              </a>
-              <a href="#" className="hover:text-slate-600 transition-colors">
+              <a href="#" className="hover:text-slate-700 transition-colors">
                 <FaLinkedin size={18} />
               </a>
-              <a href="#" className="hover:text-slate-600 transition-colors">
+              <a href="#" className="hover:text-slate-700 transition-colors">
                 <FaInstagram size={18} />
               </a>
             </div>

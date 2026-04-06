@@ -147,12 +147,12 @@ export const VerifyOTP = () => {
 
       <div className="text-center mb-8 flex flex-col items-center">
         <h2 className="text-[22px] font-bold text-slate-900 mb-2">Verify OTP</h2>
-        <p className="text-xs text-slate-400 max-w-[280px]">Please enter OTP sent to <span className="text-slate-600 font-medium">{resetEmail || "your email"}</span></p>
+        <p className="text-[13px] text-slate-400 max-w-[300px]">Please enter OTP that send to <span className="text-slate-700 font-semibold">{resetEmail || "your email"}</span></p>
       </div>
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
-          <label className="text-[13px] font-medium text-slate-600 text-center block mb-4">Enter OTP</label>
+          <label className="text-[13px] font-medium text-slate-500 text-center block mb-4">Enter OTP</label>
           <div className="flex justify-center gap-3 md:gap-4">
             {otp.map((digit, i) => (
               <input
@@ -163,13 +163,13 @@ export const VerifyOTP = () => {
                 value={digit}
                 onChange={(e) => handleChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
-                className="w-[50px] h-[55px] md:w-[55px] md:h-[60px] text-center text-xl font-bold border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all bg-white shadow-sm"
+                className="w-[55px] h-[50px] text-center text-lg font-bold border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all bg-white"
               />
             ))}
           </div>
           
-          <div className="flex justify-between items-center mt-3 px-2">
-            <span className="text-[10px] text-slate-400">
+          <div className="flex justify-between items-center mt-3 px-1">
+            <span className="text-[11px] text-slate-400">
               {timer > 0 ? (
                 <>Resend OTP in <span className="text-red-500 font-medium">{formatTime(timer)}</span></>
               ) : (
@@ -180,7 +180,7 @@ export const VerifyOTP = () => {
               type="button" 
               onClick={handleResend}
               disabled={!canResend}
-              className={`text-[10px] font-bold underline underline-offset-2 transition-colors ${
+              className={`text-[11px] font-bold underline underline-offset-2 transition-colors ${
                 canResend 
                   ? "text-slate-900 hover:text-slate-700 decoration-slate-400" 
                   : "text-slate-300 cursor-not-allowed decoration-slate-200"
@@ -191,11 +191,11 @@ export const VerifyOTP = () => {
           </div>
         </div>
 
-        <div className="pt-2">
+        <div className="pt-2 flex justify-center">
           <button 
             type="submit" 
             disabled={isLoading}
-            className="w-full bg-slate-900 text-white font-medium py-3 rounded-lg hover:bg-slate-950 transition-colors text-sm shadow-md disabled:opacity-70 flex items-center justify-center gap-2"
+            className="bg-slate-900 text-white font-semibold py-2.5 px-10 rounded-lg hover:bg-slate-950 transition-colors text-sm disabled:opacity-70 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
@@ -207,12 +207,12 @@ export const VerifyOTP = () => {
         </div>
       </form>
 
-      <div className="mt-8 text-center space-y-4">
-        <Link to="/" className="text-xs text-slate-400 hover:text-slate-700 transition-colors">
+      <div className="mt-6 text-center space-y-3">
+        <Link to="/" className="text-[12px] text-slate-400 hover:text-slate-700 transition-colors block">
           Back to login
         </Link>
-        <p className="text-xs text-slate-400">
-          Need help? <a href="#" className="text-slate-700 font-semibold hover:underline">Contact Support</a>
+        <p className="text-[12px] text-slate-400">
+          Need help? <a href="#" className="text-slate-800 font-bold hover:underline">Contact Support</a>
         </p>
       </div>
     </AuthLayout>

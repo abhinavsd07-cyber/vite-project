@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { EyeOff, Eye } from 'lucide-react';
+import { EyeOff, Eye, AlertCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Toast } from '../../lib/utils';
 import { AuthLayout } from '../../components/auth/AuthLayout';
 import { resetPasswordAPI } from '../../services/allApis';
 
 export const ResetPassword = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const resetEmail = sessionStorage.getItem('resetEmail');
   const userUID = sessionStorage.getItem('userUID');
@@ -20,37 +22,37 @@ export const ResetPassword = () => {
     }
   }, [navigate, resetEmail]);
 
+  // Live validation for password mismatch
+  useEffect(() => {
+    if (confirmPassword && password !== confirmPassword) {
+      setErrorMessage('Passwords do not match');
+    } else {
+      setErrorMessage('');
+    }
+  }, [password, confirmPassword]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!password || !confirmPassword) {
-      Toast.fire({
-        icon: 'error',
-        title: 'Please fill in both password fields.',
-      });
+      setErrorMessage('Please fill in both password fields.');
       return;
     }
 
     if (password !== confirmPassword) {
-      Toast.fire({
-        icon: 'error',
-        title: 'Passwords do not match! Please try again.',
-      });
+      setErrorMessage('Passwords do not match! Please try again.');
       return;
     }
 
     // Password strength policy (8+ chars, uppercase, lowercase, number, symbol)
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})");
     if (!strongRegex.test(password)) {
-      Toast.fire({
-        icon: 'warning',
-        title: 'Weak Password',
-        text: 'Password must be 8+ chars and contain uppercase, lowercase, number, and symbol.',
-      });
+      setErrorMessage('Password must be 8+ chars with uppercase, lowercase, number, and symbol.');
       return;
     }
 
     setIsLoading(true);
+    setErrorMessage('');
     
     // Use the exact payload format: { userUID, PassWord }
     const payload = {
@@ -83,18 +85,12 @@ export const ResetPassword = () => {
       } else {
         console.error("Password Reset Failed:", response);
         const errorMsg = response?.responseResult?.responseDescription || response?.message || 'Failed to update password. Please try again.';
-        Toast.fire({
-          icon: 'error',
-          title: errorMsg,
-        });
+        setErrorMessage(errorMsg);
       }
     } catch (err) {
       setIsLoading(false);
       console.error("Unexpected Error:", err);
-      Toast.fire({
-        icon: 'error',
-        title: 'Server error. Please check your connection.',
-      });
+      setErrorMessage('Server error. Please check your connection.');
     }
   };
 
@@ -103,50 +99,70 @@ export const ResetPassword = () => {
 
       <div className="text-center mb-8">
         <h2 className="text-[22px] font-bold text-slate-900 mb-2">Confirm Password</h2>
-        <p className="text-xs text-slate-400">Enter your new password below</p>
+        <p className="text-[13px] text-slate-400">Enter your new password.</p>
       </div>
 
       <form className="space-y-5" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-600 flex items-center gap-1 px-1">
-            New Password
-          </label>
-          <input 
-            type="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Min. 8 characters"
-            className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans shadow-sm"
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-600 px-1">
-            Confirm Password
+          <label className="text-[13px] font-medium text-slate-500 flex items-center gap-1">
+            New Password{" "}
+            <span className="w-3.5 h-3.5 border border-slate-300 rounded-full inline-flex items-center justify-center text-[8px] text-slate-400 cursor-help">
+              i
+            </span>
           </label>
           <div className="relative">
             <input 
-              type={showPassword ? "text" : "password"} 
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm your new password"
-              className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans shadow-sm"
+              type={showNewPassword ? "text" : "password"} 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Min. 8 characters"
+              className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
             />
             <button 
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowNewPassword(!showNewPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
             >
-              {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+              {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
         </div>
 
-        <div className="pt-2">
+        <div className="space-y-1.5">
+          <label className="text-[13px] font-medium text-slate-500">
+            Confirm Password
+          </label>
+          <div className="relative">
+            <input 
+              type={showConfirmPassword ? "text" : "password"} 
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm your new password"
+              className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
+            />
+            <button 
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+            >
+              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Error message display */}
+        {errorMessage && (
+          <div className="flex items-center gap-1.5 text-red-500 text-[12px]">
+            <AlertCircle size={14} />
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
+        <div className="pt-1 flex justify-center">
           <button 
             type="submit" 
             disabled={isLoading}
-            className="w-full bg-slate-900 text-white font-medium py-3 rounded-lg hover:bg-slate-950 transition-all text-sm shadow-md disabled:opacity-70 flex items-center justify-center gap-2"
+            className="bg-slate-900 text-white font-semibold py-2.5 px-10 rounded-lg hover:bg-slate-950 transition-all text-sm disabled:opacity-70 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
@@ -158,12 +174,9 @@ export const ResetPassword = () => {
         </div>
       </form>
 
-      <div className="mt-8 text-center space-y-4">
-        <Link to="/" className="text-xs text-slate-400 hover:text-slate-700 transition-colors">
-          Back to login
-        </Link>
-        <p className="text-xs text-slate-400">
-          Need help? <a href="#" className="text-slate-700 font-semibold hover:underline">Contact Support</a>
+      <div className="mt-6 text-center space-y-3">
+        <p className="text-[12px] text-slate-400">
+          Need help? <a href="#" className="text-slate-800 font-bold hover:underline">Contact Support</a>
         </p>
       </div>
     </AuthLayout>
