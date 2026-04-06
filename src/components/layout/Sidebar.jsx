@@ -103,17 +103,22 @@ export const Sidebar = ({ collapsed, onClose }) => {
       )}
     >
       {/* Logo area */}
-      <div className="flex items-center justify-between px-5 py-5 border-b border-gray-100">
-        <div className="flex items-center gap-2 overflow-hidden min-w-0">
-          <Logo collapsed={collapsed} />
-        </div>
+      <div className={cn(
+        "flex items-center border-b border-gray-100",
+        collapsed ? "justify-center h-[81px]" : "justify-between px-5 py-5"
+      )}>
+        {!collapsed && (
+          <div className="flex items-center gap-2 overflow-hidden min-w-0">
+            <Logo collapsed={collapsed} />
+          </div>
+        )}
         {/* Desktop collapse button */}
         <button
           onClick={onClose}
-          className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors shrink-0"
+          className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors shrink-0"
           aria-label="Toggle sidebar"
         >
-          {collapsed ? <Menu size={18} /> : <X size={18} className="lg:hidden" />}
+          {collapsed ? <Menu size={20} /> : <X size={18} className="lg:hidden" />}
           {!collapsed && <Menu size={18} className="hidden lg:block" />}
         </button>
       </div>

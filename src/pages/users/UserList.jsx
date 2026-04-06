@@ -46,6 +46,8 @@ export const UserList = () => {
   const [appliedFilters, setAppliedFilters] = useState({ userGroup: '', status: '' });
   const [showQuickAdd, setShowQuickAdd] = useState(false);
   const [quickAddForm, setQuickAddForm] = useState({ userName: '', email: '', countryCode: '+91', phone: '', userGroup: '' });
+  const [showEditUser, setShowEditUser] = useState(false);
+  const [editUserForm, setEditUserForm] = useState({ userName: '', email: '', countryCode: '+91', phone: '', userGroup: '' });
   const [activeActionMenu, setActiveActionMenu] = useState(null);
   const actionMenuRef = useRef(null);
 
@@ -97,7 +99,31 @@ export const UserList = () => {
     setShowQuickAdd(false);
   };
 
-  const handleEdit = (user) => { setActiveActionMenu(null); Toast.fire({ icon: 'info', title: `Edit: ${user.name}` }); };
+  const handleEdit = (user) => { 
+    setActiveActionMenu(null); 
+    setEditUserForm({
+      id: user.id,
+      userName: user.name,
+      email: user.email,
+      countryCode: '+91',
+      phone: user.phone,
+      userGroup: user.group
+    });
+    setShowEditUser(true); 
+  };
+
+  const handleEditChange = (field, value) => setEditUserForm(prev => ({ ...prev, [field]: value }));
+
+  const handleEditSave = (e) => {
+    e.preventDefault();
+    if (!editUserForm.userName || !editUserForm.email || !editUserForm.phone || !editUserForm.userGroup) {
+      Toast.fire({ icon: 'warning', title: 'Please fill all required fields' });
+      return;
+    }
+    Toast.fire({ icon: 'success', title: 'User updated successfully!' });
+    setShowEditUser(false);
+  };
+
   const handleResend = (user) => { setActiveActionMenu(null); Toast.fire({ icon: 'success', title: `Credentials resent to ${user.email}` }); };
 
   return (
@@ -447,6 +473,90 @@ export const UserList = () => {
             className="px-4 py-2 bg-[#1a1a1a] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
           >
             Create
+          </button>
+        </div>
+      </RightDrawer>
+
+      {/* Edit User Drawer */}
+      <RightDrawer isOpen={showEditUser} onClose={() => setShowEditUser(false)} title="Edit User">
+        <div className="p-6 flex flex-col gap-5">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-medium text-gray-600">User Name <span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              placeholder="Enter user name"
+              value={editUserForm.userName}
+              onChange={(e) => handleEditChange('userName', e.target.value)}
+              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-medium text-gray-600">Email <span className="text-red-500">*</span></label>
+            <input
+              type="email"
+              placeholder="Enter email"
+              value={editUserForm.email}
+              onChange={(e) => handleEditChange('email', e.target.value)}
+              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-medium text-gray-600">Contact Number <span className="text-red-500">*</span></label>
+            <div className="flex gap-2">
+              <div className="relative w-[90px] shrink-0">
+                <select
+                  value={editUserForm.countryCode}
+                  onChange={(e) => handleEditChange('countryCode', e.target.value)}
+                  className="appearance-none w-full px-3 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
+                >
+                  <option value="+91">+91</option>
+                  <option value="+1">+1</option>
+                  <option value="+44">+44</option>
+                  <option value="+971">+971</option>
+                </select>
+                <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              </div>
+              <input
+                type="tel"
+                placeholder="Enter phone number"
+                value={editUserForm.phone}
+                onChange={(e) => handleEditChange('phone', e.target.value)}
+                className="flex-1 px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-medium text-gray-600">User Group <span className="text-red-500">*</span></label>
+            <div className="relative">
+              <select
+                value={editUserForm.userGroup}
+                onChange={(e) => handleEditChange('userGroup', e.target.value)}
+                className="appearance-none w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
+              >
+                <option value="">Choose user group</option>
+                {USER_GROUPS.map(g => <option key={g} value={g}>{g}</option>)}
+              </select>
+              <ChevronDown size={13} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            </div>
+          </div>
+        </div>
+
+        {/* Drawer Footer */}
+        <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-end gap-2 mt-auto">
+          <button
+            onClick={() => setShowEditUser(false)}
+            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[13px] font-medium transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleEditSave}
+            className="px-4 py-2 bg-[#1a1a1a] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
+          >
+            Save Changes
           </button>
         </div>
       </RightDrawer>
