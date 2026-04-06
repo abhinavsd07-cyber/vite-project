@@ -6,8 +6,8 @@ import { AuthLayout } from "../../components/auth/AuthLayout";
 import { loginAPI } from "../../services/allApis";
 
 export const Login = () => {
-  const [email, setEmail] = useState("superadmin@gmail.com");
-  const [password, setPassword] = useState("Admin@123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,13 +26,10 @@ export const Login = () => {
     setIsLoading(true);
 
     const payload = { EmailID: email, Password: password };
-    console.log("Login Payload Sent:", payload);
 
     try {
       const response = await loginAPI(payload);
       setIsLoading(false);
-      
-      console.log("Login Response:", response);
 
       // Success check: statusCode is "SB000"
       if (response && response.statusCode === "SB000") {
@@ -78,8 +75,6 @@ export const Login = () => {
         });
       } else {
         // Error handling: Use responseDescription from responseResult
-        const errorMsg = response?.responseResult?.responseDescription || response?.message || "Login Failed";
-        console.log(errorMsg)
         Toast.fire({
           icon: "error",
           title: "Login Failed",
@@ -98,44 +93,46 @@ export const Login = () => {
   return (
     <AuthLayout>
       <div className="text-center mb-8">
-        <h2 className="text-[22px] font-bold text-slate-900 mb-2">
+        <h2 className="text-[22px] font-bold text-gray-900 mb-2">
           Welcome back!
         </h2>
-        <p className="text-[13px] text-slate-400">
+        <p className="text-[13px] text-gray-400">
           Log in to continue manage your account
         </p>
       </div>
 
       <form className="space-y-5" onSubmit={handleLogin}>
         <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-500">
+          <label htmlFor="login-email" className="text-[13px] font-medium text-gray-500">
             Email
           </label>
           <input
+            id="login-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Email"
-            className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
+            className="w-full px-4 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-500">
+          <label htmlFor="login-password" className="text-[13px] font-medium text-gray-500">
             Password
           </label>
           <div className="relative">
             <input
+              id="login-password"
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter Password"
-              className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
+              className="w-full px-4 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -163,13 +160,13 @@ export const Login = () => {
       <div className="mt-6 text-center space-y-3">
         <Link
           to="/forgot-password"
-          className="text-[12px] text-slate-400 hover:text-slate-700 transition-colors block"
+          className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors block"
         >
           Forgot your password?
         </Link>
-        <p className="text-[12px] text-slate-400">
+        <p className="text-[12px] text-gray-400">
           Need help?{" "}
-          <a href="#" className="text-slate-800 font-bold hover:underline">
+          <a href="#" className="text-gray-800 font-bold hover:underline">
             Contact Support
           </a>
         </p>

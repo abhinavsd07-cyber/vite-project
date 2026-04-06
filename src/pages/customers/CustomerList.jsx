@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Filter, Plus } from 'lucide-react';
+import { Search, Filter, Plus, MoreVertical, X, ChevronDown } from 'lucide-react';
 import { Toggle } from '../../components/ui/Toggle';
 import { Pagination } from '../../components/ui/Pagination';
 import { getCustomersAPI } from '../../services/allApis';
@@ -22,110 +22,152 @@ export const CustomerList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterStatus, setFilterStatus] = useState('');
+  const [appliedStatus, setAppliedStatus] = useState('');
 
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        setIsLoading(true);
         const res = await getCustomersAPI();
-        if (res && res.statusCode === "SB000" && res.data) {
-           setCustomers(Array.isArray(res.data) ? res.data : (res.data.data || res.data));
+        if (res?.statusCode === "SB000" && res.data) {
+          setCustomers(Array.isArray(res.data) ? res.data : (res.data.data || res.data));
         } else if (res && Array.isArray(res)) {
-           setCustomers(res);
+          setCustomers(res);
         }
-      } catch (err) {
-        console.error("Failed to fetch customers:", err);
-      } finally {
-        setIsLoading(false);
-      }
+      } catch (err) { /* use mock */ }
     };
     fetchCustomers();
   }, []);
 
-  const handleToggle = (id, newState) => {
-    setCustomers(customers.map(c => c.id === id ? { ...c, active: newState } : c));
-  };
+  const handleToggle = (id, newState) => setCustomers(customers.map(c => c.id === id ? { ...c, active: newState } : c));
+
+  const filtered = customers.filter(c => {
+    const matchesSearch = searchTerm === '' ||
+      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = !appliedStatus ||
+      (appliedStatus === 'Active' ? c.active : !c.active);
+    return matchesSearch && matchesStatus;
+  });
+  const paginated = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
-      {/* Header */}
-      <div className="px-6 py-4 shrink-0">
-        <h1 className="text-xl font-bold text-slate-800">Customer List</h1>
+    <div className="flex flex-col h-full w-full">
+      <div className="px-6 pt-6 pb-4 shrink-0">
+        <h1 className="text-[20px] font-semibold text-gray-800">Customer List</h1>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col">
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
-          
-          {/* Top Actions */}
-          <div className="px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100">
-             <div className="flex items-center gap-2 w-full sm:w-auto">
-                {/* Search */}
-                <div className="relative w-full sm:w-80">
-                   <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                   <input
-                      type="text"
-                      placeholder="Search..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
-                   />
-                </div>
-                {/* Filter */}
-                <button className="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-slate-500">
-                   <Filter size={18} />
-                </button>
-             </div>
+      <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col min-h-0">
+        <div className="bg-white rounded-lg border border-gray-200 flex-1 flex flex-col overflow-hidden">
 
-             <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-1.5 rounded text-sm font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center">
-                <Plus size={14} />
-                Create customer
-             </button>
+          {/* Toolbar */}
+          <div className="px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-gray-100">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="relative flex-1 sm:w-[300px]">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search customer..."
+                  value={searchTerm}
+                  onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
+                  className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:border-gray-300 placeholder:text-gray-400"
+                />
+              </div>
+              <button
+                onClick={() => setShowFilter(!showFilter)}
+                className={`flex items-center justify-center w-9 h-9 shrink-0 border rounded-lg transition-colors ${showFilter ? 'border-gray-400 text-gray-700 bg-gray-50' : 'border-gray-200 text-gray-400 hover:bg-gray-50'}`}
+              >
+                {showFilter ? <X size={15} /> : <Filter size={15} />}
+              </button>
+            </div>
+            <button className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-2 rounded-md text-[13px] font-medium transition-colors shrink-0 w-full sm:w-auto justify-center">
+              <Plus size={14} /> Add Customer
+            </button>
           </div>
 
-          {/* Table Container */}
+          {/* Filter Panel */}
+          {showFilter && (
+            <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50 animate-slide-down">
+              <div className="flex flex-col sm:flex-row items-end gap-3">
+                <div className="flex flex-col gap-1.5 w-full sm:w-[200px]">
+                  <label className="text-[12px] font-medium text-gray-400 uppercase tracking-wide">Status</label>
+                  <div className="relative">
+                    <select
+                      value={filterStatus}
+                      onChange={(e) => setFilterStatus(e.target.value)}
+                      className="appearance-none w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none cursor-pointer"
+                    >
+                      <option value="">All Status</option>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                    <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 ml-auto">
+                  <button
+                    onClick={() => { setFilterStatus(''); setAppliedStatus(''); }}
+                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-600 rounded-lg text-[13px] font-medium transition-colors"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    onClick={() => { setAppliedStatus(filterStatus); setCurrentPage(1); }}
+                    className="px-4 py-2 bg-[#212529] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Table */}
           <div className="flex-1 overflow-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left">
               <thead>
-                 <tr className="border-b border-slate-100">
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Customer name</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Email</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Phone</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap flex items-center justify-center">Company</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap text-center">Registered Date</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap text-right">Actions</th>
+                <tr className="border-b border-gray-100">
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide w-14">SL No</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Customer Name</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Email</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Phone</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Companies</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Created Date</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Status</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide text-right">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {customers.map((customer, index) => (
-                  <tr key={customer.id || customer.CustomerID || index} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{index + 1}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-800 whitespace-nowrap">{customer.name || customer.CustomerName || customer.Name || 'N/A'}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{customer.email || customer.EmailID || customer.Email || 'N/A'}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{customer.phone || customer.PhoneNumber || customer.Phone || 'N/A'}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center whitespace-nowrap">{customer.company || customer.Company || customer.BusinessUID || '0'}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 text-center whitespace-nowrap">{customer.date || customer.CreatedDate || customer.Date || 'N/A'}</td>
-                     <td className="py-4 px-4 flex items-center justify-end">
-                        <Toggle 
-                           initialState={customer.active ?? customer.IsActive ?? true} 
-                           onChange={(newState) => handleToggle(customer.id || customer.CustomerID, newState)} 
-                        />
-                     </td>
-                   </tr>
+                {paginated.map((c, i) => (
+                  <tr key={c.id} className="border-b border-gray-50 hover:bg-gray-50/60 transition-colors">
+                    <td className="py-4 px-6 text-[13px] text-gray-500">{(currentPage - 1) * rowsPerPage + i + 1}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-800 whitespace-nowrap">{c.name}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{c.email}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{c.phone}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{c.company}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{c.date}</td>
+                    <td className="py-4 px-6">
+                      <Toggle checked={c.active} onChange={(v) => handleToggle(c.id, v)} />
+                    </td>
+                    <td className="py-4 px-6 text-right">
+                      <button className="text-gray-300 hover:text-gray-500 p-1 rounded">
+                        <MoreVertical size={17} strokeWidth={2} />
+                      </button>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          {/* Pagination */}
-          <Pagination 
-             currentPage={currentPage}
-             totalPages={1}
-             rowsPerPage={rowsPerPage}
-             onPageChange={setCurrentPage}
-             onRowsChange={setRowsPerPage}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(filtered.length / rowsPerPage) || 1}
+            totalEntries={filtered.length}
+            rowsPerPage={rowsPerPage}
+            onPageChange={setCurrentPage}
+            onRowsChange={(n) => { setRowsPerPage(n); setCurrentPage(1); }}
           />
         </div>
       </div>

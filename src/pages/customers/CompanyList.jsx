@@ -16,7 +16,7 @@ const MOCK_COMPANIES = [
 ];
 
 const SortIcon = () => (
-  <svg width="12" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400 shrink-0">
+  <svg width="12" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 shrink-0">
     <path d="M9 18V6l-3 4" />
     <path d="M15 6v12l3-4" />
   </svg>
@@ -41,31 +41,31 @@ export const CompanyList = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in relative z-10">
+    <div className="flex flex-col h-full w-full">
       {/* Header */}
       <div className="px-6 py-4 shrink-0 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-slate-800">Company List</h1>
+        <h1 className="text-[20px] font-semibold text-gray-800">Company List</h1>
       </div>
 
       {/* Main Content Area */}
       <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col">
-        <div className="bg-white rounded-lg border border-slate-200/60 shadow-sm flex-1 flex flex-col overflow-hidden">
+        <div className="bg-white rounded-lg border border-gray-200/60 shadow-sm flex-1 flex flex-col overflow-hidden">
           
           {/* Toolbar */}
           <div className="px-4 py-4 flex flex-col sm:flex-row items-center gap-4">
              {/* Left Controls (Joined Search and Filter) */}
              <div className="flex items-center w-full sm:w-[320px]">
                 <div className="relative flex-1">
-                   <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                   <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                    <input
                       type="text"
                       placeholder="Search here..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 border border-slate-200 border-r-0 rounded-l-lg text-[13px] text-slate-700 focus:outline-none placeholder:text-slate-400 shadow-sm"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-200 border-r-0 rounded-l-lg text-[13px] text-gray-700 focus:outline-none placeholder:text-gray-400 shadow-sm"
                    />
                 </div>
-                <button className="flex items-center justify-center w-11 h-[38px] border border-slate-200 rounded-r-lg hover:bg-slate-50 transition-colors text-slate-500 shadow-sm bg-white">
+                <button className="flex items-center justify-center w-11 h-[38px] border border-gray-200 rounded-r-lg hover:bg-gray-50 transition-colors text-gray-500 shadow-sm bg-white">
                    <Filter size={16} />
                 </button>
              </div>
@@ -75,7 +75,7 @@ export const CompanyList = () => {
           <div className="flex-1 overflow-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                 <tr className="border-y border-slate-200 bg-white">
+                 <tr className="border-y border-gray-200 bg-white">
                    <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap w-16">SL No</th>
                    <th className="py-4 px-4 text-[12.5px] font-bold text-[#5c6873] whitespace-nowrap">
                       <div className="flex items-center justify-between">Company name <SortIcon /></div>
@@ -103,40 +103,40 @@ export const CompanyList = () => {
               </thead>
               <tbody>
                 {companies.map((co, index) => (
-                  <tr key={co.id} className="border-b border-slate-100 transition-colors bg-white hover:bg-slate-50/50">
-                     <td className="py-5 px-4 text-[13px] text-slate-600 whitespace-nowrap">{index + 1}</td>
-                     <td className="py-5 px-4 text-[13px] text-slate-700 font-medium tracking-tight pr-6 whitespace-nowrap">{co.company}</td>
-                     <td className="py-5 px-4 text-[13px] text-slate-600 pr-6 whitespace-nowrap">{co.customer}</td>
-                     <td className="py-5 px-4 text-[13px] text-slate-600 pr-6 whitespace-nowrap">{co.country}</td>
-                     <td className="py-5 px-4 text-[13px] text-slate-600 tracking-tight pr-6 whitespace-nowrap">{co.phone}</td>
-                     <td className="py-5 px-4 text-[13px] text-slate-600 pr-6 whitespace-nowrap">{co.email}</td>
-                     <td className="py-5 px-4 text-[13px] text-slate-600 pr-6 whitespace-nowrap">{co.domain}</td>
-                     <td className="py-5 px-4 text-[13px] text-slate-600 pr-6 whitespace-nowrap">{co.date}</td>
+                  <tr key={co.id} className="border-b border-gray-100 transition-colors bg-white hover:bg-gray-50/50">
+                     <td className="py-5 px-4 text-[13px] text-gray-600 whitespace-nowrap">{index + 1}</td>
+                     <td className="py-5 px-4 text-[13px] text-gray-700 font-medium tracking-tight pr-6 whitespace-nowrap">{co.company}</td>
+                     <td className="py-5 px-4 text-[13px] text-gray-600 pr-6 whitespace-nowrap">{co.customer}</td>
+                     <td className="py-5 px-4 text-[13px] text-gray-600 pr-6 whitespace-nowrap">{co.country}</td>
+                     <td className="py-5 px-4 text-[13px] text-gray-600 tracking-tight pr-6 whitespace-nowrap">{co.phone}</td>
+                     <td className="py-5 px-4 text-[13px] text-gray-600 pr-6 whitespace-nowrap">{co.email}</td>
+                     <td className="py-5 px-4 text-[13px] text-gray-600 pr-6 whitespace-nowrap">{co.domain}</td>
+                     <td className="py-5 px-4 text-[13px] text-gray-600 pr-6 whitespace-nowrap">{co.date}</td>
                      <td className="py-5 px-4 text-right whitespace-nowrap">
                         <div className="relative inline-block text-left action-dropdown-container">
                            <button 
                              onClick={() => setActiveDropdown(activeDropdown === co.id ? null : co.id)}
-                             className="text-slate-400 hover:text-slate-600 transition-colors p-1"
+                             className="text-gray-400 hover:text-gray-600 transition-colors p-1"
                            >
                               <MoreVertical size={18} strokeWidth={2.5} />
                            </button>
                            
                            {activeDropdown === co.id && (
-                             <div className="absolute right-full top-0 mt-0 mr-1 w-48 bg-white border border-slate-100/60 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] py-2 z-[60] animate-fade-in origin-top-right">
-                               <button className="w-full text-left px-5 py-2.5 text-[13px] text-slate-600 hover:bg-slate-50/80 flex items-center gap-3 transition-colors">
-                                 <Edit size={15} className="text-slate-400" />
+                             <div className="absolute right-full top-0 mt-0 mr-1 w-48 bg-white border border-gray-100/60 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] py-2 z-[60] animate-fade-in origin-top-right">
+                               <button className="w-full text-left px-5 py-2.5 text-[13px] text-gray-600 hover:bg-gray-50/80 flex items-center gap-3 transition-colors">
+                                 <Edit size={15} className="text-gray-400" />
                                  Edit
                                </button>
                                <button className="w-full text-left px-5 py-2.5 text-[13px] text-[#ef4444] hover:bg-red-50/50 flex items-center gap-3 transition-colors">
                                  <Trash2 size={15} className="text-[#ef4444]" />
                                  Delete
                                </button>
-                               <button className="w-full text-left px-5 py-2.5 text-[13px] text-slate-600 hover:bg-slate-50/80 flex items-center gap-3 transition-colors">
-                                 <Calendar size={15} className="text-slate-400" />
+                               <button className="w-full text-left px-5 py-2.5 text-[13px] text-gray-600 hover:bg-gray-50/80 flex items-center gap-3 transition-colors">
+                                 <Calendar size={15} className="text-gray-400" />
                                  FY Settings
                                </button>
-                               <button className="w-full text-left px-5 py-2.5 text-[13px] text-slate-600 hover:bg-slate-50/80 flex items-center gap-3 transition-colors">
-                                 <FileText size={15} className="text-slate-400" />
+                               <button className="w-full text-left px-5 py-2.5 text-[13px] text-gray-600 hover:bg-gray-50/80 flex items-center gap-3 transition-colors">
+                                 <FileText size={15} className="text-gray-400" />
                                  Reports settings
                                </button>
                              </div>
@@ -150,7 +150,7 @@ export const CompanyList = () => {
           </div>
 
           {/* Footer */}
-          <div className="mt-auto shrink-0 w-full bg-white border-t border-slate-100">
+          <div className="mt-auto shrink-0 w-full bg-white border-t border-gray-100">
              <Pagination 
                 currentPage={currentPage}
                 totalPages={17}

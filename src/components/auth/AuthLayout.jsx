@@ -19,7 +19,7 @@ export const AuthLayout = ({ children }) => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full flex bg-white font-sans text-slate-800">
+    <div className="min-h-screen w-full flex bg-white font-sans text-gray-800">
       <div className="w-full flex flex-col md:flex-row min-h-screen">
         {/* LEFT SIDE: Carousel (Hidden on Mobile, flex on MD+) */}
         <div 
@@ -85,23 +85,23 @@ export const AuthLayout = ({ children }) => {
 
           {/* Footer Socials & Links */}
           <div className="flex flex-col items-center pb-6 pt-4 shrink-0">
-            <div className="flex justify-center gap-8 text-[13px] text-slate-400 mb-5 font-medium">
-              <a href="#" className="hover:text-slate-900 transition-colors">
+            <div className="flex justify-center gap-8 text-[13px] text-gray-400 mb-5 font-medium">
+              <a href="#" className="hover:text-gray-900 transition-colors">
                 About Us
               </a>
-              <a href="#" className="hover:text-slate-900 transition-colors">
+              <a href="#" className="hover:text-gray-900 transition-colors">
                 Blog
               </a>
             </div>
 
-            <div className="flex justify-center gap-5 text-slate-500 items-center">
-              <a href="#" className="hover:text-slate-700 transition-colors">
+            <div className="flex justify-center gap-5 text-gray-500 items-center">
+              <a href="#" className="hover:text-gray-700 transition-colors">
                 <FaYoutube size={20} />
               </a>
-              <a href="#" className="hover:text-slate-700 transition-colors">
+              <a href="#" className="hover:text-gray-700 transition-colors">
                 <FaLinkedin size={18} />
               </a>
-              <a href="#" className="hover:text-slate-700 transition-colors">
+              <a href="#" className="hover:text-gray-700 transition-colors">
                 <FaInstagram size={18} />
               </a>
             </div>

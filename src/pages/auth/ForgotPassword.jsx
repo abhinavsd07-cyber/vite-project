@@ -22,30 +22,22 @@ export const ForgotPassword = () => {
     setIsLoading(true);
     
     // Read businessUID from sessionStorage (stored during login)
-    // Falls back to the company's default businessUID if not logged in
-    const BUSINESS_UID = "3B8248F7-6655-EF11-97DD-00155D01229B"; // company default
+    // Falls back to the VITE_BUSINESS_UID env variable
+    const BUSINESS_UID = import.meta.env.VITE_BUSINESS_UID || "";
     const authData = JSON.parse(sessionStorage.getItem('authToken') || '{}');
-    const businessUID = sessionStorage.getItem('businessUID') 
-                     || authData?.businessUID 
-                     || authData?.BusinessUID 
+    const businessUID = sessionStorage.getItem('businessUID')
+                     || authData?.businessUID
+                     || authData?.BusinessUID
                      || BUSINESS_UID;
-
-    if (!businessUID) {
-      console.warn("businessUID not found in sessionStorage. Check login API response.");
-    }
 
     const payload = {
       EmailID: email,
       businessUID: businessUID
     };
-    console.log("Forgot Password Payload:", payload);
 
     try {
       const response = await forgotPasswordAPI(payload);
       setIsLoading(false);
-      
-      console.log("Forgot Password API Response:", response);
-      console.log("OTP:", response.Data?.userPasswordOTP);
 
       if (response && response.responseResult?.responseCode === "000") {
         // Store email and userUID from response into sessionStorage
@@ -63,7 +55,6 @@ export const ForgotPassword = () => {
           navigate('/verify-otp');
         });
       } else {
-        console.error("Forgot Password Failed:", response);
         const errorMsg = response?.responseResult?.responseDescription || response?.message || 'No account found with that email address';
         Toast.fire({
           icon: 'error',
@@ -84,19 +75,20 @@ export const ForgotPassword = () => {
     <AuthLayout>
 
       <div className="text-center mb-8">
-        <h2 className="text-[22px] font-bold text-slate-900 mb-2">Forgot Password</h2>
-        <p className="text-[13px] text-slate-400 px-2">Enter your email and we'll send you OTP to reset your password.</p>
+        <h2 className="text-[22px] font-bold text-gray-900 mb-2">Forgot Password</h2>
+        <p className="text-[13px] text-gray-400 px-2">Enter your email and we'll send you OTP to reset your password.</p>
       </div>
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-500">Email</label>
+          <label htmlFor="forgot-email" className="text-[13px] font-medium text-gray-500">Email</label>
           <input 
+            id="forgot-email"
             type="email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Email"
-            className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
+            className="w-full px-4 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
           />
         </div>
 
@@ -117,11 +109,11 @@ export const ForgotPassword = () => {
       </form>
 
       <div className="mt-6 text-center space-y-3">
-        <Link to="/" className="text-[12px] text-slate-400 hover:text-slate-700 transition-colors block">
+        <Link to="/" className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors block">
           Back to login
         </Link>
-        <p className="text-[12px] text-slate-400">
-          Need help? <a href="#" className="text-slate-800 font-bold hover:underline">Contact Support</a>
+        <p className="text-[12px] text-gray-400">
+          Need help? <a href="#" className="text-gray-800 font-bold hover:underline">Contact Support</a>
         </p>
       </div>
     </AuthLayout>

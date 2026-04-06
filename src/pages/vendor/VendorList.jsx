@@ -8,204 +8,107 @@ const MOCK_VENDORS = [
 ];
 
 export const VendorList = () => {
-  const [vendors, setVendors] = useState(MOCK_VENDORS);
+  const [vendors] = useState(MOCK_VENDORS);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const filtered = vendors.filter(v =>
+    searchTerm === '' ||
+    v.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    v.code.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="flex flex-col h-full bg-[#f8f9fa] w-full animate-fade-in">
-      <div className="px-6 py-4 shrink-0 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-slate-800">Vendor List</h1>
+    <div className="flex flex-col h-full w-full">
+      <div className="px-6 pt-6 pb-4 shrink-0">
+        <h1 className="text-[20px] font-semibold text-gray-800">Vendor List</h1>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col">
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
-          
-          {/* Top Actions */}
-          <div className="px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100">
-             <div className="flex items-center gap-2 w-full sm:w-auto">
-                {/* Search */}
-                <div className="relative w-full sm:w-80">
-                   <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                   <input
-                      type="text"
-                      placeholder="Search vendor name..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
-                   />
-                </div>
-                {/* Filter */}
-                <button className="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-slate-500">
-                   <Filter size={18} />
-                </button>
-             </div>
+      <div className="flex-1 px-6 pb-6 overflow-hidden flex flex-col min-h-0">
+        <div className="bg-white rounded-lg border border-gray-200 flex-1 flex flex-col overflow-hidden">
 
-             <button 
-                onClick={() => setIsDrawerOpen(true)}
-                className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-1.5 rounded text-sm font-medium transition-colors md:ml-auto w-full sm:w-auto justify-center"
-             >
-                <Plus size={14} />
-                Add Vendor
-             </button>
+          {/* Toolbar */}
+          <div className="px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-gray-100">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="relative flex-1 sm:w-[300px]">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search vendor..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:border-gray-300 placeholder:text-gray-400"
+                />
+              </div>
+              <button className="flex items-center justify-center w-9 h-9 border border-gray-200 rounded-lg text-gray-400 hover:bg-gray-50 transition-colors shrink-0">
+                <Filter size={15} />
+              </button>
+            </div>
+            <button
+              onClick={() => setIsDrawerOpen(true)}
+              className="flex items-center gap-2 bg-[#212529] hover:bg-black text-white px-4 py-2 rounded-md text-[13px] font-medium transition-colors shrink-0 w-full sm:w-auto justify-center"
+            >
+              <Plus size={14} /> Add Vendor
+            </button>
           </div>
 
-          {/* Table Container */}
+          {/* Table */}
           <div className="flex-1 overflow-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left">
               <thead>
-                 <tr className="border-b border-slate-100">
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">SL No</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Vendor code</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Vendor name</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Vendor Type</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Phone</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Email</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap">Country</th>
-                   <th className="py-3 px-4 text-[13px] font-semibold text-slate-600 whitespace-nowrap text-right">Action</th>
+                <tr className="border-b border-gray-100">
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide w-14">SL No</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Vendor Code</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Vendor Name</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Vendor Type</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Phone</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Email</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Country</th>
+                  <th className="py-3.5 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wide text-right">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {vendors.map((vendor, index) => (
-                  <tr key={vendor.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{index + 1}</td>
-                     <td className="py-4 px-4 text-[13px] font-medium text-slate-800 flex items-center gap-2 whitespace-nowrap">
-                        {vendor.code}
-                        {vendor.verified && <CheckSquare size={14} className="text-emerald-500" />}
-                     </td>
-                     <td className="py-4 px-4 text-[13px] text-slate-800 whitespace-nowrap">{vendor.name}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{vendor.type}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{vendor.phone}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{vendor.email}</td>
-                     <td className="py-4 px-4 text-[13px] text-slate-500 whitespace-nowrap">{vendor.country}</td>
-                     <td className="py-4 px-4 flex items-center justify-end whitespace-nowrap">
-                        <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
-                           <MoreVertical size={16} />
-                        </button>
-                     </td>
-                   </tr>
-                ))}
+                {filtered.length > 0 ? filtered.map((v, i) => (
+                  <tr key={v.id} className="border-b border-gray-50 hover:bg-gray-50/60 transition-colors">
+                    <td className="py-4 px-6 text-[13px] text-gray-500">{i + 1}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-800 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        {v.code}
+                        {v.verified && <CheckSquare size={13} className="text-emerald-500 shrink-0" />}
+                      </div>
+                    </td>
+                    <td className="py-4 px-6 text-[13px] text-gray-800 whitespace-nowrap">{v.name}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{v.type}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{v.phone}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{v.email}</td>
+                    <td className="py-4 px-6 text-[13px] text-gray-600 whitespace-nowrap">{v.country}</td>
+                    <td className="py-4 px-6 text-right">
+                      <button className="text-gray-300 hover:text-gray-500 p-1 rounded">
+                        <MoreVertical size={17} strokeWidth={2} />
+                      </button>
+                    </td>
+                  </tr>
+                )) : (
+                  <tr>
+                    <td colSpan={8} className="py-16 text-center text-[13px] text-gray-400">No vendors found</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
 
-          {/* Pagination */}
-          <Pagination 
-             currentPage={currentPage}
-             totalPages={1}
-             rowsPerPage={rowsPerPage}
-             onPageChange={setCurrentPage}
-             onRowsChange={setRowsPerPage}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(filtered.length / rowsPerPage) || 1}
+            totalEntries={filtered.length}
+            rowsPerPage={rowsPerPage}
+            onPageChange={setCurrentPage}
+            onRowsChange={(n) => { setRowsPerPage(n); setCurrentPage(1); }}
           />
         </div>
       </div>
-
-      {/* Add Vendor Drawer */}
-      <RightDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="Add Vendor">
-         <div className="p-6 flex flex-col gap-5">
-            
-            {/* Vendor Name */}
-            <div>
-               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
-                  Vendor Name <span className="text-red-500">*</span>
-               </label>
-               <input
-                 type="text"
-                 placeholder="Enter Vendor Name"
-                 className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
-               />
-            </div>
-            
-            {/* Vendor Type */}
-            <div>
-               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
-                  Vendor Type <span className="text-red-500">*</span>
-               </label>
-               <input
-                 type="text"
-                 placeholder="Enter Vendor Type"
-                 className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
-               />
-            </div>
-
-            {/* Phone Number */}
-            <div>
-               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
-                  Phone Number <span className="text-red-500">*</span>
-               </label>
-               <div className="flex gap-3">
-                  <div className="relative w-[100px]">
-                     <select className="appearance-none w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 bg-white">
-                        <option>+91</option>
-                        <option>+1</option>
-                        <option>+44</option>
-                     </select>
-                     <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-                  </div>
-                  <input
-                    type="tel"
-                    placeholder="Enter your Phone Number"
-                    className="flex-1 w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
-                  />
-               </div>
-            </div>
-
-            {/* Email */}
-            <div>
-               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
-                  Email <span className="text-red-500">*</span>
-               </label>
-               <input
-                 type="email"
-                 placeholder="Enter your Email"
-                 className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400"
-               />
-            </div>
-
-            {/* Country */}
-            <div>
-               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
-                  Country <span className="text-red-500">*</span>
-               </label>
-               <div className="relative">
-                  <select className="appearance-none w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 bg-white text-slate-400">
-                     <option>Enter your Country</option>
-                     <option>India</option>
-                     <option>USA</option>
-                  </select>
-                  <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-               </div>
-            </div>
-
-            {/* Address */}
-            <div>
-               <label className="block text-[13px] font-medium text-slate-400 mb-1.5">
-                  Address
-               </label>
-               <textarea
-                 rows={4}
-                 placeholder="Enter your Address"
-                 className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400 resize-none"
-               />
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center justify-end gap-3 mt-4">
-               <button 
-                  onClick={() => setIsDrawerOpen(false)}
-                  className="px-6 py-2 bg-slate-200/80 hover:bg-slate-300 text-slate-600 rounded-lg text-[13px] font-medium transition-colors"
-               >
-                  Cancel
-               </button>
-               <button className="px-8 py-2 bg-[#212529] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors">
-                  Add
-               </button>
-            </div>
-         </div>
-      </RightDrawer>
     </div>
   );
 };

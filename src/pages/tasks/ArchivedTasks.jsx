@@ -16,7 +16,7 @@ const MOCK_ARCHIVED = [
 ];
 
 const SortIcon = () => (
-  <svg className="w-3 h-3 text-slate-400 opacity-60 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg className="w-3 h-3 text-gray-400 opacity-60 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="m5 15 7-7 7 7" />
     <path d="m19 9-7 7-7-7" className="translate-y-6" />
   </svg>
@@ -28,23 +28,23 @@ export const ArchivedTasks = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     return (
-        <div className="flex flex-col h-full bg-[#f8f9fa] w-full p-4 md:p-6 animate-fade-in relative z-10">
+        <div className="flex flex-col h-full w-full">
             {/* Main Card */}
-            <div className="bg-white rounded-[14px] border border-slate-200/80 shadow-[0_1px_5px_rgba(0,0,0,0.02)] flex-1 flex flex-col overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200/80  flex-1 flex flex-col overflow-hidden">
                 {/* Search & Layout Controls */}
-                <div className="px-6 py-5 border-b border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white sticky top-0 z-10">
+                <div className="px-6 py-5 border-b border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white sticky top-0 z-10">
                     <div className="flex items-center gap-3 w-full sm:w-auto">
                         <div className="relative w-full sm:w-[280px]">
-                            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                             <input
                                 type="text"
                                 placeholder="Search here..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-[13px] text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-300 placeholder:text-slate-400 placeholder:font-light shadow-sm"
+                                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-300 placeholder:text-gray-400 placeholder:font-light shadow-sm"
                             />
                         </div>
-                        <button className="flex items-center justify-center w-9 h-9 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-slate-500 shadow-sm">
+                        <button className="flex items-center justify-center w-9 h-9 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-gray-500 shadow-sm">
                             <Filter size={15} />
                         </button>
                     </div>
@@ -54,43 +54,43 @@ export const ArchivedTasks = () => {
                 <div className="flex-1 overflow-auto px-6">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="border-b border-slate-100/80">
-                                <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap w-20">SL No</th>
-                                <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap w-32">
+                            <tr className="border-b border-gray-100/80">
+                                <th className="py-4 px-2 text-[12.5px] font-bold text-gray-600 whitespace-nowrap w-20">SL No</th>
+                                <th className="py-4 px-2 text-[12.5px] font-bold text-gray-600 whitespace-nowrap w-32">
                                     <div className="flex items-center">Task ID <SortIcon /></div>
                                 </th>
-                                <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap">
+                                <th className="py-4 px-2 text-[12.5px] font-bold text-gray-600 whitespace-nowrap">
                                     <div className="flex items-center justify-between">Title <SortIcon /></div>
                                 </th>
-                                <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap w-40">
+                                <th className="py-4 px-2 text-[12.5px] font-bold text-gray-600 whitespace-nowrap w-40">
                                     <div className="flex items-center justify-between">Customer Name <SortIcon /></div>
                                 </th>
-                                <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap w-44">
+                                <th className="py-4 px-2 text-[12.5px] font-bold text-gray-600 whitespace-nowrap w-44">
                                     <div className="flex items-center justify-between">Category <SortIcon /></div>
                                 </th>
-                                <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap w-48">
+                                <th className="py-4 px-2 text-[12.5px] font-bold text-gray-600 whitespace-nowrap w-48">
                                     <div className="flex items-center justify-between">Delete request date and Time <SortIcon /></div>
                                 </th>
-                                <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap w-44">
+                                <th className="py-4 px-2 text-[12.5px] font-bold text-gray-600 whitespace-nowrap w-44">
                                     <div className="flex items-center justify-between">Delete requested by <SortIcon /></div>
                                 </th>
-                                <th className="py-4 px-2 text-[12.5px] font-bold text-slate-600 whitespace-nowrap text-right">Action</th>
+                                <th className="py-4 px-2 text-[12.5px] font-bold text-gray-600 whitespace-nowrap text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {MOCK_ARCHIVED.map((task, index) => (
-                                <tr key={task.id} className="border-b border-slate-100/60 transition-colors hover:bg-slate-50/50">
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-500 whitespace-nowrap">{index + 1}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 font-medium whitespace-nowrap">{task.taskId}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 font-medium truncate max-w-[200px] whitespace-nowrap" title={task.title}>{task.title}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 truncate max-w-[150px] whitespace-nowrap">{task.customer}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 truncate max-w-[150px] whitespace-nowrap">{task.category}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 whitespace-nowrap">{task.deleteDate}</td>
-                                    <td className="py-4 px-2 text-[12.5px] text-slate-600 whitespace-nowrap">{task.requestedBy}</td>
+                                <tr key={task.id} className="border-b border-gray-100/60 transition-colors hover:bg-gray-50/50">
+                                    <td className="py-4 px-2 text-[12.5px] text-gray-500 whitespace-nowrap">{index + 1}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-gray-600 font-medium whitespace-nowrap">{task.taskId}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-gray-600 font-medium truncate max-w-[200px] whitespace-nowrap" title={task.title}>{task.title}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-gray-600 truncate max-w-[150px] whitespace-nowrap">{task.customer}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-gray-600 truncate max-w-[150px] whitespace-nowrap">{task.category}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-gray-600 whitespace-nowrap">{task.deleteDate}</td>
+                                    <td className="py-4 px-2 text-[12.5px] text-gray-600 whitespace-nowrap">{task.requestedBy}</td>
                                     <td className="py-4 px-2 text-right whitespace-nowrap">
-                                        <div className="flex items-center justify-end gap-3 font-medium text-[12.5px] text-slate-600">
+                                        <div className="flex items-center justify-end gap-3 font-medium text-[12.5px] text-gray-600">
                                           {task.actionCount}
-                                          <button className="text-slate-300 hover:text-slate-500 p-1">
+                                          <button className="text-gray-300 hover:text-gray-500 p-1">
                                             <MoreVertical size={16} />
                                           </button>
                                         </div>
@@ -102,7 +102,7 @@ export const ArchivedTasks = () => {
                 </div>
 
                 {/* Footer / Pagination */}
-                <div className="mt-auto border-t border-slate-50 bg-white">
+                <div className="mt-auto border-t border-gray-50 bg-white">
                     <Pagination 
                         currentPage={currentPage}
                         totalPages={17}

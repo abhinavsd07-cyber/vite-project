@@ -45,14 +45,12 @@ export const VerifyOTP = () => {
     setOtp(['', '', '', '']); // Clear OTP inputs
 
     // Read businessUID for the resend call
-    const BUSINESS_UID = "3B8248F7-6655-EF11-97DD-00155D01229B";
+    const BUSINESS_UID = import.meta.env.VITE_BUSINESS_UID || "";
     const authData = JSON.parse(sessionStorage.getItem('authToken') || '{}');
     const businessUID = sessionStorage.getItem('businessUID') || authData?.businessUID || BUSINESS_UID;
 
     try {
       const response = await forgotPasswordAPI({ EmailID: resetEmail, businessUID });
-      console.log("Resend OTP Response:", response);
-      console.log("OTP:", response.Data?.userPasswordOTP);
 
       if (response && response.responseResult?.responseCode === "000") {
         // Update sessionStorage with new OTP result
@@ -60,16 +58,9 @@ export const VerifyOTP = () => {
         if (response.Data?.userUID) {
           sessionStorage.setItem('userUID', response.Data.userUID);
         }
-        Toast.fire({
-          icon: 'success',
-          title: `New OTP sent to ${resetEmail}`,
-        });
+        Toast.fire({ icon: 'success', title: `New OTP sent to ${resetEmail}` });
       } else {
-        console.error("Resend OTP Failed:", response);
-        Toast.fire({
-          icon: 'error',
-          title: 'Failed to resend OTP. Please try again.',
-        });
+        Toast.fire({ icon: 'error', title: 'Failed to resend OTP. Please try again.' });
       }
     } catch (err) {
       console.error("Resend OTP Error:", err);
@@ -96,49 +87,34 @@ export const VerifyOTP = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (otp.some(digit => !digit)) {
-      Toast.fire({
-        icon: 'error',
-        title: 'Please enter all 4 digits of the OTP.',
-      });
+      Toast.fire({ icon: 'error', title: 'Please enter all 4 digits of the OTP.' });
       return;
     }
 
     const enteredOtp = otp.join('');
+    setIsLoading(true);
 
-    // Get the OTP from the Forgot Password API response stored in sessionStorage
-    const forgotResult = JSON.parse(sessionStorage.getItem('forgotPasswordResult') || '{}');
-    const serverOtp = forgotResult?.Data?.userPasswordOTP;
+    try {
+      // Server-side OTP verification — secure, no client-side comparison
+      const response = await verifyOtpAPI({ EmailID: resetEmail, OTP: enteredOtp });
 
-    console.log("Entered OTP:", enteredOtp);
-    console.log("Expected OTP from server:", serverOtp);
-
-    if (!serverOtp) {
-      Toast.fire({
-        icon: 'error',
-        title: 'Session expired. Please go back and try again.',
-      });
-      return;
-    }
-
-    if (enteredOtp === String(serverOtp)) {
-      // OTP matches — store it and proceed to Reset Password
-      sessionStorage.setItem('tempOtp', enteredOtp);
-
-      Toast.fire({
-        icon: 'success',
-        title: 'OTP Verified Successfully!',
-      }).then(() => {
-        navigate('/reset-password');
-      });
-    } else {
-      console.error("OTP mismatch! Entered:", enteredOtp, "Expected:", serverOtp);
-      Toast.fire({
-        icon: 'error',
-        title: 'Invalid OTP. Please try again.',
-      });
+      if (response && response.responseResult?.responseCode === "000") {
+        sessionStorage.setItem('tempOtp', enteredOtp);
+        Toast.fire({ icon: 'success', title: 'OTP Verified Successfully!' }).then(() => {
+          navigate('/reset-password');
+        });
+      } else {
+        const errorMsg = response?.responseResult?.responseDescription || 'Invalid OTP. Please try again.';
+        Toast.fire({ icon: 'error', title: errorMsg });
+      }
+    } catch (err) {
+      console.error('OTP Verification Error:', err);
+      Toast.fire({ icon: 'error', title: 'Server error. Please check your connection.' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -146,13 +122,13 @@ export const VerifyOTP = () => {
     <AuthLayout>
 
       <div className="text-center mb-8 flex flex-col items-center">
-        <h2 className="text-[22px] font-bold text-slate-900 mb-2">Verify OTP</h2>
-        <p className="text-[13px] text-slate-400 max-w-[300px]">Please enter OTP that send to <span className="text-slate-700 font-semibold">{resetEmail || "your email"}</span></p>
+        <h2 className="text-[22px] font-bold text-gray-900 mb-2">Verify OTP</h2>
+        <p className="text-[13px] text-gray-400 max-w-[300px]">Please enter OTP that send to <span className="text-gray-700 font-semibold">{resetEmail || "your email"}</span></p>
       </div>
 
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
-          <label className="text-[13px] font-medium text-slate-500 text-center block mb-4">Enter OTP</label>
+          <label className="text-[13px] font-medium text-gray-500 text-center block mb-4">Enter OTP</label>
           <div className="flex justify-center gap-3 md:gap-4">
             {otp.map((digit, i) => (
               <input
@@ -163,13 +139,13 @@ export const VerifyOTP = () => {
                 value={digit}
                 onChange={(e) => handleChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
-                className="w-[55px] h-[50px] text-center text-lg font-bold border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all bg-white"
+                className="w-[55px] h-[50px] text-center text-lg font-bold border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-400 transition-all bg-white"
               />
             ))}
           </div>
           
           <div className="flex justify-between items-center mt-3 px-1">
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-gray-400">
               {timer > 0 ? (
                 <>Resend OTP in <span className="text-red-500 font-medium">{formatTime(timer)}</span></>
               ) : (
@@ -182,8 +158,8 @@ export const VerifyOTP = () => {
               disabled={!canResend}
               className={`text-[11px] font-bold underline underline-offset-2 transition-colors ${
                 canResend 
-                  ? "text-slate-900 hover:text-slate-700 decoration-slate-400" 
-                  : "text-slate-300 cursor-not-allowed decoration-slate-200"
+                  ? "text-gray-900 hover:text-gray-700 decoration-gray-400" 
+                  : "text-gray-300 cursor-not-allowed decoration-gray-200"
               }`}
             >
               Resend OTP
@@ -195,7 +171,7 @@ export const VerifyOTP = () => {
           <button 
             type="submit" 
             disabled={isLoading}
-            className="bg-slate-900 text-white font-semibold py-2.5 px-10 rounded-lg hover:bg-slate-950 transition-colors text-sm disabled:opacity-70 flex items-center justify-center gap-2"
+            className="bg-gray-900 text-white font-semibold py-2.5 px-10 rounded-lg hover:bg-gray-950 transition-colors text-sm disabled:opacity-70 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
@@ -208,11 +184,11 @@ export const VerifyOTP = () => {
       </form>
 
       <div className="mt-6 text-center space-y-3">
-        <Link to="/" className="text-[12px] text-slate-400 hover:text-slate-700 transition-colors block">
+        <Link to="/" className="text-[12px] text-gray-400 hover:text-gray-700 transition-colors block">
           Back to login
         </Link>
-        <p className="text-[12px] text-slate-400">
-          Need help? <a href="#" className="text-slate-800 font-bold hover:underline">Contact Support</a>
+        <p className="text-[12px] text-gray-400">
+          Need help? <a href="#" className="text-gray-800 font-bold hover:underline">Contact Support</a>
         </p>
       </div>
     </AuthLayout>

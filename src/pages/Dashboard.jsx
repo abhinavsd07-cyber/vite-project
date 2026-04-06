@@ -12,12 +12,12 @@ import { useSearch } from '../context/SearchContext';
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 border border-slate-200 rounded-lg shadow-lg">
-        <p className="font-medium text-slate-800 mb-2">{label}</p>
+      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+        <p className="font-medium text-gray-800 mb-2">{label}</p>
         {payload.map((entry, index) => (
           <div key={index} className="flex items-center gap-2 text-sm">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-            <span className="text-slate-600">{entry.name}:</span>
+            <span className="text-gray-600">{entry.name}:</span>
             <span className="font-medium">${entry.value.toLocaleString()}</span>
           </div>
         ))}
@@ -30,9 +30,9 @@ const CustomTooltip = ({ active, payload, label }) => {
 const HorizontalBarTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 border border-slate-200 rounded-lg shadow-lg">
-        <p className="font-medium text-slate-800">{label} ({payload[0].value}%)</p>
-        <p className="text-slate-500 mt-1">$ 123,456.78</p>
+      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+        <p className="font-medium text-gray-800">{label} ({payload[0].value}%)</p>
+        <p className="text-gray-500 mt-1">$ 123,456.78</p>
       </div>
     );
   }
@@ -221,17 +221,17 @@ export const Dashboard = () => {
     <div className="flex flex-col gap-4 sm:gap-6 animate-slide-up p-4 sm:p-6">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <h2 className="text-xl sm:text-2xl font-semibold text-slate-800">Dashboard</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">Dashboard</h2>
           {searchQuery && (
-            <p className="text-sm text-slate-500">
-              Showing results for: <span className="text-slate-900 font-medium">"{searchQuery}"</span>
+            <p className="text-sm text-gray-500">
+              Showing results for: <span className="text-gray-900 font-medium">"{searchQuery}"</span>
             </p>
           )}
         </div>
       </div>
 
       {/* Tabs - horizontally scrollable on mobile */}
-      <div className="flex overflow-x-auto scrollbar-hide gap-1 sm:gap-2 border-b border-slate-200 pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
+      <div className="flex overflow-x-auto scrollbar-hide gap-1 sm:gap-2 border-b border-gray-200 pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
         {[
           { tab: 'Profit & Loss', TabIcon: BarChart2 },
           { tab: 'Top Expenses', TabIcon: FileText },
@@ -244,7 +244,7 @@ export const Dashboard = () => {
             className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap shrink-0 ${
               activeTab === tab
                 ? 'bg-[#6366f1] text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-800'
+                : 'text-gray-500 hover:text-gray-800'
             }`}
           >
             <TabIcon className="w-4 h-4" />
@@ -258,7 +258,7 @@ export const Dashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
           <div 
             onClick={() => handleCardClick('Revenue')}
-            className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
+            className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
           >
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-[#ecfdf5] flex items-center justify-center shrink-0 group-hover:bg-[#d1fae5] transition-colors">
@@ -271,8 +271,8 @@ export const Dashboard = () => {
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-medium text-slate-500 mb-1">Total Revenue</p>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$16,670.79</h3>
+                <p className="text-sm font-medium text-gray-500 mb-1">Total Revenue</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-800">$16,670.79</h3>
               </div>
             </div>
             <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
@@ -292,7 +292,7 @@ export const Dashboard = () => {
           
           <div 
             onClick={() => handleCardClick('Expense')}
-            className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
+            className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
           >
              <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-[#fef2f2] flex items-center justify-center shrink-0 group-hover:bg-[#fee2e2] transition-colors">
@@ -304,8 +304,8 @@ export const Dashboard = () => {
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-medium text-slate-500 mb-1">Total Expense</p>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$623,516.96</h3>
+                <p className="text-sm font-medium text-gray-500 mb-1">Total Expense</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-800">$623,516.96</h3>
               </div>
             </div>
             <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
@@ -325,10 +325,10 @@ export const Dashboard = () => {
 
           <div 
             onClick={() => handleCardClick('Profit')}
-            className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
+            className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98] group overflow-hidden"
           >
              <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 group-hover:bg-slate-200 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 group-hover:bg-gray-200 transition-colors">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <ellipse cx="9" cy="9" rx="7" ry="3" stroke="#312e81" strokeWidth="2" fill="none"/>
                   <path d="M2 9V13C2 14.66 5.13 16 9 16C12.87 16 16 14.66 16 13V9" stroke="#312e81" strokeWidth="2" fill="none"/>
@@ -337,8 +337,8 @@ export const Dashboard = () => {
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-medium text-slate-500 mb-1">Net Profit</p>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-800">$623,516.96</h3>
+                <p className="text-sm font-medium text-gray-500 mb-1">Net Profit</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-800">$623,516.96</h3>
               </div>
             </div>
             <div className="w-16 h-10 sm:w-24 sm:h-12 shrink-0 overflow-hidden">
@@ -361,26 +361,26 @@ export const Dashboard = () => {
       {activeTab === 'Profit & Loss' && (
         <>
           {/* Performance Overview */}
-          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100">
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
             <div className="flex flex-col mb-8 gap-4">
-              <h3 className="text-lg font-semibold text-slate-800">Performance Overview</h3>
+              <h3 className="text-lg font-semibold text-gray-800">Performance Overview</h3>
               <div className="flex flex-wrap items-center gap-4 text-sm font-medium">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#10b981]"></div>
-                  <span className="text-slate-500">Total Revenue</span>
+                  <span className="text-gray-500">Total Revenue</span>
                 </div>
-                <span className="text-slate-300">|</span>
+                <span className="text-gray-300">|</span>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#f87171]"></div>
-                  <span className="text-slate-500">Total Expenses</span>
+                  <span className="text-gray-500">Total Expenses</span>
                 </div>
-                <span className="text-slate-300">|</span>
+                <span className="text-gray-300">|</span>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#312e81]"></div>
-                  <span className="text-slate-500">Profit</span>
+                  <span className="text-gray-500">Profit</span>
                 </div>
-                <span className="text-slate-300">|</span>
-                <span className="text-slate-600 border-b-2 border-slate-300 px-1 hover:text-slate-900 cursor-pointer">All</span>
+                <span className="text-gray-300">|</span>
+                <span className="text-gray-600 border-b-2 border-gray-300 px-1 hover:text-gray-900 cursor-pointer">All</span>
               </div>
             </div>
             <div className="h-[220px] sm:h-[280px] lg:h-[350px] 2xl:h-[500px] w-full">
@@ -402,8 +402,8 @@ export const Dashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             
             {/* Top Expenses (Gauge) */}
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
-              <h3 className="text-lg font-semibold text-slate-800 mb-6">Top Expenses</h3>
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col h-full">
+              <h3 className="text-lg font-semibold text-gray-800 mb-6">Top Expenses</h3>
               <div className="flex-1 flex flex-col items-center justify-center relative min-h-[300px] 2xl:min-h-[450px]">
                 <div className="h-[200px] 2xl:h-[300px] w-full relative flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
@@ -429,20 +429,20 @@ export const Dashboard = () => {
                   
                   {/* Gauge Text Center */}
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center text-center">
-                    <span className="text-sm font-medium text-slate-500">Total Expenses</span>
-                    <span className="text-2xl sm:text-3xl font-bold text-slate-800 mt-1">$4,652.42</span>
+                    <span className="text-sm font-medium text-gray-500">Total Expenses</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-gray-800 mt-1">$4,652.42</span>
                   </div>
                 </div>
 
                 {/* Legend */}
-                <div className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-8 w-full border-t border-slate-100 pt-6">
+                <div className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-8 w-full border-t border-gray-100 pt-6">
                   {topExpensesData.map((item, i) => (
                     <div key={i} className="flex flex-col items-center text-center">
                       <div className="flex items-center gap-1.5 mb-1.5">
                         <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }}></div>
-                        <span className="text-xs font-semibold text-slate-600">{item.name}</span>
+                        <span className="text-xs font-semibold text-gray-600">{item.name}</span>
                       </div>
-                      <span className="text-sm font-bold text-slate-800">${item.value.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                      <span className="text-sm font-bold text-gray-800">${item.value.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                     </div>
                   ))}
                 </div>
@@ -450,8 +450,8 @@ export const Dashboard = () => {
             </div>
 
             {/* Top Revenue (Doughnut) */}
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
-              <h3 className="text-lg font-semibold text-slate-800 mb-6">Top Revenue</h3>
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col h-full">
+              <h3 className="text-lg font-semibold text-gray-800 mb-6">Top Revenue</h3>
               <div className="flex-1 flex flex-col relative min-h-[300px] 2xl:min-h-[450px]">
                 <div className="h-[220px] 2xl:h-[350px] w-full flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
@@ -479,7 +479,7 @@ export const Dashboard = () => {
                   {topRevenueData.map((item, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: item.color }}></div>
-                      <span className="text-xs font-medium text-slate-500 truncate">{item.name}</span>
+                      <span className="text-xs font-medium text-gray-500 truncate">{item.name}</span>
                     </div>
                   ))}
                 </div>
@@ -492,11 +492,11 @@ export const Dashboard = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             
             {/* Summary Line Chart */}
-            <div className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
+            <div className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col h-full">
               <div className="flex items-center justify-between mb-8">
-                <h3 className="text-lg font-semibold text-slate-800">Summary</h3>
+                <h3 className="text-lg font-semibold text-gray-800">Summary</h3>
                 <div className="relative">
-                  <select className="appearance-none bg-white border border-slate-200 rounded-lg px-4 py-2 pr-10 text-sm font-medium text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
+                  <select className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-2 pr-10 text-sm font-medium text-gray-700 outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
                     <option>Expense</option>
                     <option>Revenue</option>
                   </select>
@@ -511,15 +511,15 @@ export const Dashboard = () => {
               <div className="flex flex-col md:flex-row gap-6 lg:gap-12 flex-1">
                 {/* Left stats */}
                 <div className="flex flex-col justify-center">
-                  <p className="text-sm font-medium text-slate-500 mb-1">Total Spend</p>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">$4,652.42</h3>
+                  <p className="text-sm font-medium text-gray-500 mb-1">Total Spend</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">$4,652.42</h3>
                   
                   <div className="flex flex-col gap-2">
                     <div className="bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full inline-flex items-center w-fit gap-1">
                       Increased By 20 %
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                     </div>
-                    <span className="text-xs text-slate-400">Compared To Last Year</span>
+                    <span className="text-xs text-gray-400">Compared To Last Year</span>
                   </div>
                 </div>
 
@@ -565,8 +565,8 @@ export const Dashboard = () => {
             </div>
 
             {/* Expenses Donut Indicator */}
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full items-center text-center">
-              <h3 className="text-lg font-semibold text-slate-800 w-full text-left mb-4">Expenses</h3>
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col h-full items-center text-center">
+              <h3 className="text-lg font-semibold text-gray-800 w-full text-left mb-4">Expenses</h3>
               <div className="flex-1 flex flex-col items-center justify-center relative w-full mt-4 min-h-[250px] 2xl:min-h-[400px]">
                 
                 <div className="h-[200px] 2xl:h-[300px] w-full relative flex items-center justify-center">
@@ -599,14 +599,14 @@ export const Dashboard = () => {
                   
                   {/* Center Text inside gauge */}
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center">
-                    <span className="text-3xl sm:text-4xl font-semibold text-slate-800 tracking-tight">78%</span>
+                    <span className="text-3xl sm:text-4xl font-semibold text-gray-800 tracking-tight">78%</span>
                   </div>
                 </div>
 
                 {/* Subtext */}
                 <div className="mt-8 flex flex-col">
-                  <span className="text-2xl sm:text-3xl font-semibold text-slate-800 tracking-tight">82.5k</span>
-                  <span className="text-xs text-slate-400 max-w-[140px] mt-1 mx-auto leading-relaxed">$21k Expenses More Than Last Month</span>
+                  <span className="text-2xl sm:text-3xl font-semibold text-gray-800 tracking-tight">82.5k</span>
+                  <span className="text-xs text-gray-400 max-w-[140px] mt-1 mx-auto leading-relaxed">$21k Expenses More Than Last Month</span>
                 </div>
               </div>
             </div>
@@ -618,8 +618,8 @@ export const Dashboard = () => {
       {activeTab === 'Top Expenses' && (
         <div className="flex flex-col gap-6">
           {/* Detailed Top Expenses Bar Chart */}
-          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h3 className="text-lg font-semibold text-slate-800 mb-6">Top Expenses</h3>
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 className="text-lg font-semibold text-gray-800 mb-6">Top Expenses</h3>
             <div className="h-[300px] sm:h-[400px] 2xl:h-[600px] w-full">
               {filteredExpensesData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
@@ -653,7 +653,7 @@ export const Dashboard = () => {
                   </BarChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-3">
+                <div className="h-full flex flex-col items-center justify-center text-gray-400 gap-3">
                   <Search size={48} strokeWidth={1} className="text-black opacity-20" />
                   <p className="text-sm font-medium">No results match your search query</p>
                 </div>
@@ -662,8 +662,8 @@ export const Dashboard = () => {
           </div>
 
           {/* Detailed Revenue Bar Chart */}
-          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-6">Revenue</h3>
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-6">Revenue</h3>
             <div className="h-[350px] sm:h-[450px] 2xl:h-[750px] w-full">
               {filteredRevenueData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
@@ -697,7 +697,7 @@ export const Dashboard = () => {
                   </BarChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-3">
+                <div className="h-full flex flex-col items-center justify-center text-gray-400 gap-3">
                   <Search size={48} strokeWidth={1} className="text-black opacity-20" />
                   <p className="text-sm font-medium">No results match your search query</p>
                 </div>
@@ -713,13 +713,13 @@ export const Dashboard = () => {
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 w-full min-w-0">
             
             {/* Bank Accounts */}
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row w-full h-full min-w-0">
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row w-full h-full min-w-0">
               {/* Left Side */}
-              <div className="md:w-[35%] flex flex-col md:border-r border-slate-100 pr-0 md:pr-6 gap-4 sm:gap-5 min-w-0 shrink-0">
+              <div className="md:w-[35%] flex flex-col md:border-r border-gray-100 pr-0 md:pr-6 gap-4 sm:gap-5 min-w-0 shrink-0">
                 <div className="w-24 shrink-0">
-                  <div className="relative border border-slate-200 rounded-lg px-3 py-1.5 flex items-center justify-between cursor-pointer bg-white">
-                    <span className="text-sm font-medium text-slate-700 truncate">All</span>
-                    <ChevronDown size={14} className="text-slate-400 shrink-0" />
+                  <div className="relative border border-gray-200 rounded-lg px-3 py-1.5 flex items-center justify-between cursor-pointer bg-white">
+                    <span className="text-sm font-medium text-gray-700 truncate">All</span>
+                    <ChevronDown size={14} className="text-gray-400 shrink-0" />
                   </div>
                 </div>
                 
@@ -728,14 +728,14 @@ export const Dashboard = () => {
                 </div>
                 
                 <div className="flex flex-col mt-auto md:mt-2 min-w-0">
-                  <p className="text-sm font-medium text-slate-500 truncate">Total Balance</p>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight mt-1 truncate">$4,652.42</h3>
+                  <p className="text-sm font-medium text-gray-500 truncate">Total Balance</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight mt-1 truncate">$4,652.42</h3>
                   <div className="flex flex-col gap-1.5 mt-3 sm:mt-4 min-w-0">
                     <div className="bg-emerald-500 text-white text-[11px] font-bold px-2 py-0.5 rounded inline-flex items-center w-fit gap-1 shadow-sm whitespace-nowrap shrink-0">
                       Increased By 20 %
                       <ArrowUpRight size={12} strokeWidth={3} className="shrink-0" />
                     </div>
-                    <span className="text-xs text-slate-400 font-medium truncate mt-0.5">Compared To Last Year</span>
+                    <span className="text-xs text-gray-400 font-medium truncate mt-0.5">Compared To Last Year</span>
                   </div>
                 </div>
               </div>
@@ -743,27 +743,27 @@ export const Dashboard = () => {
               {/* Right Side List */}
               <div className="md:w-[65%] flex flex-col pl-0 md:pl-6 mt-6 md:mt-0 justify-between gap-3 h-full min-w-0">
                 {cashAccountsData.map((item, i) => (
-                  <div key={i} className="flex items-center justify-between border border-slate-100 p-2.5 sm:p-3 rounded-xl bg-white shadow-sm flex-1 min-w-0 gap-2">
+                  <div key={i} className="flex items-center justify-between border border-gray-100 p-2.5 sm:p-3 rounded-xl bg-white shadow-sm flex-1 min-w-0 gap-2">
                     <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-slate-50" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-gray-50" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
                         <item.IconComp size={16} className="shrink-0" />
                       </div>
-                      <span className="text-[12px] sm:text-[13px] font-medium text-slate-600 truncate" title={item.name}>{item.name}</span>
+                      <span className="text-[12px] sm:text-[13px] font-medium text-gray-600 truncate" title={item.name}>{item.name}</span>
                     </div>
-                    <span className="text-[12px] sm:text-[13px] font-bold text-slate-800 whitespace-nowrap pl-1 sm:pl-2 shrink-0">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                    <span className="text-[12px] sm:text-[13px] font-bold text-gray-800 whitespace-nowrap pl-1 sm:pl-2 shrink-0">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Credit Cards Card */}
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row w-full h-full min-w-0">
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row w-full h-full min-w-0">
               {/* Left Side */}
-              <div className="md:w-[35%] flex flex-col md:border-r border-slate-100 pr-0 md:pr-6 gap-4 sm:gap-5 min-w-0 shrink-0">
+              <div className="md:w-[35%] flex flex-col md:border-r border-gray-100 pr-0 md:pr-6 gap-4 sm:gap-5 min-w-0 shrink-0">
                  <div className="w-24 shrink-0">
-                  <div className="relative border border-slate-200 rounded-lg px-3 py-1.5 flex items-center justify-between cursor-pointer bg-white">
-                    <span className="text-sm font-medium text-slate-700 truncate">All</span>
-                    <ChevronDown size={14} className="text-slate-400 shrink-0" />
+                  <div className="relative border border-gray-200 rounded-lg px-3 py-1.5 flex items-center justify-between cursor-pointer bg-white">
+                    <span className="text-sm font-medium text-gray-700 truncate">All</span>
+                    <ChevronDown size={14} className="text-gray-400 shrink-0" />
                   </div>
                 </div>
                 
@@ -772,14 +772,14 @@ export const Dashboard = () => {
                 </div>
                 
                 <div className="flex flex-col mt-auto md:mt-2 min-w-0">
-                  <p className="text-sm font-medium text-slate-500 truncate">Total Balance</p>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight mt-1 truncate">$16,670.79</h3>
+                  <p className="text-sm font-medium text-gray-500 truncate">Total Balance</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight mt-1 truncate">$16,670.79</h3>
                   <div className="flex flex-col gap-1.5 mt-3 sm:mt-4 min-w-0">
                     <div className="bg-emerald-500 text-white text-[11px] font-bold px-2 py-0.5 rounded inline-flex items-center w-fit gap-1 shadow-sm whitespace-nowrap shrink-0">
                       Increased By 20 %
                       <ArrowUpRight size={12} strokeWidth={3} className="shrink-0" />
                     </div>
-                    <span className="text-xs text-slate-400 font-medium truncate mt-0.5">Compared To Last Year</span>
+                    <span className="text-xs text-gray-400 font-medium truncate mt-0.5">Compared To Last Year</span>
                   </div>
                 </div>
               </div>
@@ -787,14 +787,14 @@ export const Dashboard = () => {
               {/* Right Side List */}
               <div className="md:w-[65%] flex flex-col pl-0 md:pl-6 mt-6 md:mt-0 justify-between gap-3 h-full min-w-0">
                 {creditCardsData.map((item, i) => (
-                  <div key={i} className="flex items-center justify-between border border-slate-100 p-2.5 sm:p-3 rounded-xl bg-white shadow-sm flex-1 min-w-0 gap-2">
+                  <div key={i} className="flex items-center justify-between border border-gray-100 p-2.5 sm:p-3 rounded-xl bg-white shadow-sm flex-1 min-w-0 gap-2">
                     <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <div className="w-8 h-6 rounded flex items-center justify-center shrink-0 border border-slate-100 shadow-sm" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
+                      <div className="w-8 h-6 rounded flex items-center justify-center shrink-0 border border-gray-100 shadow-sm" style={{ backgroundColor: item.iconBg, color: item.iconCol }}>
                          <item.IconComp size={12} className="shrink-0" />
                       </div>
-                      <span className="text-[12px] sm:text-[13px] font-medium text-slate-600 truncate" title={item.name}>{item.name}</span>
+                      <span className="text-[12px] sm:text-[13px] font-medium text-gray-600 truncate" title={item.name}>{item.name}</span>
                     </div>
-                    <span className="text-[12px] sm:text-[13px] font-bold text-slate-800 whitespace-nowrap pl-1 sm:pl-2 shrink-0">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                    <span className="text-[12px] sm:text-[13px] font-bold text-gray-800 whitespace-nowrap pl-1 sm:pl-2 shrink-0">${item.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                   </div>
                 ))}
               </div>
@@ -806,16 +806,16 @@ export const Dashboard = () => {
           <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-4 sm:gap-6 min-w-0">
             
             {/* Cash In, Cash Out Chart */}
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-[450px] min-w-0">
-              <h3 className="text-lg font-bold text-slate-800 mb-2">Cash In, Cash Out</h3>
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col h-[450px] min-w-0">
+              <h3 className="text-lg font-bold text-gray-800 mb-2">Cash In, Cash Out</h3>
               <div className="flex items-center gap-6 mb-8 px-2">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#312e81]"></div>
-                  <span className="text-[13px] font-medium text-slate-500">Cash In</span>
+                  <span className="text-[13px] font-medium text-gray-500">Cash In</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#d97706]"></div>
-                  <span className="text-[13px] font-medium text-slate-500">Cash Out</span>
+                  <span className="text-[13px] font-medium text-gray-500">Cash Out</span>
                 </div>
               </div>
               <div className="flex-1 min-h-[250px] w-full">
@@ -833,21 +833,21 @@ export const Dashboard = () => {
             </div>
 
             {/* Top Transactions Table */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-[450px]">
-              <h3 className="text-lg font-bold text-slate-800 mb-6">Top Transactions</h3>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col h-[450px]">
+              <h3 className="text-lg font-bold text-gray-800 mb-6">Top Transactions</h3>
               <div className="flex-1 overflow-auto pr-2 scrollbar-hide">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-slate-100">
-                      <th className="pb-4 text-[13px] font-semibold text-slate-800 w-8"></th>
-                      <th className="pb-4 text-[13px] font-semibold text-slate-800">Transaction ID</th>
-                      <th className="pb-4 text-[13px] font-semibold text-slate-800">Date</th>
-                      <th className="pb-4 text-[13px] font-semibold text-slate-800 text-right">Amount</th>
+                    <tr className="border-b border-gray-100">
+                      <th className="pb-4 text-[13px] font-semibold text-gray-800 w-8"></th>
+                      <th className="pb-4 text-[13px] font-semibold text-gray-800">Transaction ID</th>
+                      <th className="pb-4 text-[13px] font-semibold text-gray-800">Date</th>
+                      <th className="pb-4 text-[13px] font-semibold text-gray-800 text-right">Amount</th>
                     </tr>
                   </thead>
                   <tbody>
                     {topTransactionsData.map((tx, idx) => (
-                      <tr key={idx} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
+                      <tr key={idx} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
                         <td className="py-4">
                           {tx.type === 'in' ? (
                             <ArrowDownLeft size={16} strokeWidth={2.5} className="text-emerald-500" />
@@ -855,9 +855,9 @@ export const Dashboard = () => {
                             <ArrowUpRight size={16} strokeWidth={2.5} className="text-red-500" />
                           )}
                         </td>
-                        <td className="py-4 text-sm font-medium text-slate-600">{tx.id}</td>
-                        <td className="py-4 text-[13px] font-medium text-slate-500">{tx.date}</td>
-                        <td className="py-4 text-[13px] font-medium text-slate-800 text-right">${tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                        <td className="py-4 text-sm font-medium text-gray-600">{tx.id}</td>
+                        <td className="py-4 text-[13px] font-medium text-gray-500">{tx.date}</td>
+                        <td className="py-4 text-[13px] font-medium text-gray-800 text-right">${tx.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -868,8 +868,8 @@ export const Dashboard = () => {
           </div>
 
           {/* Bottom Section: Net Cash Position */}
-           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-[380px] flex flex-col">
-            <h3 className="text-lg font-bold text-slate-800 mb-8">Net Cash Position</h3>
+           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-[380px] flex flex-col">
+            <h3 className="text-lg font-bold text-gray-800 mb-8">Net Cash Position</h3>
             <div className="flex-1 min-h-0 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={netCashPositionData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }} barSize={20}>
@@ -892,42 +892,42 @@ export const Dashboard = () => {
           {/* Top Value Cards (3 Columns) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full min-w-0">
             {/* Amount Receivable */}
-            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+            <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
                <div className="w-12 h-12 rounded-xl bg-[#e0f2fe] flex items-center justify-center shrink-0 border border-[#bae6fd]">
                 <FileText size={20} className="text-[#0284c7]" />
                </div>
                <div className="flex flex-col min-w-0">
-                 <p className="text-sm font-medium text-slate-500 mb-0.5 truncate">Amount Receivable</p>
-                 <h3 className="text-2xl font-bold text-slate-800 truncate">$623,516.96</h3>
+                 <p className="text-sm font-medium text-gray-500 mb-0.5 truncate">Amount Receivable</p>
+                 <h3 className="text-2xl font-bold text-gray-800 truncate">$623,516.96</h3>
                </div>
             </div>
 
             {/* Amount Payable */}
-            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+            <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
                <div className="w-12 h-12 rounded-xl bg-[#fee2e2] flex items-center justify-center shrink-0 border border-[#fecaca]">
                 <ArrowUpRight size={22} className="text-[#dc2626]" strokeWidth={2.5} />
                </div>
                <div className="flex flex-col min-w-0">
-                 <p className="text-sm font-medium text-slate-500 mb-0.5 truncate">Amount Payable</p>
-                 <h3 className="text-2xl font-bold text-slate-800 truncate">$16,670.79</h3>
+                 <p className="text-sm font-medium text-gray-500 mb-0.5 truncate">Amount Payable</p>
+                 <h3 className="text-2xl font-bold text-gray-800 truncate">$16,670.79</h3>
                </div>
             </div>
 
             {/* Difference */}
-            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+            <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
                <div className="w-12 h-12 rounded-xl bg-[#ffedd5] flex items-center justify-center shrink-0 border border-[#fed7aa]">
                 <Banknote size={22} className="text-[#ea580c]" />
                </div>
                <div className="flex flex-col min-w-0">
-                 <p className="text-sm font-medium text-slate-500 mb-0.5 truncate">Difference</p>
-                 <h3 className="text-2xl font-bold text-slate-800 truncate">$606,846.17</h3>
+                 <p className="text-sm font-medium text-gray-500 mb-0.5 truncate">Difference</p>
+                 <h3 className="text-2xl font-bold text-gray-800 truncate">$606,846.17</h3>
                </div>
             </div>
           </div>
 
           {/* Account Receivable Horizontal Chart */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-[500px] min-w-0">
-            <h3 className="text-lg font-bold text-slate-800 mb-8">Account Receivable</h3>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col h-[500px] min-w-0">
+            <h3 className="text-lg font-bold text-gray-800 mb-8">Account Receivable</h3>
             <div className="flex-1 w-full min-h-0 pl-16 sm:pl-24 pr-4 sm:pr-12">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={agingData} layout="vertical" margin={{ top: 20, right: 30, left: 10, bottom: 5 }} barSize={12}>
@@ -962,8 +962,8 @@ export const Dashboard = () => {
           </div>
 
           {/* Account Payable Horizontal Chart */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-[500px] min-w-0">
-            <h3 className="text-lg font-bold text-slate-800 mb-8">Account Payable</h3>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col h-[500px] min-w-0">
+            <h3 className="text-lg font-bold text-gray-800 mb-8">Account Payable</h3>
             <div className="flex-1 w-full min-h-0 pl-16 sm:pl-24 pr-4 sm:pr-12">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={agingData} layout="vertical" margin={{ top: 20, right: 30, left: 10, bottom: 5 }} barSize={12}>
@@ -1001,25 +1001,25 @@ export const Dashboard = () => {
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 w-full min-w-0">
             
             {/* Customer Receivable Balance */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col min-w-0">
-              <h3 className="text-[15px] font-bold text-slate-800 mb-6 border-b border-slate-100 pb-4">Customer Receivable Balance</h3>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col min-w-0">
+              <h3 className="text-[15px] font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">Customer Receivable Balance</h3>
               <div className="overflow-x-auto scrollbar-hide">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="border-b border-slate-100">
-                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%]">Transaction ID</th>
-                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[35%]">Customer name</th>
-                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[25%] text-center">Date</th>
-                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%] text-right pr-2">Amount</th>
+                    <tr className="border-b border-gray-100">
+                      <th className="pb-3 text-xs font-semibold text-gray-800 w-[20%]">Transaction ID</th>
+                      <th className="pb-3 text-xs font-semibold text-gray-800 w-[35%]">Customer name</th>
+                      <th className="pb-3 text-xs font-semibold text-gray-800 w-[25%] text-center">Date</th>
+                      <th className="pb-3 text-xs font-semibold text-gray-800 w-[20%] text-right pr-2">Amount</th>
                     </tr>
                   </thead>
                   <tbody>
                     {customerReceivableData.map((row, idx) => (
-                      <tr key={idx} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 text-xs font-medium text-slate-600 truncate">{row.txId}</td>
-                        <td className="py-4 text-[13px] font-medium text-slate-600 truncate">{row.name}</td>
-                        <td className="py-4 text-xs font-medium text-slate-500 text-center truncate">{row.date}</td>
-                        <td className="py-4 text-[13px] font-medium text-slate-800 text-right pr-2">${row.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                      <tr key={idx} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
+                        <td className="py-4 text-xs font-medium text-gray-600 truncate">{row.txId}</td>
+                        <td className="py-4 text-[13px] font-medium text-gray-600 truncate">{row.name}</td>
+                        <td className="py-4 text-xs font-medium text-gray-500 text-center truncate">{row.date}</td>
+                        <td className="py-4 text-[13px] font-medium text-gray-800 text-right pr-2">${row.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -1028,25 +1028,25 @@ export const Dashboard = () => {
             </div>
 
             {/* Vendor Payable Balance */}
-             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col min-w-0">
-              <h3 className="text-[15px] font-bold text-slate-800 mb-6 border-b border-slate-100 pb-4">Vendor Payable Balance</h3>
+             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col min-w-0">
+              <h3 className="text-[15px] font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">Vendor Payable Balance</h3>
               <div className="overflow-x-auto scrollbar-hide">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="border-b border-slate-100">
-                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%]">Transaction ID</th>
-                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[35%]">Vendor name</th>
-                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[25%] text-center">Date</th>
-                      <th className="pb-3 text-xs font-semibold text-slate-800 w-[20%] text-right pr-2">Amount</th>
+                    <tr className="border-b border-gray-100">
+                      <th className="pb-3 text-xs font-semibold text-gray-800 w-[20%]">Transaction ID</th>
+                      <th className="pb-3 text-xs font-semibold text-gray-800 w-[35%]">Vendor name</th>
+                      <th className="pb-3 text-xs font-semibold text-gray-800 w-[25%] text-center">Date</th>
+                      <th className="pb-3 text-xs font-semibold text-gray-800 w-[20%] text-right pr-2">Amount</th>
                     </tr>
                   </thead>
                   <tbody>
                     {vendorPayableData.map((row, idx) => (
-                      <tr key={idx} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 text-xs font-medium text-slate-600 truncate">{row.txId}</td>
-                        <td className="py-4 text-[13px] font-medium text-slate-600 truncate">{row.name}</td>
-                        <td className="py-4 text-xs font-medium text-slate-500 text-center truncate">{row.date}</td>
-                        <td className="py-4 text-[13px] font-medium text-slate-800 text-right pr-2">${row.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                      <tr key={idx} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
+                        <td className="py-4 text-xs font-medium text-gray-600 truncate">{row.txId}</td>
+                        <td className="py-4 text-[13px] font-medium text-gray-600 truncate">{row.name}</td>
+                        <td className="py-4 text-xs font-medium text-gray-500 text-center truncate">{row.date}</td>
+                        <td className="py-4 text-[13px] font-medium text-gray-800 text-right pr-2">${row.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -1060,8 +1060,8 @@ export const Dashboard = () => {
 
       {/* Put placeholders for other tabs if they click on them */}
       {activeTab !== 'Profit & Loss' && activeTab !== 'Top Expenses' && activeTab !== 'Cash Reports' && activeTab !== 'Account Receivable / Payable' && (
-        <div className="bg-white p-12 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center">
-           <p className="text-slate-500 text-lg">No data available for {activeTab}</p>
+        <div className="bg-white p-12 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center">
+           <p className="text-gray-500 text-lg">No data available for {activeTab}</p>
         </div>
       )}
     </div>

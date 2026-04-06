@@ -49,34 +49,34 @@ export const CountryList = () => {
         <div className="px-6 pt-6 pb-6">
            <div className="flex gap-4 mb-6">
               <div className="w-1/3">
-                 <label className="block text-[13px] font-medium text-slate-400 mb-2">Code</label>
+                 <label className="block text-[13px] font-medium text-gray-400 mb-2">Code</label>
                  <div className="relative">
-                    <select className="w-full appearance-none px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-300">
+                    <select className="w-full appearance-none px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-gray-300">
                        <option>+91</option>
                        <option>+1</option>
                        <option>+44</option>
                     </select>
                     <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                       <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                       <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                  </div>
               </div>
               <div className="flex-1">
-                 <label className="block text-[13px] font-medium text-slate-400 mb-2">Choose country</label>
+                 <label className="block text-[13px] font-medium text-gray-400 mb-2">Choose country</label>
                  <div className="relative">
-                    <select className="w-full appearance-none px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-slate-300">
+                    <select className="w-full appearance-none px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-gray-300">
                        <option>India</option>
                        <option>USA</option>
                     </select>
                     <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                       <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                       <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                  </div>
               </div>
            </div>
            <div className="flex justify-end gap-3">
              <button 
-               className="px-6 py-2 bg-slate-200/80 hover:bg-slate-300 text-slate-600 rounded-lg text-[13px] font-medium transition-colors"
+               className="px-6 py-2 bg-gray-200/80 hover:bg-gray-300 text-gray-600 rounded-lg text-[13px] font-medium transition-colors"
              >
                Cancel
              </button>
@@ -91,18 +91,18 @@ export const CountryList = () => {
 
         {/* List Area */}
         <div className="flex-1 flex flex-col px-6 pb-6">
-            <h3 className="text-[15px] font-bold text-slate-800 tracking-tight mb-4">Country List</h3>
+            <h3 className="text-[15px] font-bold text-gray-800 tracking-tight mb-4">Country List</h3>
             
-            <div className="flex flex-col flex-1 border border-slate-200 rounded-lg overflow-hidden bg-white">
+            <div className="flex flex-col flex-1 border border-gray-200 rounded-lg overflow-hidden bg-white">
                {/* Search Box outside table */}
-               <div className="relative p-2 border-b border-slate-100">
-                 <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+               <div className="relative p-2 border-b border-gray-100">
+                 <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                  <input
                    type="text"
                    placeholder="Search"
                    value={searchTerm}
                    onChange={(e) => setSearchTerm(e.target.value)}
-                   className="w-full pl-9 pr-4 py-2 text-[13px] focus:outline-none placeholder:text-slate-400"
+                   className="w-full pl-9 pr-4 py-2 text-[13px] focus:outline-none placeholder:text-gray-400"
                  />
                </div>
 
@@ -110,26 +110,26 @@ export const CountryList = () => {
                <div className="flex-1 overflow-auto">
                  <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-slate-100 bg-slate-50/50">
-                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700 w-16">Sl.No</th>
-                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700">Country</th>
-                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700 w-32">Country code</th>
-                        <th className="py-3 px-4 text-[13px] font-semibold text-slate-700 text-right w-24">Action</th>
+                      <tr className="border-b border-gray-100 bg-gray-50/50">
+                        <th className="py-3.5 px-5 text-[12px] font-semibold text-gray-500 uppercase tracking-wide w-16">Sl.No</th>
+                        <th className="py-3.5 px-5 text-[12px] font-semibold text-gray-500 uppercase tracking-wide">Country</th>
+                        <th className="py-3.5 px-5 text-[12px] font-semibold text-gray-500 uppercase tracking-wide w-32">Country code</th>
+                        <th className="py-3.5 px-5 text-[12px] font-semibold text-gray-500 uppercase tracking-wide text-right w-24">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {filtered.map((item, index) => (
-                        <tr key={item.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                          <td className="py-4 px-4 text-[13px] text-slate-600">
+                        <tr key={item.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                          <td className="py-4 px-4 text-[13px] text-gray-600">
                              {String(index + 1).padStart(2, '0')}
                           </td>
-                          <td className="py-4 px-4 text-[13px] text-slate-800">{item.name}</td>
-                          <td className="py-4 px-4 text-[13px] text-slate-600">{item.code}</td>
+                          <td className="py-4 px-4 text-[13px] text-gray-800">{item.name}</td>
+                          <td className="py-4 px-4 text-[13px] text-gray-600">{item.code}</td>
                           <td className="py-4 px-4 flex items-center justify-end gap-3">
                             <button
                               onClick={() => toggleStatus(item.id)}
                               className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none ${
-                                item.status ? 'bg-emerald-500' : 'bg-slate-300'
+                                item.status ? 'bg-emerald-500' : 'bg-gray-300'
                               }`}
                             >
                               <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${

@@ -28,6 +28,15 @@ import { ArchivedTasks } from "./pages/tasks/ArchivedTasks";
 
 import { SearchProvider } from "./context/SearchContext";
 
+// Defined at top level so it's not re-created on every App render
+const DashboardRoute = ({ children }) => (
+  <SearchProvider>
+    <DashboardLayout>
+      {children}
+    </DashboardLayout>
+  </SearchProvider>
+);
+
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -48,15 +57,6 @@ function App() {
       </div>
     );
   }
-
-  // A wrapper for dashboard pages to keep code DRY
-  const DashboardRoute = ({ children }) => (
-    <SearchProvider>
-      <DashboardLayout>
-        {children}
-      </DashboardLayout>
-    </SearchProvider>
-  );
 
   return (
     <Router>

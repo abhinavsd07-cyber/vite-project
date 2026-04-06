@@ -59,16 +59,10 @@ export const ResetPassword = () => {
       userUID: userUID || "",
       PassWord: password
     };
-    console.log("Reset Password Payload:", payload);
 
     try {
       const response = await resetPasswordAPI(payload);
       setIsLoading(false);
-      
-      console.log("Reset Password API Response:", response);
-
-      // Store result in sessionStorage as requested
-      sessionStorage.setItem('resetPasswordResult', JSON.stringify(response));
 
       if (response && response.responseResult?.responseCode === "000") {
         sessionStorage.removeItem('resetEmail');
@@ -83,7 +77,6 @@ export const ResetPassword = () => {
           navigate('/'); // Redirect to login
         });
       } else {
-        console.error("Password Reset Failed:", response);
         const errorMsg = response?.responseResult?.responseDescription || response?.message || 'Failed to update password. Please try again.';
         setErrorMessage(errorMsg);
       }
@@ -98,30 +91,31 @@ export const ResetPassword = () => {
     <AuthLayout>
 
       <div className="text-center mb-8">
-        <h2 className="text-[22px] font-bold text-slate-900 mb-2">Confirm Password</h2>
-        <p className="text-[13px] text-slate-400">Enter your new password.</p>
+        <h2 className="text-[22px] font-bold text-gray-900 mb-2">Confirm Password</h2>
+        <p className="text-[13px] text-gray-400">Enter your new password.</p>
       </div>
 
       <form className="space-y-5" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-500 flex items-center gap-1">
+          <label htmlFor="new-password" className="text-[13px] font-medium text-gray-500 flex items-center gap-1">
             New Password{" "}
-            <span className="w-3.5 h-3.5 border border-slate-300 rounded-full inline-flex items-center justify-center text-[8px] text-slate-400 cursor-help">
+            <span className="w-3.5 h-3.5 border border-gray-300 rounded-full inline-flex items-center justify-center text-[8px] text-gray-400 cursor-help">
               i
             </span>
           </label>
           <div className="relative">
             <input 
+              id="new-password"
               type={showNewPassword ? "text" : "password"} 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Min. 8 characters"
-              className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
+              className="w-full px-4 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-400 transition-all font-sans bg-white"
             />
             <button 
               type="button"
               onClick={() => setShowNewPassword(!showNewPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -129,21 +123,22 @@ export const ResetPassword = () => {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-[13px] font-medium text-slate-500">
+          <label htmlFor="confirm-password" className="text-[13px] font-medium text-gray-500">
             Confirm Password
           </label>
           <div className="relative">
             <input 
+              id="confirm-password"
               type={showConfirmPassword ? "text" : "password"} 
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm your new password"
-              className="w-full px-4 py-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all font-sans bg-white"
+              className="w-full px-4 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-400 transition-all font-sans bg-white"
             />
             <button 
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
@@ -162,7 +157,7 @@ export const ResetPassword = () => {
           <button 
             type="submit" 
             disabled={isLoading}
-            className="bg-slate-900 text-white font-semibold py-2.5 px-10 rounded-lg hover:bg-slate-950 transition-all text-sm disabled:opacity-70 flex items-center justify-center gap-2"
+            className="bg-gray-900 text-white font-semibold py-2.5 px-10 rounded-lg hover:bg-gray-950 transition-all text-sm disabled:opacity-70 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
@@ -175,8 +170,8 @@ export const ResetPassword = () => {
       </form>
 
       <div className="mt-6 text-center space-y-3">
-        <p className="text-[12px] text-slate-400">
-          Need help? <a href="#" className="text-slate-800 font-bold hover:underline">Contact Support</a>
+        <p className="text-[12px] text-gray-400">
+          Need help? <a href="#" className="text-gray-800 font-bold hover:underline">Contact Support</a>
         </p>
       </div>
     </AuthLayout>
