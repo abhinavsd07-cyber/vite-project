@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Search, Filter, MoreVertical, Plus, X, ChevronDown, Edit2, Send, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useForm } from 'react-hook-form';
 
 import '../../index.css'; // Ensure index.css is applied if we add custom styles
 import { Pagination } from '../../components/ui/Pagination';
@@ -45,11 +46,17 @@ export const UserList = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [appliedFilters, setAppliedFilters] = useState({ userGroup: '', status: '' });
   const [showQuickAdd, setShowQuickAdd] = useState(false);
-  const [quickAddForm, setQuickAddForm] = useState({ userName: '', email: '', countryCode: '+91', phone: '', userGroup: '' });
   const [showEditUser, setShowEditUser] = useState(false);
-  const [editUserForm, setEditUserForm] = useState({ userName: '', email: '', countryCode: '+91', phone: '', userGroup: '' });
   const [activeActionMenu, setActiveActionMenu] = useState(null);
   const actionMenuRef = useRef(null);
+
+  const { register: registerAdd, handleSubmit: handleAddSubmit, reset: resetAdd, formState: { errors: addErrors } } = useForm({
+    defaultValues: { countryCode: '+91', userName: '', email: '', phone: '', userGroup: '' }
+  });
+
+  const { register: registerEdit, handleSubmit: handleEditSubmit, reset: resetEdit, formState: { errors: editErrors } } = useForm({
+    defaultValues: { countryCode: '+91', userName: '', email: '', phone: '', userGroup: '' }
+  });
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -74,35 +81,23 @@ export const UserList = () => {
 
   const paginatedUsers = filteredUsers.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
-  const handleQuickAddChange = (field, value) => setQuickAddForm(prev => ({ ...prev, [field]: value }));
-  const handleQuickAddClear = () => setQuickAddForm({ userName: '', email: '', countryCode: '+91', phone: '', userGroup: '' });
+  const handleQuickAddClear = () => resetAdd();
 
-  const handleQuickAddCreate = (e) => {
-    e.preventDefault();
-    if (!quickAddForm.userName || !quickAddForm.email || !quickAddForm.phone || !quickAddForm.userGroup) {
-      Toast.fire({ icon: 'warning', title: 'Please fill all required fields' });
-      return;
-    }
+  const handleQuickAddCreate = (data) => {
     Toast.fire({ icon: 'success', title: 'User created successfully!' });
-    handleQuickAddClear();
+    resetAdd();
     setShowQuickAdd(false);
   };
 
-  const handleSaveAndAllocate = (e) => {
-    e.preventDefault();
-    if (!quickAddForm.userName || !quickAddForm.email || !quickAddForm.phone || !quickAddForm.userGroup) {
-      Toast.fire({ icon: 'warning', title: 'Please fill all required fields' });
-      return;
-    }
+  const handleSaveAndAllocate = (data) => {
     Toast.fire({ icon: 'success', title: 'User saved!' });
-    handleQuickAddClear();
+    resetAdd();
     setShowQuickAdd(false);
   };
 
   const handleEdit = (user) => { 
     setActiveActionMenu(null); 
-    setEditUserForm({
-      id: user.id,
+    resetEdit({
       userName: user.name,
       email: user.email,
       countryCode: '+91',
@@ -112,14 +107,7 @@ export const UserList = () => {
     setShowEditUser(true); 
   };
 
-  const handleEditChange = (field, value) => setEditUserForm(prev => ({ ...prev, [field]: value }));
-
-  const handleEditSave = (e) => {
-    e.preventDefault();
-    if (!editUserForm.userName || !editUserForm.email || !editUserForm.phone || !editUserForm.userGroup) {
-      Toast.fire({ icon: 'warning', title: 'Please fill all required fields' });
-      return;
-    }
+  const handleEditSave = (data) => {
     Toast.fire({ icon: 'success', title: 'User updated successfully!' });
     setShowEditUser(false);
   };
@@ -388,177 +376,186 @@ export const UserList = () => {
 
       {/* Quick Add Drawer */}
       <RightDrawer isOpen={showQuickAdd} onClose={() => setShowQuickAdd(false)} title="Add User">
-        <div className="p-6 flex flex-col gap-5">
-           {/* ...rest of drawer logic remains the same... */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[13px] font-medium text-gray-600">User Name <span className="text-red-500">*</span></label>
-            <input
-              type="text"
-              placeholder="Enter user name"
-              value={quickAddForm.userName}
-              onChange={(e) => handleQuickAddChange('userName', e.target.value)}
-              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[13px] font-medium text-gray-600">Email <span className="text-red-500">*</span></label>
-            <input
-              type="email"
-              placeholder="Enter email"
-              value={quickAddForm.email}
-              onChange={(e) => handleQuickAddChange('email', e.target.value)}
-              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[13px] font-medium text-gray-600">Contact Number <span className="text-red-500">*</span></label>
-            <div className="flex gap-2">
-              <div className="relative w-[90px] shrink-0">
-                <select
-                  value={quickAddForm.countryCode}
-                  onChange={(e) => handleQuickAddChange('countryCode', e.target.value)}
-                  className="appearance-none w-full px-3 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
-                >
-                  <option value="+91">+91</option>
-                  <option value="+1">+1</option>
-                  <option value="+44">+44</option>
-                  <option value="+971">+971</option>
-                </select>
-                <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-              </div>
+        <form className="flex flex-col h-full">
+          <div className="p-6 flex flex-col gap-5">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-600">User Name <span className="text-red-500">*</span></label>
               <input
-                type="tel"
-                placeholder="Enter phone number"
-                value={quickAddForm.phone}
-                onChange={(e) => handleQuickAddChange('phone', e.target.value)}
-                className="flex-1 px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+                type="text"
+                placeholder="Enter user name"
+                {...registerAdd('userName', { required: 'User name is required' })}
+                className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
               />
+              {addErrors.userName && <span className="text-red-500 text-xs">{addErrors.userName.message}</span>}
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-600">Email <span className="text-red-500">*</span></label>
+              <input
+                type="email"
+                placeholder="Enter email"
+                {...registerAdd('email', { required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' } })}
+                className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+              />
+              {addErrors.email && <span className="text-red-500 text-xs">{addErrors.email.message}</span>}
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-600">Contact Number <span className="text-red-500">*</span></label>
+              <div className="flex gap-2">
+                <div className="relative w-[90px] shrink-0">
+                  <select
+                    {...registerAdd('countryCode')}
+                    className="appearance-none w-full px-3 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
+                  >
+                    <option value="+91">+91</option>
+                    <option value="+1">+1</option>
+                    <option value="+44">+44</option>
+                    <option value="+971">+971</option>
+                  </select>
+                  <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                </div>
+                <div className="flex-1 flex flex-col gap-1">
+                  <input
+                    type="tel"
+                    placeholder="Enter phone number"
+                    {...registerAdd('phone', { required: 'Phone number is required' })}
+                    className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+                  />
+                  {addErrors.phone && <span className="text-red-500 text-xs">{addErrors.phone.message}</span>}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-600">User Group <span className="text-red-500">*</span></label>
+              <div className="relative">
+                <select
+                  {...registerAdd('userGroup', { required: 'User group is required' })}
+                  className="appearance-none w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
+                >
+                  <option value="">Choose user group</option>
+                  {USER_GROUPS.map(g => <option key={g} value={g}>{g}</option>)}
+                </select>
+                <ChevronDown size={13} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              </div>
+              {addErrors.userGroup && <span className="text-red-500 text-xs">{addErrors.userGroup.message}</span>}
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[13px] font-medium text-gray-600">User Group <span className="text-red-500">*</span></label>
-            <div className="relative">
-              <select
-                value={quickAddForm.userGroup}
-                onChange={(e) => handleQuickAddChange('userGroup', e.target.value)}
-                className="appearance-none w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
-              >
-                <option value="">Choose user group</option>
-                {USER_GROUPS.map(g => <option key={g} value={g}>{g}</option>)}
-              </select>
-              <ChevronDown size={13} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-            </div>
+          {/* Drawer Footer */}
+          <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-end gap-2 mt-auto">
+            <button
+              type="button"
+              onClick={handleQuickAddClear}
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[13px] font-medium transition-colors"
+            >
+              Clear
+            </button>
+            <button
+              type="button"
+              onClick={handleAddSubmit(handleSaveAndAllocate)}
+              className="px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-lg text-[13px] font-medium transition-colors"
+            >
+              Save & allocate
+            </button>
+            <button
+              type="button"
+              onClick={handleAddSubmit(handleQuickAddCreate)}
+              className="px-4 py-2 bg-[#1a1a1a] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
+            >
+              Create
+            </button>
           </div>
-        </div>
-
-        {/* Drawer Footer */}
-        <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-end gap-2 mt-auto">
-          <button
-            onClick={handleQuickAddClear}
-            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[13px] font-medium transition-colors"
-          >
-            Clear
-          </button>
-          <button
-            onClick={handleSaveAndAllocate}
-            className="px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-lg text-[13px] font-medium transition-colors"
-          >
-            Save & allocate
-          </button>
-          <button
-            onClick={handleQuickAddCreate}
-            className="px-4 py-2 bg-[#1a1a1a] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
-          >
-            Create
-          </button>
-        </div>
+        </form>
       </RightDrawer>
 
       {/* Edit User Drawer */}
       <RightDrawer isOpen={showEditUser} onClose={() => setShowEditUser(false)} title="Edit User">
-        <div className="p-6 flex flex-col gap-5">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[13px] font-medium text-gray-600">User Name <span className="text-red-500">*</span></label>
-            <input
-              type="text"
-              placeholder="Enter user name"
-              value={editUserForm.userName}
-              onChange={(e) => handleEditChange('userName', e.target.value)}
-              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[13px] font-medium text-gray-600">Email <span className="text-red-500">*</span></label>
-            <input
-              type="email"
-              placeholder="Enter email"
-              value={editUserForm.email}
-              onChange={(e) => handleEditChange('email', e.target.value)}
-              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[13px] font-medium text-gray-600">Contact Number <span className="text-red-500">*</span></label>
-            <div className="flex gap-2">
-              <div className="relative w-[90px] shrink-0">
-                <select
-                  value={editUserForm.countryCode}
-                  onChange={(e) => handleEditChange('countryCode', e.target.value)}
-                  className="appearance-none w-full px-3 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
-                >
-                  <option value="+91">+91</option>
-                  <option value="+1">+1</option>
-                  <option value="+44">+44</option>
-                  <option value="+971">+971</option>
-                </select>
-                <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-              </div>
+        <form className="flex flex-col h-full" onSubmit={handleEditSubmit(handleEditSave)}>
+          <div className="p-6 flex flex-col gap-5">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-600">User Name <span className="text-red-500">*</span></label>
               <input
-                type="tel"
-                placeholder="Enter phone number"
-                value={editUserForm.phone}
-                onChange={(e) => handleEditChange('phone', e.target.value)}
-                className="flex-1 px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+                type="text"
+                placeholder="Enter user name"
+                {...registerEdit('userName', { required: 'User name is required' })}
+                className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
               />
+              {editErrors.userName && <span className="text-red-500 text-xs">{editErrors.userName.message}</span>}
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-600">Email <span className="text-red-500">*</span></label>
+              <input
+                type="email"
+                placeholder="Enter email"
+                {...registerEdit('email', { required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' } })}
+                className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+              />
+              {editErrors.email && <span className="text-red-500 text-xs">{editErrors.email.message}</span>}
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-600">Contact Number <span className="text-red-500">*</span></label>
+              <div className="flex gap-2">
+                <div className="relative w-[90px] shrink-0">
+                  <select
+                    {...registerEdit('countryCode')}
+                    className="appearance-none w-full px-3 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
+                  >
+                    <option value="+91">+91</option>
+                    <option value="+1">+1</option>
+                    <option value="+44">+44</option>
+                    <option value="+971">+971</option>
+                  </select>
+                  <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                </div>
+                <div className="flex-1 flex flex-col gap-1">
+                  <input
+                    type="tel"
+                    placeholder="Enter phone number"
+                    {...registerEdit('phone', { required: 'Phone number is required' })}
+                    className="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-700 placeholder:text-gray-300 focus:outline-none focus:border-gray-400 transition-colors"
+                  />
+                  {editErrors.phone && <span className="text-red-500 text-xs">{editErrors.phone.message}</span>}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-600">User Group <span className="text-red-500">*</span></label>
+              <div className="relative">
+                <select
+                  {...registerEdit('userGroup', { required: 'User group is required' })}
+                  className="appearance-none w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
+                >
+                  <option value="">Choose user group</option>
+                  {USER_GROUPS.map(g => <option key={g} value={g}>{g}</option>)}
+                </select>
+                <ChevronDown size={13} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              </div>
+              {editErrors.userGroup && <span className="text-red-500 text-xs">{editErrors.userGroup.message}</span>}
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[13px] font-medium text-gray-600">User Group <span className="text-red-500">*</span></label>
-            <div className="relative">
-              <select
-                value={editUserForm.userGroup}
-                onChange={(e) => handleEditChange('userGroup', e.target.value)}
-                className="appearance-none w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-[13px] text-gray-600 focus:outline-none focus:border-gray-400 cursor-pointer"
-              >
-                <option value="">Choose user group</option>
-                {USER_GROUPS.map(g => <option key={g} value={g}>{g}</option>)}
-              </select>
-              <ChevronDown size={13} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-            </div>
+          {/* Drawer Footer */}
+          <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-end gap-2 mt-auto">
+            <button
+              type="button"
+              onClick={() => setShowEditUser(false)}
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[13px] font-medium transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-[#1a1a1a] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
+            >
+              Save Changes
+            </button>
           </div>
-        </div>
-
-        {/* Drawer Footer */}
-        <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-end gap-2 mt-auto">
-          <button
-            onClick={() => setShowEditUser(false)}
-            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[13px] font-medium transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleEditSave}
-            className="px-4 py-2 bg-[#1a1a1a] hover:bg-black text-white rounded-lg text-[13px] font-medium transition-colors"
-          >
-            Save Changes
-          </button>
-        </div>
+        </form>
       </RightDrawer>
     </div>
   );
