@@ -12,7 +12,7 @@ export const VendorList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [, setIsDrawerOpen] = useState(false);
 
   const filtered = vendors.filter(v =>
     searchTerm === '' ||

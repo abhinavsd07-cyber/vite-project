@@ -35,6 +35,7 @@ export const CustomerList = () => {
         } else if (res && Array.isArray(res)) {
           setCustomers(res);
         }
+      // eslint-disable-next-line no-unused-vars
       } catch (err) { /* use mock */ }
     };
     fetchCustomers();

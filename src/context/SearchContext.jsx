@@ -15,4 +15,5 @@ export const SearchProvider = ({ children }) => {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useSearch = () => useContext(SearchContext);

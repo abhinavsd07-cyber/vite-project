@@ -19,7 +19,6 @@ export const CountryList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [newCountry, setNewCountry] = useState('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
   const handleClose = () => {

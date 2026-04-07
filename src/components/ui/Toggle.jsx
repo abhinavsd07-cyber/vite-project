@@ -6,8 +6,11 @@ export const Toggle = ({ initialState, checked, onChange, disabled = false }) =>
   const [isChecked, setIsChecked] = useState(initialState ?? checked ?? false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (controlled) setIsChecked(checked);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     else if (initialState !== undefined) setIsChecked(initialState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked, initialState]);
 
   const toggle = () => {

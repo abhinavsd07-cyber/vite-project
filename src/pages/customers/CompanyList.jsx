@@ -23,7 +23,7 @@ const SortIcon = () => (
 );
 
 export const CompanyList = () => {
-  const [companies, setCompanies] = useState(MOCK_COMPANIES);
+  const [companies] = useState(MOCK_COMPANIES);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);

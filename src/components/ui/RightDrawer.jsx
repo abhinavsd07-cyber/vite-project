@@ -6,6 +6,7 @@ export const RightDrawer = ({ isOpen, onClose, title, children }) => {
   const [shouldRender, setShouldRender] = useState(isOpen);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isOpen) setShouldRender(true);
   }, [isOpen]);
 

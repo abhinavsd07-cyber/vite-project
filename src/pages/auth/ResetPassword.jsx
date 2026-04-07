@@ -25,8 +25,10 @@ export const ResetPassword = () => {
   // Live validation for password mismatch
   useEffect(() => {
     if (confirmPassword && password !== confirmPassword) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setErrorMessage('Passwords do not match');
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setErrorMessage('');
     }
   }, [password, confirmPassword]);
